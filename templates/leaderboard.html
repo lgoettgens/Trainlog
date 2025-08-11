@@ -75,10 +75,11 @@ $.get('{{url_for("getLeaderboardUsers", type=type)}}', function(users, status){
         }
     }
     
-    users.leaderboard_data.forEach(function(user){
+    users.leaderboard_data.forEach(function(user, index){
         var public;
         highlighted = user.username === '{{ username }}';
-        table.append($('<tr>').addClass( highlighted ? 'highlight' : '' ).append($('<td>')).append($('<td>'))
+        table.append($('<tr>').addClass( highlighted ? 'highlight' : '' ).append($('<td>'))
+            .append($('<td>').html(index + 1))
             .append($('<td>').html(generateLink(user.username, highlighted)))
             .append($('<td>').attr("data-sort", user.trips).text(user.trips.toLocaleString()))
             .append($('<td>').attr("data-sort", user.length).text(mToKm(user.length).toLocaleString() + " km"))
@@ -119,17 +120,6 @@ $.get('{{url_for("getLeaderboardUsers", type=type)}}', function(users, status){
         order: [[4, 'desc']]  // Order by Total Trips in descending order
     });
 
-    dTable
-    .on('order.dt search.dt', function () {
-        let i = 1;
- 
-        dTable
-            .cells(null, 1, { search: 'applied', order: 'applied' })
-            .every(function (cell) {
-                this.data(i++);
-            });
-    })
-    .draw();
 });
 
 </script>
