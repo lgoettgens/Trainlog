@@ -145,11 +145,12 @@ $.get('{{url_for("getLeaderboardUsers", type=type)}}', function(countries, statu
 
     const dTable = $('#leaderboard').DataTable({
         paging: false, // Don't want paging                
-        bPaginate: false, // Don't want paging   
+        bPaginate: false, // Don't want paging
         columnDefs: [
             {
                 className: 'dtr-control',
                 orderable: false,
+                width: '1em',
                 target: 0
             },
             {
