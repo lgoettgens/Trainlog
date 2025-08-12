@@ -5,82 +5,84 @@
 
 <div class="container mt-4">
     <div class="row">
-        <div class="col-md-12">
-            <h2>{{nav_tickets}}</h2>
-            <table id="ticketsTable" class="mt-3">
-                <thead>
-                    <tr>
-                        <th data-priority="1">{{ticket_name}}</th>
-                        <th>{{price}}</th>
-                        <th data-priority="2">{{purchasing_date}}</th>
-                        <th>{{trips}}</th>
-                        <th>{{price_per_trip}}</th>
-                        <th>{{price_per_km}}</th>
-                        <th data-orderable="false" data-priority="1">{{active}}</th>
-                        <th data-orderable="false">{{ticketCountries}}</th>
-                        <th>{{notes}}</th>
-                        <th data-orderable="false" data-priority="1"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for ticket in tickets %}
-                    <tr id="row_{{ ticket.uid }}">
-                        <td>{{ ticket.name }}</td>
-                        <td class="price-format" data-price="{{ ticket.price }}" data-currency="{{ ticket.currency }}" data-user-price="{{ ticket.price_in_user_currency }}" data-user-currency="{{ ticket.user_currency }}">
-                            <span><span style="display:none;" class="price-format-hidden" data-price="{{ ticket.price }}" data-currency="{{ ticket.currency }}" data-user-price="{{ ticket.price_in_user_currency }}" data-user-currency="{{ ticket.user_currency }}">{{ ticket.price_in_user_currency }}</span></span>
-                        </td>
-                        <td>{{ ticket.purchasing_date }}</td>
-                        <td>
-                            {% if ticket.trip_ids %}
-                                <a class="leaderboardLink link-dark" href="{{ url_for('public_trip', ticketId=ticket.uid) }}?price">{{ ticket.trip_count }}</a>
-                            {% else %}
-                                {{ ticket.trip_count }}
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if ticket.price_per_trip %}
-                                <span class="price-format" data-price="{{ ticket.price_per_trip }}" data-currency="{{ ticket.currency }}" data-user-price="{{ ticket.price_per_trip_in_user_currency }}" data-user-currency="{{ ticket.user_currency }}">
-                                    <span style="display:none;" class="price-format-hidden" data-price="{{ ticket.price_per_trip }}" data-currency="{{ ticket.currency }}" data-user-price="{{ ticket.price_per_trip_in_user_currency }}" data-user-currency="{{ ticket.user_currency }}">{{ ticket.price_per_trip_in_user_currency }}</span>
-                                </span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if ticket.price_per_km %}
-                                <span class="price-format" data-price="{{ ticket.price_per_km }}" data-currency="{{ ticket.currency }}" data-user-price="{{ ticket.price_per_km_in_user_currency }}" data-user-currency="{{ ticket.user_currency }}">
-                                    <span style="display:none;" class="price-format-hidden" data-price="{{ ticket.price_per_km }}" data-currency="{{ ticket.currency }}" data-user-price="{{ ticket.price_per_km_in_user_currency }}" data-user-currency="{{ ticket.user_currency }}">{{ ticket.price_per_km_in_user_currency }}</span>
-                                </span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            <div class="form-check form-switch form-check-inline">
-                                <input class="form-check-input float-end ticket-active-checkbox"
-                                       type="checkbox"
-                                       role="switch"
-                                       data-ticket-id="{{ ticket.uid }}"
-                                        {% if ticket.active %}
-                                            checked
-                                        {%endif%}
-                                       >
-                            </div>
-                        </td>
-                        <td>
-                            {% if ticket.active_countries %}
-                                <div class="country-flags-container">
-                                    {% for country in ticket.active_countries.split(',') %}
-                                        <span class="flag" data-bs-toggle="tooltip" style="cursor:context-menu;" data-bs-placement="top" title="{{ country }}">{{ country_list[country] }}</span>
-                                    {% endfor %}
+        <div>
+            <h2 class="mb-3 text-center">{{ nav_tickets }}</h2>
+
+                <table id="ticketsTable">
+                    <thead>
+                        <tr>
+                            <th data-priority="1">{{ticket_name}}</th>
+                            <th>{{price}}</th>
+                            <th data-priority="2">{{purchasing_date}}</th>
+                            <th>{{trips}}</th>
+                            <th>{{price_per_trip}}</th>
+                            <th>{{price_per_km}}</th>
+                            <th data-orderable="false" data-priority="1">{{active}}</th>
+                            <th data-orderable="false">{{ticketCountries}}</th>
+                            <th>{{notes}}</th>
+                            <th data-orderable="false" data-priority="1"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ticket in tickets %}
+                        <tr id="row_{{ ticket.uid }}">
+                            <td>{{ ticket.name }}</td>
+                            <td class="price-format" data-price="{{ ticket.price }}" data-currency="{{ ticket.currency }}" data-user-price="{{ ticket.price_in_user_currency }}" data-user-currency="{{ ticket.user_currency }}">
+                                <span><span style="display:none;" class="price-format-hidden" data-price="{{ ticket.price }}" data-currency="{{ ticket.currency }}" data-user-price="{{ ticket.price_in_user_currency }}" data-user-currency="{{ ticket.user_currency }}">{{ ticket.price_in_user_currency }}</span></span>
+                            </td>
+                            <td>{{ ticket.purchasing_date }}</td>
+                            <td>
+                                {% if ticket.trip_ids %}
+                                    <a class="leaderboardLink link-dark" href="{{ url_for('public_trip', ticketId=ticket.uid) }}?price">{{ ticket.trip_count }}</a>
+                                {% else %}
+                                    {{ ticket.trip_count }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if ticket.price_per_trip %}
+                                    <span class="price-format" data-price="{{ ticket.price_per_trip }}" data-currency="{{ ticket.currency }}" data-user-price="{{ ticket.price_per_trip_in_user_currency }}" data-user-currency="{{ ticket.user_currency }}">
+                                        <span style="display:none;" class="price-format-hidden" data-price="{{ ticket.price_per_trip }}" data-currency="{{ ticket.currency }}" data-user-price="{{ ticket.price_per_trip_in_user_currency }}" data-user-currency="{{ ticket.user_currency }}">{{ ticket.price_per_trip_in_user_currency }}</span>
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if ticket.price_per_km %}
+                                    <span class="price-format" data-price="{{ ticket.price_per_km }}" data-currency="{{ ticket.currency }}" data-user-price="{{ ticket.price_per_km_in_user_currency }}" data-user-currency="{{ ticket.user_currency }}">
+                                        <span style="display:none;" class="price-format-hidden" data-price="{{ ticket.price_per_km }}" data-currency="{{ ticket.currency }}" data-user-price="{{ ticket.price_per_km_in_user_currency }}" data-user-currency="{{ ticket.user_currency }}">{{ ticket.price_per_km_in_user_currency }}</span>
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="form-check form-switch form-check-inline">
+                                    <input class="form-check-input float-end ticket-active-checkbox"
+                                        type="checkbox"
+                                        role="switch"
+                                        data-ticket-id="{{ ticket.uid }}"
+                                            {% if ticket.active %}
+                                                checked
+                                            {%endif%}
+                                        >
                                 </div>
-                            {% endif %}
-                        </td>
-                        <td>{{ ticket.notes }}</td>
-                        <td>
-                            <button class="btn btn-warning editButton" data-ticket-id="{{ ticket.uid }}" data-ticket-name="{{ ticket.name }}" data-ticket-price="{{ ticket.price }}" data-ticket-currency="{{ ticket.currency }}" data-ticket-date="{{ ticket.purchasing_date }}" data-ticket-notes="{{ ticket.notes }}" data-ticket-active-countries="{{ ticket.active_countries }}" ><i class="fa-regular fa-pen-to-square"></i></button>
-                            <button class="btn btn-danger deleteButton" data-ticket-id="{{ ticket.uid }}"><i class="fa-regular fa-trash-can"></i></button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                            </td>
+                            <td>
+                                {% if ticket.active_countries %}
+                                    <div class="country-flags-container">
+                                        {% for country in ticket.active_countries.split(',') %}
+                                            <span class="flag" data-bs-toggle="tooltip" style="cursor:context-menu;" data-bs-placement="top" title="{{ country }}">{{ country_list[country] }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </td>
+                            <td>{{ ticket.notes }}</td>
+                            <td>
+                                <button class="btn btn-warning editButton" data-ticket-id="{{ ticket.uid }}" data-ticket-name="{{ ticket.name }}" data-ticket-price="{{ ticket.price }}" data-ticket-currency="{{ ticket.currency }}" data-ticket-date="{{ ticket.purchasing_date }}" data-ticket-notes="{{ ticket.notes }}" data-ticket-active-countries="{{ ticket.active_countries }}" ><i class="fa-regular fa-pen-to-square"></i></button>
+                                <button class="btn btn-danger deleteButton" data-ticket-id="{{ ticket.uid }}"><i class="fa-regular fa-trash-can"></i></button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

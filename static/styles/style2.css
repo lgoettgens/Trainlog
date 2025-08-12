@@ -191,9 +191,8 @@ td.noHidden{
 }
 
 .trips{
-  margin-top: 30px;
-  margin-bottom: 70px;
-  padding: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 .trips select {
@@ -1373,8 +1372,4 @@ table.dataTable.dtr-column>tbody>tr>th.control:before {
 
 .leaderboardLink:hover {
   filter: brightness(500%);
-}
-
-.dt-container .dt-search {
-  margin-bottom: 5px;
 }

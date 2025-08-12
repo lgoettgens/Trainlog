@@ -7,11 +7,6 @@
     .ui-front {
         z-index: 9999999 !important;
     }
-    .search-container {
-        position: relative;
-        display: inline-block;
-        width: 100%;
-    }
 
     .search-help-icon {
         position: absolute;
@@ -25,14 +20,6 @@
 
     .search-help-icon:hover {
         color: #495057;
-    }
-
-    .dt-search {
-        position: relative;
-    }
-
-    .dt-search input {
-        padding-right: 35px !important;
     }
 
     .search-help-content {
@@ -564,7 +551,6 @@ var table = $('#tripRows');
     serverSide: true,
     scrollY: scroll == true ? $(window).height() - 300 : null,
     scroller: scroll,
-    dom: '<"toolbar">lfrtip',
     ajax: {
         url: '{{ url_for("get_trips_api" if not isPublic else "get_trips_api_public", username=username, projects=projects) }}',
         "type": "POST",
