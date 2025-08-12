@@ -1375,6 +1375,6 @@ table.dataTable.dtr-column>tbody>tr>th.control:before {
   filter: brightness(500%);
 }
 
-.dataTables_wrapper .dataTables_filter{
+.dt-container .dt-search {
   margin-bottom: 5px;
 }

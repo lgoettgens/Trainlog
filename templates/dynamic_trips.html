@@ -27,11 +27,11 @@
         color: #495057;
     }
 
-    .dataTables_filter {
+    .dt-search {
         position: relative;
     }
 
-    .dataTables_filter input {
+    .dt-search input {
         padding-right: 35px !important;
     }
 
@@ -760,7 +760,7 @@ function updateSelectionMessage() {
             message = "{{dtMultipleLineSelected}}".replace('%d', checkedTrips.length);
         }
 
-        var $dataTablesInfo = $('.dataTables_info');
+        var $dataTablesInfo = $('.dt-info');
 
         // Check if .select-info class exists
         if ($dataTablesInfo.find('.select-info').length === 0) {
@@ -1118,7 +1118,7 @@ $('#submitBtn').on('click', function() {
         }
 
         setTimeout(function() {
-            var searchContainer = $('.dataTables_filter');
+            var searchContainer = $('.dt-search');
             if (searchContainer.length && !searchContainer.find('.search-help-icon').length) {
                 searchContainer.css('position', 'relative');
                 var helpIcon = $('<i class="fas fa-info-circle search-help-icon" data-bs-toggle="modal" data-bs-target="#smartSearchHelpModal"></i>');
