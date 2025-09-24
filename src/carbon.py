@@ -76,9 +76,9 @@ EMISSION_FACTORS = {
     'train': {'construction': 1.5, 'infrastructure': 6.5},
     'car': {'construction': 25.6, 'fuel': 192.0, 'infrastructure': 0.7, 'additional_passenger_factor': 0.04},
     'air': {
-        'short': {'base_co2_per_km': 0.300},
-        'medium': {'base_co2_per_km': 0.200},
-        'long': {'base_co2_per_km': 0.167},
+        'short': {'base_co2_per_km': 0.140},
+        'medium': {'base_co2_per_km': 0.110},
+        'long': {'base_co2_per_km': 0.095},
         'non_co2_factor': 1.7,
         'detour_factor': 1.076,
     },
