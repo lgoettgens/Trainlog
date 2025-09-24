@@ -87,7 +87,7 @@ EMISSION_FACTORS = {
     'walk': {'human_fuel': 0.2},
     'metro': {'construction': 0.8, 'infrastructure': 3.5},
     'tram': {'construction': 1.0, 'infrastructure': 4.0},
-    'aerialway': 'train'
+    'aerialway': {'construction': 1.0, 'infrastructure': 4.0}
 }
 
 def calculate_great_circle_distance(p1, p2):
@@ -166,6 +166,7 @@ def calculate_rail_emissions(distance_km, countries, rail_type='train', start_da
     """
     # Get rail base emissions (construction + infrastructure) based on type
     rail_base = EMISSION_FACTORS.get(rail_type, EMISSION_FACTORS['train'])
+    print(rail_base)
     base_emissions_g_per_km = rail_base['construction'] + rail_base['infrastructure']
     
     # Extract year from start_datetime
