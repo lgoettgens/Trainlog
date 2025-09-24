@@ -1,21 +1,68 @@
 import json, os, math
+import pandas as pd
 from geopy.distance import geodesic
+from datetime import datetime
 
-def load_aircraft_emissions(filepath=None):
-    if filepath is None:
-        filepath = os.path.join("base_data", "aircraft_emissions.json")
+def load_aircraft_emissions():
+    filepath = os.path.join("base_data/carbon", "aircraft_emissions.json")
     with open(filepath, "r") as f:
         src = json.load(f)
     fc = {k: dict(v) for k, v in src.get("flight_categories", {}).items()}
     ac = {k: {kk: float(vv) for kk, vv in v.items()} for k, v in src.get("aircraft", {}).items()}
     return fc, ac
 
-def load_train_emissions(filepath=None):
-    if filepath is None:
-        filepath = os.path.join("base_data", "train_emissions.json")
+def load_train_emissions():
+    filepath = os.path.join("base_data/carbon", "train_emissions.json")
     with open(filepath, "r") as f:
         return json.load(f)
 
+def load_grid_intensity_df():
+    filepath = os.path.join("base_data/carbon", "carbon_intensity_by_year_country.json")
+    with open(filepath, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    df = pd.DataFrame.from_dict(data, orient="index")  # rows: Year, cols: alpha2
+    df.index = df.index.astype(int)
+    df = df.sort_index()
+    return df
+
+def get_year_from_datetime(start_datetime):
+    """Extract year from start_datetime string, handling special cases"""
+    if start_datetime == -1:
+        return 2020  # Default for "unknown past"
+    elif start_datetime == 1:
+        return 2024  # Default for "unknown future"
+    elif isinstance(start_datetime, str):
+        try:
+            # Parse yyyy-mm-dd format
+            return int(start_datetime.split('-')[0])
+        except (ValueError, IndexError):
+            return 2024  # Default if parsing fails
+    else:
+        return 2024  # Default fallback
+
+def get_grid_intensity_for_country_year(country_code, year):
+    """Get grid intensity for a specific country and year"""
+    global GRID_INTENSITY_DF
+    
+    min_year = GRID_INTENSITY_DF.index.min()
+    max_year = GRID_INTENSITY_DF.index.max()
+    
+    # Clamp year to available range
+    if year > max_year:
+        year = max_year  # Use last present year for future dates
+    elif year < min_year:
+        year = min_year  # Use earliest available year for past dates
+    
+    # Get intensity for the year and country
+    if country_code in GRID_INTENSITY_DF.columns:
+        intensity = GRID_INTENSITY_DF.loc[year, country_code]
+        if pd.notna(intensity):
+            return float(intensity)
+    
+    # Fallback to 445g default if country not present
+    return 445.0
+
+GRID_INTENSITY_DF = load_grid_intensity_df()
 TRAIN_FACTORS = load_train_emissions()
 FLIGHT_CATEGORIES, AIRCRAFT_CATEGORY_CO2 = load_aircraft_emissions()
 
@@ -103,7 +150,7 @@ def split_km_for_country(cc, value_m):
     
     return electric_km, diesel_km
 
-def calculate_rail_emissions(distance_km, countries, rail_type='train', force_electric=False):
+def calculate_rail_emissions(distance_km, countries, rail_type='train', start_datetime=None, force_electric=False):
     """
     Calculate rail transport CO2 emissions in kg CO2e (train/metro/tram/aerialway)
     
@@ -111,6 +158,7 @@ def calculate_rail_emissions(distance_km, countries, rail_type='train', force_el
         distance_km: Total distance (not used when countries dict provided)
         countries: Dict of country codes and distances, or JSON string
         rail_type: Type of rail transport ('train', 'metro', 'tram', 'aerialway')
+        start_datetime: Trip date (yyyy-mm-dd string, -1, or 1)
         force_electric: If True, treat all trains as electric
     
     Returns:
@@ -120,6 +168,9 @@ def calculate_rail_emissions(distance_km, countries, rail_type='train', force_el
     rail_base = EMISSION_FACTORS.get(rail_type, EMISSION_FACTORS['train'])
     base_emissions_g_per_km = rail_base['construction'] + rail_base['infrastructure']
     
+    # Extract year from start_datetime
+    year = get_year_from_datetime(start_datetime)
+    
     # Handle case where no countries specified - use default values
     if not countries:
         factors = TRAIN_FACTORS['default']
@@ -127,8 +178,11 @@ def calculate_rail_emissions(distance_km, countries, rail_type='train', force_el
         diesel_km = 0 if force_electric else distance_km * factors['diesel_share']
         electric_km = distance_km - diesel_km if not force_electric else distance_km
         
+        # Use global average grid intensity for the year
+        grid_intensity_g_per_kwh = get_grid_intensity_for_country_year('default', year)
+        
         # Calculate operational emissions (grid electricity + diesel fuel)
-        electric_emissions = electric_km * ELECTRIC_TRAIN_KWH_PER_KM * factors['grid_intensity_g_per_kwh'] / 1000
+        electric_emissions = electric_km * ELECTRIC_TRAIN_KWH_PER_KM * grid_intensity_g_per_kwh / 1000
         diesel_emissions = diesel_km * DIESEL_TRAIN_LITERS_PER_KM * DIESEL_CO2_KG_PER_LITER
         
         # Add base emissions (construction + infrastructure)
@@ -147,8 +201,11 @@ def calculate_rail_emissions(distance_km, countries, rail_type='train', force_el
     
     # Process each country
     for country_code, distance_value in countries.items():
-        # Get country-specific factors (or default)
+        # Get country-specific diesel share
         factors = TRAIN_FACTORS.get(country_code, TRAIN_FACTORS['default'])
+        
+        # Get country-specific grid intensity for the year
+        grid_intensity_g_per_kwh = get_grid_intensity_for_country_year(country_code, year)
         
         # Split into electric and diesel kilometers
         electric_km, diesel_km = split_km_for_country(country_code, distance_value)
@@ -161,14 +218,14 @@ def calculate_rail_emissions(distance_km, countries, rail_type='train', force_el
         total_km = electric_km + diesel_km
         
         # Calculate operational emissions (grid electricity + diesel fuel)
-        electric_emissions = electric_km * ELECTRIC_TRAIN_KWH_PER_KM * factors['grid_intensity_g_per_kwh'] / 1000
+        electric_emissions = electric_km * ELECTRIC_TRAIN_KWH_PER_KM * grid_intensity_g_per_kwh / 1000
         diesel_emissions = diesel_km * DIESEL_TRAIN_LITERS_PER_KM * DIESEL_CO2_KG_PER_LITER
         
         # Add base emissions (construction + infrastructure) for this segment
         base_emissions = total_km * base_emissions_g_per_km / 1000
         
         total_emissions += electric_emissions + diesel_emissions + base_emissions
-        return total_emissions
+    return total_emissions
 
 def calculate_bus_emissions(distance_km):
     g = EMISSION_FACTORS['bus']
@@ -203,9 +260,9 @@ def calculate_carbon_footprint_for_trip(trip, path):
     if t == 'air':
         return calculate_air_emissions(distance_km, len(path), trip.get('material_type',''))
     if t in ['train']:
-        return calculate_rail_emissions(distance_km, trip.get('countries'), 'train', force_electric=False)
+        return calculate_rail_emissions(distance_km, trip.get('countries'), 'train', trip.get("start_datetime"), force_electric=False)
     if t in ['metro','tram','aerialway']:
-        return calculate_rail_emissions(distance_km, trip.get('countries'), t, force_electric=True)
+        return calculate_rail_emissions(distance_km, trip.get('countries'), t, trip.get("start_datetime"), force_electric=True)
     if t == 'bus':
         return calculate_bus_emissions(distance_km)
     if t == 'car':

@@ -1,5 +1,5 @@
 {
-  "default": { "grid_intensity_g_per_kwh": 40.0, "diesel_share": 0.25 },
+  "default": { "grid_intensity_g_per_kwh": 445.0, "diesel_share": 0.5 },
 
   "FR": { "grid_intensity_g_per_kwh": 1.0,   "diesel_share": 0.20 },
   "DE": { "grid_intensity_g_per_kwh": 57.0,  "diesel_share": 0.25 },
