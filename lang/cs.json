@@ -618,5 +618,6 @@
     "thermic": "Tepelný",
     "powerType": "Typ napájení",
     "useOldRouter": "Přepnout na klasický směrovací stroj",
-    "useNewRouter": "Vyzkoušejte nový router (zobrazuje elektrifikaci)"
+    "useNewRouter": "Vyzkoušejte nový router (zobrazuje elektrifikaci)",
+    "news": "Zprávy Trainlog"
 }

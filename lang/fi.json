@@ -618,5 +618,6 @@
     "thermic": "Terminen",
     "powerType": "Teholaji",
     "useOldRouter": "Vaihda perinteiseen reititysmoottoriin",
-    "useNewRouter": "Kokeile uutta reititintä (näyttää sähköistyksen)"
+    "useNewRouter": "Kokeile uutta reititintä (näyttää sähköistyksen)",
+    "news": "Trainlog-uutiset"
 }

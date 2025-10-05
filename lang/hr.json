@@ -618,5 +618,6 @@
     "thermic": "Termički",
     "powerType": "Tip energije",
     "useOldRouter": "Prebaci na klasični motor za usmjeravanje",
-    "useNewRouter": "Isprobajte novi router (prikazuje elektrifikaciju)"
+    "useNewRouter": "Isprobajte novi router (prikazuje elektrifikaciju)",
+    "news": "Vijesti Trainlog"
 }

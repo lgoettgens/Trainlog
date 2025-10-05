@@ -618,5 +618,6 @@
     "thermic": "Termiczny",
     "powerType": "Typ zasilania",
     "useOldRouter": "Przełącz na klasyczny silnik trasowania",
-    "useNewRouter": "Wypróbuj nowy router (pokazuje elektryfikację)"
+    "useNewRouter": "Wypróbuj nowy router (pokazuje elektryfikację)",
+    "news": "Wiadomości Trainlog"
 }

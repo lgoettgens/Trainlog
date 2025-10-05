@@ -618,5 +618,6 @@
     "thermic": "Termisk",
     "powerType": "Krafttype",
     "useOldRouter": "Bytt til klassisk rutemotor",
-    "useNewRouter": "Prøv ny ruter (viser elektrifisering)"
+    "useNewRouter": "Prøv ny ruter (viser elektrifisering)",
+    "news": "Trainlog Nyheter"
 }

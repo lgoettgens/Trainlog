@@ -618,5 +618,6 @@
     "thermic": "Térmico",
     "powerType": "Tipo de potência",
     "useOldRouter": "Mudar para o motor de roteamento clássico",
-    "useNewRouter": "Tente novo router (mostra eletrificação)"
+    "useNewRouter": "Tente novo router (mostra eletrificação)",
+    "news": "Notícias do Trainlog"
 }

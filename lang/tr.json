@@ -618,5 +618,6 @@
     "thermic": "Termik",
     "powerType": "Güç türü",
     "useOldRouter": "Klasik yönlendirme motoruna geç",
-    "useNewRouter": "Yeni yönlendiriciyi deneyin (elektrifikasyonu gösterir)"
+    "useNewRouter": "Yeni yönlendiriciyi deneyin (elektrifikasyonu gösterir)",
+    "news": "Trainlog Haberler"
 }

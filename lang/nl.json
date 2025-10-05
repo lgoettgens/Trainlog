@@ -618,5 +618,6 @@
     "thermic": "Thermisch",
     "powerType": "Vermogenstype",
     "useOldRouter": "Overschakelen naar klassieke routeringsengine",
-    "useNewRouter": "Probeer nieuwe router (toont elektrificatie)"
+    "useNewRouter": "Probeer nieuwe router (toont elektrificatie)",
+    "news": "Trainlog Nieuws"
 }

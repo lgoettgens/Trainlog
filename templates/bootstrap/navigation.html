@@ -217,9 +217,14 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="infoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-info-circle"></i> {{ about }}
+            <i class="bi bi-info-circle"></i>{{ about }}<span id="aboutNewsNotification" style="display:none;"></span>
           </a>
           <ul class="dropdown-menu" aria-labelledby="infoDropdown">
+            <li>
+              <a class="dropdown-item" href="{{ url_for('news.news') }}" id="newsLink">
+                <i class="bi bi-newspaper"></i>{{ news }}<span id="newsNotification" style="display:none;"></span>
+              </a>
+            </li>
             <li>
               <a class="dropdown-item" href="{{ url_for('about') }}">
                 <i class="fa fa-info-circle"></i> {{ about }}
@@ -401,6 +406,21 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
+
+  fetch("{{ url_for('news.get_news_count') }}")
+    .then(response => response.json())
+    .then(data => {
+      if (data.count > 0) {
+        document.getElementById('aboutNewsNotification').innerHTML = 
+          ' <span class="badge bg-danger">' + data.count + '</span>';
+        document.getElementById('newsNotification').innerHTML = 
+          ' <span class="badge bg-danger">' + data.count + '</span>';
+        $('#aboutNewsNotification').show();
+        $('#newsNotification').show();
+      }
+     
+    })
+  .catch(error => console.error('Error fetching news count:', error));
 
     // Adjust font size on load
     adjustFontSize();

@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 
-from flask import Blueprint, render_template, request, session, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request, session, redirect, url_for, jsonify, make_response
 
 from src.pg import pg_session
 from src.sql import news as news_sql
@@ -12,6 +12,33 @@ logger = logging.getLogger(__name__)
 news_blueprint = Blueprint("news", __name__)
 
 
+@news_blueprint.route("/api/news/count")
+def get_news_count():
+    """Get count of news items since last visit"""
+    last_visit = request.cookies.get('last_news_visit')
+    if not last_visit:
+        # First visit, create cookie with current timestamp and return all news count
+        with pg_session() as pg:
+            response = jsonify({"count": 0})
+            response.set_cookie(
+                'last_news_visit',
+                datetime.now().isoformat(),
+                max_age=31536000  # 1 year in seconds
+            )
+            return response
+    
+    try:
+        last_visit_date = datetime.fromisoformat(last_visit)
+        with pg_session() as pg:
+            result = pg.execute(
+                news_sql.count_news_since_date(),
+                {"last_visit": last_visit_date}
+            ).fetchone()
+            
+            count = result[0] if result else 0
+            return jsonify({"count": count})
+    except (ValueError, TypeError):
+        return jsonify({"count": 0})
 @news_blueprint.route("/news")
 def news(username=None):
     """Display news page"""
@@ -21,7 +48,6 @@ def news(username=None):
     with pg_session() as pg:
         result = pg.execute(news_sql.list_news()).fetchall()
         
-        # Convert to list of dictionaries
         news_list = []
         for item in result:
             author_display = 'admin' if item[3] == owner else item[3]
@@ -34,8 +60,8 @@ def news(username=None):
                 'last_modified': item[5]
             }
             news_list.append(news_dict)
-
-    return render_template(
+    
+    response = make_response(render_template(
         'news.html',
         username=current_user,
         news_list=news_list,
@@ -43,7 +69,16 @@ def news(username=None):
         **userinfo,
         nav="bootstrap/navigation.html" if current_user != "public" else "bootstrap/no_user_nav.html",
         isCurrent=isCurrentTrip(getUser()) if current_user != "public" else False
+    ))
+    
+    # Set cookie to current timestamp, expires in 1 year
+    response.set_cookie(
+        'last_news_visit',
+        datetime.now().isoformat(),
+        max_age=31536000  # 1 year in seconds
     )
+    
+    return response
 
 
 @news_blueprint.route("/<username>/news/submit", methods=["POST"])
