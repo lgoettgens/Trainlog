@@ -882,7 +882,7 @@ def saveTripToDb(username, newTrip, newPath, trip_type="train"):
         )
         countries = json.dumps(countries)
     else:
-        countries = getCountriesFromPath(newPath, newTrip["type"], newTrip["details"], newTrip.get("powerType", None))
+        countries = getCountriesFromPath(newPath, newTrip["type"], newTrip.get("details", None), newTrip.get("powerType", None))
 
     if "originManualToggle" in newTrip.keys():
         saveManualStation(
@@ -2235,23 +2235,30 @@ def ticket_list(username):
                     trips = cursor.fetchall()
 
                 active_countries = set(ticket["active_countries"].split(","))
-                trips_in_active_countries = [
-                    trip
-                    for trip in trips
-                    if any(
-                        country in active_countries
-                        for country in json.loads(trip["countries"]).keys()
-                    )
-                ]
+                trips_in_active_countries = []
+                total_distance = 0
 
-                total_distance = sum(
-                    sum(
-                        distance
-                        for country, distance in json.loads(trip["countries"]).items()
-                        if country in active_countries
+                for trip in trips:
+                    countries_data = json.loads(trip["countries"])
+                    
+                    # Check if any active country is in this trip
+                    has_active_country = any(
+                        country in active_countries
+                        for country in countries_data.keys()
                     )
-                    for trip in trips_in_active_countries
-                )
+                    
+                    if has_active_country:
+                        trips_in_active_countries.append(trip)
+                        
+                        # Calculate distance based on format
+                        for country, value in countries_data.items():
+                            if country in active_countries:
+                                if isinstance(value, dict):
+                                    # New format: {FR: {elec: 50, nonelec: 50}}
+                                    total_distance += sum(value.values())
+                                else:
+                                    # Old format: {FR: 100}
+                                    total_distance += value
 
                 end_ticket["trip_count"] = len(trips_in_active_countries)
                 end_ticket["trip_ids"] = ",".join(
