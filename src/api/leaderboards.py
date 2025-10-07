@@ -116,9 +116,19 @@ def _getLeaderboardUsers(type, User):
                
                 if user_id in user_dict:
                     trip_countries = json.loads(countries) if isinstance(countries, str) else countries
+                    
+                    # Process countries data - handle both formats
+                    normalized_countries = {}
+                    for country_code, value in trip_countries.items():
+                        if isinstance(value, dict):
+                            total_trips = sum(value.values())
+                            normalized_countries[country_code] = total_trips
+                        else:
+                            normalized_countries[country_code] = value
+                    
                     user_dict[user_id]["countries_visited"] = dict(
                         Counter(user_dict[user_id]["countries_visited"])
-                        + Counter(trip_countries)
+                        + Counter(normalized_countries)
                     )
                     user_dict[user_id]["countries_visited"].pop("UN", None)
         
