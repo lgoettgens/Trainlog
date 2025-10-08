@@ -6238,10 +6238,15 @@ def edit_copy_trip(username, tripId, edit_copy_type):
     )
     with managed_cursor(mainConn) as cursor:
         trip = cursor.execute(getTrip, {"trip_id": tripId}).fetchone()
+
+    if not trip:
+        abort(404)
     with managed_cursor(pathConn) as cursor:
-        path = json.loads(
-            list(cursor.execute(formattedGetUserLines, (tripId,)).fetchone())[1]
-        )
+        rawPath = cursor.execute(formattedGetUserLines, (tripId,)).fetchone()
+        if rawPath:
+            path = json.loads(list(rawPath)[1])
+        else:
+            path = [[0,0],[1,1]]
     user = User.query.filter_by(username=trip["username"]).first()
     if not (session.get(user.username) or session.get(owner)):
         abort(401)
