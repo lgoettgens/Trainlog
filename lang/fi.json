@@ -407,8 +407,8 @@
     "leaderboardUsername": "Käyttäjänimi",
     "leaderboardTotalTrips": "Matkoja yhteensä",
     "leaderboardTotalKm": "Kilometrejä yhteensä",
-    "leaderboardTotalCarbon": "Kokonais-CO₂",
-    "leaderboardCarbonPerKm": "CO₂ / km",
+    "leaderboardTotalCarbon": "Kokonais-CO₂e",
+    "leaderboardCarbonPerKm": "CO₂e/km",
     "leaderboardLastActive": "Viimeksi aktiivinen",
     "leaderboardPercent": "Prosentti",
     "leaderboardCountry": "Maa",
@@ -620,5 +620,5 @@
     "useOldRouter": "Vaihda perinteiseen reititysmoottoriin",
     "useNewRouter": "Kokeile uutta reititintä (näyttää sähköistyksen)",
     "news": "Trainlog-uutiset",
-    "CO2": "CO₂"
+    "CO2": "CO₂e"
 }

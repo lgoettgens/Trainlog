@@ -407,8 +407,8 @@
     "leaderboardUsername": "Ім'я користувача",
     "leaderboardTotalTrips": "Загальна кількість поїздок",
     "leaderboardTotalKm": "Загальна кількість кілометрів",
-    "leaderboardTotalCarbon": "Загальна кількість CO₂",
-    "leaderboardCarbonPerKm": "CO₂ / км",
+    "leaderboardTotalCarbon": "Загальна кількість CO₂e",
+    "leaderboardCarbonPerKm": "CO₂e / км",
     "leaderboardLastActive": "Остання активність",
     "leaderboardPercent": "Відсоток",
     "leaderboardCountry": "Країна",
@@ -620,5 +620,5 @@
     "useOldRouter": "Переключитися на класичний рушій маршрутізації",
     "useNewRouter": "Спробуйте новий маршрутизатор (показує електрифікацію)",
     "news": "Новини Trainlog",
-    "CO2": "CO₂"
+    "CO2": "CO₂e"
 }

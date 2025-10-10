@@ -407,8 +407,8 @@
     "leaderboardUsername": "用户名",
     "leaderboardTotalTrips": "总行程",
     "leaderboardTotalKm": "总公里数",
-    "leaderboardTotalCarbon": "总CO₂",
-    "leaderboardCarbonPerKm": "CO₂ / 公里",
+    "leaderboardTotalCarbon": "总CO₂e",
+    "leaderboardCarbonPerKm": "CO₂e / 公里",
     "leaderboardLastActive": "上次活跃时间",
     "leaderboardPercent": "百分比",
     "leaderboardCountry": "国家",
@@ -620,5 +620,5 @@
     "useOldRouter": "切换到经典路由引擎",
     "useNewRouter": "尝试新路由器（显示电气化）",
     "news": "Trainlog 新闻",
-    "CO2": "CO₂"
+    "CO2": "CO₂e"
 }

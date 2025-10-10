@@ -407,8 +407,8 @@
     "leaderboardUsername": "Kullanıcı Adı",
     "leaderboardTotalTrips": "Toplam Seyahatler",
     "leaderboardTotalKm": "Toplam Km",
-    "leaderboardTotalCarbon": "Toplam CO₂",
-    "leaderboardCarbonPerKm": "CO₂ / km",
+    "leaderboardTotalCarbon": "Toplam CO₂e",
+    "leaderboardCarbonPerKm": "CO₂e/km",
     "leaderboardLastActive": "En son aktif olduğu zaman",
     "leaderboardPercent": "Yüzde",
     "leaderboardCountry": "Ülke",
@@ -620,5 +620,5 @@
     "useOldRouter": "Klasik yönlendirme motoruna geç",
     "useNewRouter": "Yeni yönlendiriciyi deneyin (elektrifikasyonu gösterir)",
     "news": "Trainlog Haberler",
-    "CO2": "CO₂"
+    "CO2": "CO₂e"
 }

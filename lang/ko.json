@@ -407,8 +407,8 @@
     "leaderboardUsername": "아이디",
     "leaderboardTotalTrips": "총 여정 수",
     "leaderboardTotalKm": "총 km",
-    "leaderboardTotalCarbon": "총 CO₂",
-    "leaderboardCarbonPerKm": "CO₂ / km",
+    "leaderboardTotalCarbon": "총 CO₂e",
+    "leaderboardCarbonPerKm": "CO₂e/km",
     "leaderboardLastActive": "마지막 활동",
     "leaderboardPercent": "탐험률",
     "leaderboardCountry": "국가",
@@ -620,5 +620,5 @@
     "useOldRouter": "클래식 라우팅 엔진으로 전환",
     "useNewRouter": "새 라우터를 시도하세요 (전력 공급을 표시)",
     "news": "트레인로그 뉴스",
-    "CO2": "CO₂"
+    "CO2": "CO₂e"
 }

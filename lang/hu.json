@@ -407,8 +407,8 @@
     "leaderboardUsername": "Felhasználónév",
     "leaderboardTotalTrips": "Összes Utazás",
     "leaderboardTotalKm": "Összes Km",
-    "leaderboardTotalCarbon": "Összes CO₂",
-    "leaderboardCarbonPerKm": "CO₂ / km",
+    "leaderboardTotalCarbon": "Összes CO₂e",
+    "leaderboardCarbonPerKm": "CO₂e/km",
     "leaderboardLastActive": "Utoljára aktív",
     "leaderboardPercent": "Százalék",
     "leaderboardCountry": "Ország",
@@ -620,5 +620,5 @@
     "useOldRouter": "Váltás a klasszikus útvonalmotorra",
     "useNewRouter": "Próbálja ki az új útválasztót (mutatja az elektromos hálózatot)",
     "news": "Trainlog Hírek",
-    "CO2": "CO₂"
+    "CO2": "CO₂e"
 }

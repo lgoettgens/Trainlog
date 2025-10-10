@@ -407,8 +407,8 @@
     "leaderboardUsername": "Nazwa Użytkownika",
     "leaderboardTotalTrips": "Łączna Liczba Podróży",
     "leaderboardTotalKm": "Całkowita Liczba Km",
-    "leaderboardTotalCarbon": "Całkowite CO₂",
-    "leaderboardCarbonPerKm": "CO₂ / km",
+    "leaderboardTotalCarbon": "Całkowite CO₂e",
+    "leaderboardCarbonPerKm": "CO₂e/km",
     "leaderboardLastActive": "Ostatnio Aktywny",
     "leaderboardPercent": "Procent",
     "leaderboardCountry": "Kraj",
@@ -620,5 +620,5 @@
     "useOldRouter": "Przełącz na klasyczny silnik trasowania",
     "useNewRouter": "Wypróbuj nowy router (pokazuje elektryfikację)",
     "news": "Wiadomości Trainlog",
-    "CO2": "CO₂"
+    "CO2": "CO₂e"
 }

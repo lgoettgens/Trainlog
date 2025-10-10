@@ -407,8 +407,8 @@
     "leaderboardUsername": "Brukernavn",
     "leaderboardTotalTrips": "Totalt Antall Reiser",
     "leaderboardTotalKm": "Totale Km",
-    "leaderboardTotalCarbon": "Totalt CO₂",
-    "leaderboardCarbonPerKm": "CO₂ / km",
+    "leaderboardTotalCarbon": "Totalt CO₂e",
+    "leaderboardCarbonPerKm": "CO₂e/km",
     "leaderboardLastActive": "Sist Aktiv",
     "leaderboardPercent": "Prosent",
     "leaderboardCountry": "Land",
@@ -620,5 +620,5 @@
     "useOldRouter": "Bytt til klassisk rutemotor",
     "useNewRouter": "Prøv ny ruter (viser elektrifisering)",
     "news": "Trainlog Nyheter",
-    "CO2": "CO₂"
+    "CO2": "CO₂e"
 }

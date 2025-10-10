@@ -407,8 +407,8 @@
     "leaderboardUsername": "Uživatelské jméno",
     "leaderboardTotalTrips": "Celkové Cesty",
     "leaderboardTotalKm": "Celkový Počet Km",
-    "leaderboardTotalCarbon": "Celkové CO₂",
-    "leaderboardCarbonPerKm": "CO₂ / km",
+    "leaderboardTotalCarbon": "Celkové CO₂e",
+    "leaderboardCarbonPerKm": "CO₂e/km",
     "leaderboardLastActive": "Naposledy Aktivní",
     "leaderboardPercent": "Procento",
     "leaderboardCountry": "Země",
@@ -620,5 +620,5 @@
     "useOldRouter": "Přepnout na klasický směrovací stroj",
     "useNewRouter": "Vyzkoušejte nový router (zobrazuje elektrifikaci)",
     "news": "Zprávy Trainlog",
-    "CO2": "CO₂"
+    "CO2": "CO₂e"
 }

@@ -407,8 +407,8 @@
     "leaderboardUsername": "Användarnamn",
     "leaderboardTotalTrips": "Totalt Antal Resor",
     "leaderboardTotalKm": "Totala Km",
-    "leaderboardTotalCarbon": "Totalt CO₂",
-    "leaderboardCarbonPerKm": "CO₂ / km",
+    "leaderboardTotalCarbon": "Totalt CO₂e",
+    "leaderboardCarbonPerKm": "CO₂e/km",
     "leaderboardLastActive": "Senast Aktiv",
     "leaderboardPercent": "Procent",
     "leaderboardCountry": "Land",
@@ -620,5 +620,5 @@
     "useOldRouter": "Byt till klassisk routingsmotor",
     "useNewRouter": "Prova ny router (visar elektrifiering)",
     "news": "Trainlog Nyheter",
-    "CO2": "CO₂"
+    "CO2": "CO₂e"
 }

@@ -407,8 +407,8 @@
     "leaderboardUsername": "Korisničko Ime",
     "leaderboardTotalTrips": "Ukupna Putovanja",
     "leaderboardTotalKm": "Ukupno Km",
-    "leaderboardTotalCarbon": "Ukupno CO₂",
-    "leaderboardCarbonPerKm": "CO₂ / km",
+    "leaderboardTotalCarbon": "Ukupno CO₂e",
+    "leaderboardCarbonPerKm": "CO₂e/km",
     "leaderboardLastActive": "Zadnja Aktivnost",
     "leaderboardPercent": "Postotak",
     "leaderboardCountry": "Zemlja",
@@ -620,5 +620,5 @@
     "useOldRouter": "Prebaci na klasični motor za usmjeravanje",
     "useNewRouter": "Isprobajte novi router (prikazuje elektrifikaciju)",
     "news": "Vijesti Trainlog",
-    "CO2": "CO₂"
+    "CO2": "CO₂e"
 }

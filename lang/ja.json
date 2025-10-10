@@ -407,8 +407,8 @@
     "leaderboardUsername": "ユーザー名",
     "leaderboardTotalTrips": "合計旅行数",
     "leaderboardTotalKm": "合計キロメートル",
-    "leaderboardTotalCarbon": "合計CO₂",
-    "leaderboardCarbonPerKm": "CO₂ / km",
+    "leaderboardTotalCarbon": "合計CO₂e",
+    "leaderboardCarbonPerKm": "CO₂e/km",
     "leaderboardLastActive": "最終アクティブ",
     "leaderboardPercent": "パーセント",
     "leaderboardCountry": "国",
@@ -620,5 +620,5 @@
     "useOldRouter": "クラシックルーティングエンジンに切り替え",
     "useNewRouter": "新しいルーターを試す（電化を表示）",
     "news": "トレインログニュース",
-    "CO2": "CO₂"
+    "CO2": "CO₂e"
 }
