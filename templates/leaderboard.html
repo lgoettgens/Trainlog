@@ -10,6 +10,9 @@
     'aerialway': leaderboardAerialwayTitle,
     'world_squares': 'World Squares'
 } %}
+<div id="loadingScreen" style="position: fixed; width: 100%; height: 100%; top: 0; left: 0; background: rgba(255, 255, 255, 0.8); z-index: 9999; display: flex; justify-content: center; align-items: center;">
+    <div class="spinner-border text-primary" role="status"></div>
+</div>
 
 <div id="leaderboard-container" class="container mt-3">
     <h2>
@@ -44,6 +47,8 @@
 <script>
 
 var table = $('#leaderboard');
+showLoading();
+
 
 $.get('{{url_for("getLeaderboardUsers", type=type)}}', function(users, status){
 
@@ -112,6 +117,10 @@ $.get('{{url_for("getLeaderboardUsers", type=type)}}', function(users, status){
             });
     })
     .draw();
+        hideLoading();
+}).fail(function() {
+    hideLoading();
+    console.error('Failed to load leaderboard data');
 });
 
 </script>

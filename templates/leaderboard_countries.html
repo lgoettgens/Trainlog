@@ -2,6 +2,11 @@
 {% block content %}
 {% include nav%}
 
+<!-- Loading screen -->
+<div id="loadingScreen" style="position: fixed; width: 100%; height: 100%; top: 0; left: 0; background: rgba(255, 255, 255, 0.8); z-index: 9999; display: flex; justify-content: center; align-items: center;">
+    <div class="spinner-border text-primary" role="status"></div>
+</div>
+
 <div id="leaderboard-container" class="container mt-3">
     <h2>
         {{ countryCountLeaderboard }}
@@ -28,6 +33,7 @@
 
 <script>
 var table = $('#leaderboard');
+showLoading();
 
 $.get('{{url_for("getLeaderboardUsers", type="country_count")}}', function(countries, status){
     function generateLink(username, highlighted=false) {
@@ -102,6 +108,11 @@ $.get('{{url_for("getLeaderboardUsers", type="country_count")}}', function(count
     }).on( 'draw.dt',   function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
+    
+    hideLoading();
+}).fail(function() {
+    hideLoading();
+    console.error('Failed to load leaderboard data');
 });
 
 // Adjust the size of the rank column to fit the largest rank number

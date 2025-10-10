@@ -1072,3 +1072,11 @@ function formatCO2PerKm(co2PerKm, langId) {
 function formatCarbonFootprint(carbon, langId) {
   return formatCarbonValue(carbon);
 }
+
+function showLoading() {
+    document.getElementById('loadingScreen').style.display = 'flex';
+}
+
+function hideLoading() {
+    document.getElementById('loadingScreen').style.display = 'none';
+}

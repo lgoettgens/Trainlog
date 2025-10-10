@@ -2,6 +2,10 @@
 {% block content %}
 {% include nav%}
 
+<div id="loadingScreen" style="position: fixed; width: 100%; height: 100%; top: 0; left: 0; background: rgba(255, 255, 255, 0.8); z-index: 9999; display: flex; justify-content: center; align-items: center;">
+    <div class="spinner-border text-primary" role="status"></div>
+</div>
+
 <div id="leaderboard-container" class="container mt-3">
     <h2>
         {{worldSquares}}
@@ -27,6 +31,8 @@
 
 <script>
 var table = $('#leaderboard');
+showLoading();
+
 
 $.get('{{url_for("getLeaderboardUsers", type=type)}}', function(countries, status){
     function generateLink(username, highlighted=false) {
@@ -84,6 +90,10 @@ $.get('{{url_for("getLeaderboardUsers", type=type)}}', function(countries, statu
         responsive: true,
         order: [[2, 'desc']]  // Order by percent in descending order
     });
+        hideLoading();
+}).fail(function() {
+    hideLoading();
+    console.error('Failed to load leaderboard data');
 });
 </script>
 

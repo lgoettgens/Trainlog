@@ -2,6 +2,11 @@
 {% block content %}
 {% include nav%}
 
+<!-- Loading screen -->
+<div id="loadingScreen" style="position: fixed; width: 100%; height: 100%; top: 0; left: 0; background: rgba(255, 255, 255, 0.8); z-index: 9999; display: flex; justify-content: center; align-items: center;">
+    <div class="spinner-border text-primary" role="status"></div>
+</div>
+
 <div id="leaderboard-container" class="container mt-3">
     <h2>
         {{ leaderboardCountries }}
@@ -29,6 +34,8 @@
 <script>
 
 var table = $('#leaderboard');
+showLoading();
+
 
 const params = new URLSearchParams(window.location.search);
 const regionsParam = params.get('regions');
@@ -179,7 +186,12 @@ $.get('{{url_for("getLeaderboardUsers", type=type)}}', function(countries, statu
             row.find('td:first').removeClass('dtr-control'); // Remove the class responsible for the "+"
         }
     });
-});
+
+    hideLoading();
+    }).fail(function() {
+        hideLoading();
+        console.error('Failed to load leaderboard data');
+    });
 </script>
 
 {% endblock %}
