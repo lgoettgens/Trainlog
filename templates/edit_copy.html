@@ -447,7 +447,7 @@
     </form>
 </div>
 
-<div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalLabel" aria-hidden="true">
+<div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalLabel" aria-hidden="true" style="z-index:5000;">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -458,28 +458,64 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{close}}"></button>
             </div>
             <div class="modal-body">
-                <!-- Train Power Type Toggle (only for trains) -->
+                <!-- Train Controls (Power Type + Router Toggle integrated) -->
                 {% if tripType == 'train' %}
                 <div class="mb-3">
-                <label class="form-label">{{powerType}}</label>
-                <div class="btn-group w-100" role="group">
-                    <input type="radio" class="btn-check" name="powerType" id="powerAuto" value="auto" checked autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="powerAuto">
-                    <i class="fas fa-magic"></i> {{auto}}
-                    </label>
-                    
-                    <input type="radio" class="btn-check" name="powerType" id="powerElectric" value="electric" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="powerElectric">
-                    <i class="fas fa-bolt"></i> {{electric}}
-                    </label>
-                    
-                    <input type="radio" class="btn-check" name="powerType" id="powerThermic" value="thermic" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="powerThermic">
-                    <i class="fas fa-fire"></i> {{thermic}}
-                    </label>
+                    <label class="form-label mb-2">{{powerType}}</label>
+                    <div class="row g-2">
+                        <!-- Power Type Column -->
+                        <div class="col-md-8">
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" name="powerType" id="powerAuto" value="auto" checked autocomplete="off">
+                                <label class="btn btn-outline-secondary" for="powerAuto">
+                                    <i class="fas fa-magic"></i> {{auto}}
+                                </label>
+                                
+                                <input type="radio" class="btn-check" name="powerType" id="powerElectric" value="electric" autocomplete="off">
+                                <label class="btn btn-outline-secondary" for="powerElectric">
+                                    <i class="fas fa-bolt"></i> {{electric}}
+                                </label>
+                                
+                                <input type="radio" class="btn-check" name="powerType" id="powerThermic" value="thermic" autocomplete="off">
+                                <label class="btn btn-outline-secondary" for="powerThermic">
+                                    <i class="fas fa-fire"></i> {{thermic}}
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Router Toggle Column -->
+                        <div class="col-md-4">
+                            <div class="form-check form-switch d-flex align-items-center h-100 ps-0">
+                                <label class="form-check-label d-flex align-items-center w-100" for="newRouterToggleModal" style="cursor: pointer;">
+                                    <input 
+                                        class="form-check-input me-2 ms-0 mt-0" 
+                                        type="checkbox" 
+                                        id="newRouterToggleModal"
+                                        style="cursor: pointer; flex-shrink: 0;"
+                                    >
+                                    <span style="font-size: 0.9rem; line-height: 1.2;">{{useNewRouter}} <small class="text-muted">ᵦ</small></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                {% elif tripType in ['tram', 'metro'] %}
+                <!-- New Router Toggle (for tram, metro only) -->
+                <div class="mb-3">
+                    <div class="form-check form-switch">
+                        <input 
+                            class="form-check-input" 
+                            type="checkbox" 
+                            id="newRouterToggleModal"
+                            style="cursor: pointer;"
+                        >
+                        <label class="form-check-label" for="newRouterToggleModal" style="cursor: pointer;">
+                            {{useNewRouter}} <small class="text-muted">ᵦ</small>
+                        </label>
+                    </div>
                 </div>
                 {% endif %}
+                
                 <div id="map" class="mapRouting full-height" style="width: 100%; height: 400px;"></div>
                 <div id="sidebar">
                     <div id="sidebar-content"></div>
@@ -562,6 +598,47 @@
             map = createMap(null, wplist[0]);
             var sidebar;
             routing(map, false, tripType);
+            
+            // Set up router toggle handler for the modal
+            {% if tripType in ['train', 'tram', 'metro'] %}
+            const routerToggle = document.getElementById('newRouterToggleModal');
+            if (routerToggle) {
+                routerToggle.addEventListener('change', function() {
+                    useNewRouter = this.checked;
+                    
+                    // Show loading indicator
+                    if (window.sidebar) {
+                        window.sidebar.setContent(spinnerContent);
+                    }
+                    
+                    // Clear route details when switching routers
+                    routeDetails = null;
+                    if (newTrip["details"]) {
+                        delete newTrip["details"];
+                    }
+                    
+                    // Update the router
+                    if (window.control) {
+                        var currentParams = window.control.options.router.options.requestParameters || {};
+                        
+                        if (useNewRouter) {
+                            currentParams.use_new_router = 'true';
+                        } else {
+                            delete currentParams.use_new_router;
+                        }
+                        
+                        if (Object.keys(currentParams).length > 0) {
+                            window.control.options.router.options.requestParameters = currentParams;
+                        } else {
+                            delete window.control.options.router.options.requestParameters;
+                        }
+                        
+                        // Recompute the route
+                        window.control.route();
+                    }
+                });
+            }
+            {% endif %}
         }
     });
 
