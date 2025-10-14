@@ -2,6 +2,7 @@ import json
 import re
 import smtplib
 import sqlite3
+import requests
 from contextlib import contextmanager
 from datetime import datetime
 from email.mime.text import MIMEText
@@ -216,3 +217,40 @@ def listOperatorsLogos(tripType=None):
                 logoURLs[row["short_name"]] = row["logo_url"]
 
     return logoURLs
+
+def post_to_discord(webhook_type, title, description, url=None, fields=None, color=0x5865F2, footer_text=None):
+    try:
+        webhook_url = load_config()["discord"][webhook_type]
+        embed_data = {
+            "embeds": [{
+                "title": title,
+                "description": description[:4096],  # Discord's max description length
+                "color": color,
+                "timestamp": datetime.utcnow().isoformat()
+            }]
+        }
+        
+        # Add URL if provided (makes title clickable)
+        if url:
+            embed_data["embeds"][0]["url"] = url
+       
+        # Add fields if provided
+        if fields:
+            embed_data["embeds"][0]["fields"] = fields
+       
+        # Add footer if provided
+        if footer_text:
+            embed_data["embeds"][0]["footer"] = {"text": footer_text}
+       
+        response = requests.post(
+            webhook_url,
+            data=json.dumps(embed_data),
+            headers={"Content-Type": "application/json"},
+            timeout=5
+        )
+       
+        return response.status_code == 204
+       
+    except Exception as e:
+        print(f"Discord webhook failed: {e}")
+        return False

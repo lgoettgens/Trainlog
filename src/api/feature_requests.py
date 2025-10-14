@@ -5,7 +5,7 @@ from flask import Blueprint, render_template, request, session, redirect, url_fo
 
 from src.pg import pg_session
 from src.sql import feature_requests as fr_sql
-from src.utils import getUser, isCurrentTrip, lang, owner_required, owner
+from src.utils import getUser, isCurrentTrip, lang, owner_required, owner, post_to_discord
 
 logger = logging.getLogger(__name__)
 
@@ -145,7 +145,8 @@ def submit_feature_request(username):
     title = request.form["title"]
     description = request.form["description"]
     current_user = session["userinfo"]["logged_in_user"]
-    
+    is_owner = session["userinfo"].get("is_owner", False)
+    display_name = current_user if not is_owner else "admin"
     with pg_session() as pg:
         result = pg.execute(
             fr_sql.insert_feature_request(),
@@ -155,12 +156,26 @@ def submit_feature_request(username):
                 "username": current_user
             }
         ).fetchone()
-        
+       
         # Redirect to the new feature request page
         if result:
             new_id = result[0]
+           
+            # Post to Discord
+            post_to_discord(
+                webhook_type="feature_requests",
+                title="💡 New Feature Request",
+                description=f"**{title}**\n\n{description}",
+                url=url_for("feature_requests.single_feature_request", request_id=new_id, _external=True),
+                fields=[
+                    {"name": "Submitted by", "value": display_name, "inline": True},
+                    {"name": "Request ID", "value": f"#{new_id}", "inline": True}
+                ],
+                footer_text="Feature Requests"
+            )
+           
             return redirect(url_for("feature_requests.single_feature_request", request_id=new_id))
-    
+   
     return redirect(url_for("feature_requests.feature_requests"))
 
 
