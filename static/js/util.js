@@ -248,13 +248,21 @@ function getGetParams(){
 }
 
 function mToKm(m) {
-  var km = m / 1000;
-  if (km > 1) {
-    return Math.round(km); // Round to nearest integer
-  } else {
-    return Number(km.toFixed(2)); // Round to two decimal places
-  }
+    var km = m / 1000;
+    
+    if (km >= 1000000) {
+        var mkm = km / 1000000;
+        return mkm.toFixed(1).replace(/\.0$/, '') + 'M';
+    } else if (km >= 1000) {
+        var kkm = km / 1000;
+        return kkm.toFixed(1).replace(/\.0$/, '') + 'k';
+    } else if (km > 1) {
+        return Math.round(km) + '';
+    } else {
+        return Number(km.toFixed(2)) + '';
+    }
 }
+
 function isNumber(num){
   if (!isNaN(num) && num != "" && num != " ")
   {

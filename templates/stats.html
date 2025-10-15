@@ -130,7 +130,7 @@
             label: '{{km}}',
             suffix: 'Km',
             // raw value is meters → format as kilometers with unit handled by Intl
-            formatValue: (value) => mToKm(value) + 'km',
+            formatValue: (value) => mToKm(value) + ' km',
             enabled: true
         },
         duration: {
@@ -201,6 +201,105 @@
     function isMobile() {
         return getScreenSize() < 750;
     }
+
+    function calculateMaxValue(dataArray) {
+        if (!dataArray || dataArray.length === 0) return 0;
+        
+        const values = dataArray.map(item => {
+            if (isCombinedMode) {
+                // In combined mode, sum up the values from all trip types within the item
+                return Object.values(item.tripTypes || {}).reduce((sum, t) => sum + (t.past || 0) + (t.plannedFuture || 0), 0);
+            } else {
+                // In single mode, just sum past and plannedFuture
+                return (item.past || 0) + (item.plannedFuture || 0);
+            }
+        });
+        
+        return Math.max(...values);
+    }
+
+    function getDurationAxisConfig(maxSeconds, lang) {
+    // Define time units in seconds
+    const YEAR_S = 31557600;   // 365.25 * 24 * 3600
+    const MONTH_S = 2629800;    // 30.4375 * 24 * 3600
+    const WEEK_S = 604800;      // 7 * 24 * 3600
+    const DAY_S = 86400;
+    const HOUR_S = 3600;
+    const MINUTE_S = 60;
+    
+    let unit = 'second';
+    let divisor = 1;
+    let interval;
+    
+    // Helper function to find the best interval with nice multiples
+    function findNiceInterval(maxValue, baseUnit, niceMultiples) {
+        const targetTicks = 5; // Aim for around 5-10 ticks
+        const targetInterval = maxValue / targetTicks;
+        
+        // Find the closest nice multiple
+        let bestInterval = niceMultiples[0] * baseUnit;
+        for (const multiple of niceMultiples) {
+            const candidateInterval = multiple * baseUnit;
+            if (candidateInterval >= targetInterval) {
+                bestInterval = candidateInterval;
+                break;
+            }
+        }
+        return bestInterval;
+    }
+    
+    // Determine the Scale and Interval
+    if (maxSeconds >= 2 * YEAR_S) {
+        unit = 'year';
+        divisor = YEAR_S;
+        interval = findNiceInterval(maxSeconds, YEAR_S, [1, 2, 5, 10, 20, 50, 100]);
+    } else if (maxSeconds >= 2 * MONTH_S) {
+        unit = 'month';
+        divisor = MONTH_S;
+        interval = findNiceInterval(maxSeconds, MONTH_S, [1, 2, 3, 6, 12]);
+    } else if (maxSeconds >= 2 * WEEK_S) {
+        unit = 'week';
+        divisor = WEEK_S;
+        interval = findNiceInterval(maxSeconds, WEEK_S, [1, 2, 4, 8, 12]);
+    } else if (maxSeconds >= 2 * DAY_S) {
+        unit = 'day';
+        divisor = DAY_S;
+        interval = findNiceInterval(maxSeconds, DAY_S, [1, 2, 3, 7, 14, 30]);
+    } else if (maxSeconds >= 2 * HOUR_S) {
+        unit = 'hour';
+        divisor = HOUR_S;
+        interval = findNiceInterval(maxSeconds, HOUR_S, [1, 2, 3, 6, 12, 24]);
+    } else if (maxSeconds >= 2 * MINUTE_S) {
+        unit = 'minute';
+        divisor = MINUTE_S;
+        interval = findNiceInterval(maxSeconds, MINUTE_S, [1, 2, 5, 10, 15, 30, 60]);
+    } else {
+        // For seconds, use nice intervals
+        const niceIntervals = [1, 2, 5, 10, 15, 30, 60];
+        const targetInterval = maxSeconds / 5;
+        interval = niceIntervals.find(i => i >= targetInterval) || 1;
+    }
+    
+    const axisMax = Math.ceil(maxSeconds / interval) * interval;
+    
+    return {
+        type: 'value',
+        min: 0,
+        max: axisMax,
+        interval: interval,
+        axisLabel: {
+            formatter: function (value) {
+                const displayValue = value / divisor;
+                return new Intl.NumberFormat(lang, {
+                    style: 'unit',
+                    unit: unit,
+                    unitDisplay: 'short',
+                    maximumFractionDigits: 0
+                }).format(displayValue);
+            }
+        }
+    };
+}
 
     function normalizeKey(input) {
         return input
@@ -714,10 +813,16 @@
 
         var commonValAxisOptions = {
             type: 'value',
+            min: undefined,
+            max: undefined,
+            interval: undefined,
             axisLabel: {
                 formatter: function (value) {
-                    if (currentMetric === 'duration') {
-                        return formatDurationAxis(value, "{{langId}}");
+                    if(currentMetric === 'km'){
+                        return mToKm(value) + ' km';
+                    }
+                    else if (currentMetric === 'carbon'){
+                        return value >= 1e9 ? (value / 1e9) + ' Mt' : value >= 1e6 ? (value / 1e6) + ' kt' : value >= 1e3 ? (value / 1e3) + ' t' : value + ' kg';
                     }
                     return value >= 1000 ? (value / 1000) + 'k' : value;
                 }
@@ -725,6 +830,11 @@
         };
         
         // Countries Chart
+        var countriesMax = calculateMaxValue(dataToUse.countries);
+        var countriesValueAxisOptions = (currentMetric === 'duration')
+            ? getDurationAxisConfig(countriesMax, LANG)
+            : commonValAxisOptions;
+
         var countriesChart = echarts.init(document.getElementById('chart-countries'));
         chartsInstances['countries'] = countriesChart;
         countriesChart.setOption({
@@ -742,12 +852,17 @@
                     return item.country === "{{others}}" ? item.country : `${regionNames.of(item.country)} ${getFlagEmoji(item.country)}`;
                 })
             },
-            xAxis: commonValAxisOptions,
+            xAxis: countriesValueAxisOptions,
             grid: hGridConfig,
             series: createSeries(dataToUse.countries, getColor(tripType))
         });
 
         // Operators Chart
+        var operatorsMax = calculateMaxValue(dataToUse.operators);
+        var operatorsValueAxisOptions = (currentMetric === 'duration')
+            ? getDurationAxisConfig(operatorsMax, LANG)
+            : commonValAxisOptions;
+
         var operatorsChart = echarts.init(document.getElementById('chart-operators'));
         chartsInstances['operators'] = operatorsChart;
         operatorsChart.setOption({
@@ -779,10 +894,16 @@
                 },
                 data: dataToUse.operators.map(item => item.operator)
             },
-            xAxis: commonValAxisOptions,
+            xAxis: operatorsValueAxisOptions,
             grid: hGridConfig,
             series: createSeries(dataToUse.operators, getColor(tripType))
         });
+
+        // Years Chart
+        var yearsMax = calculateMaxValue(dataToUse.years);
+        var yearsValueAxisOptions = (currentMetric === 'duration')
+            ? getDurationAxisConfig(yearsMax, LANG)
+            : commonValAxisOptions;
 
         // Years Chart
         var yearsChart = echarts.init(document.getElementById('chart-years'));
@@ -794,11 +915,16 @@
                 type: 'category',
                 data: dataToUse.years.map(item => item.year)
             },
-            yAxis: commonValAxisOptions,
+            yAxis: yearsValueAxisOptions,
             grid: yGridConfig,
             series: createSeries(dataToUse.years, getColor(tripType))
         });
 
+
+        var materialMax = calculateMaxValue(dataToUse.material);
+        var materialValueAxisOptions = (currentMetric === 'duration')
+            ? getDurationAxisConfig(materialMax, LANG)
+            : commonValAxisOptions;
         // Material Chart
         var materialChart = echarts.init(document.getElementById('chart-material'));
         chartsInstances['material'] = materialChart;
@@ -813,13 +939,17 @@
                     ...commonCatAxisOptions,
                     data: dataToUse.material.map(item => item.material)
                 },
-                yAxis: commonValAxisOptions,
+                yAxis: materialValueAxisOptions,
                 grid: vGridConfig,
                 series: createSeries(dataToUse.material, getColor(tripType))
             });
         }
 
         // Routes Chart
+        var routesMax = calculateMaxValue(dataToUse.routes);
+        var routesValueAxisOptions = (currentMetric === 'duration')
+            ? getDurationAxisConfig(routesMax, LANG)
+            : commonValAxisOptions;
         var routesChart = echarts.init(document.getElementById('chart-routes'));
         chartsInstances['routes'] = routesChart;
         routesChart.setOption({
@@ -835,12 +965,16 @@
                     }
                 })
             },
-            yAxis: commonValAxisOptions,
+            yAxis: routesValueAxisOptions,
             grid: vGridConfig,
             series: createSeries(dataToUse.routes, getColor(tripType))
         });
 
         // Stations Chart
+        var stationsMax = calculateMaxValue(dataToUse.stations);
+        var stationsValueAxisOptions = (currentMetric === 'duration')
+            ? getDurationAxisConfig(stationsMax, LANG)
+            : commonValAxisOptions;
         var stationsChart = echarts.init(document.getElementById('chart-stations'));
         chartsInstances['stations'] = stationsChart;
         stationsChart.setOption({
@@ -850,7 +984,7 @@
                 ...commonCatAxisOptions,
                 data: dataToUse.stations.map(item => item.station)
             },
-            yAxis: commonValAxisOptions,
+            yAxis: stationsValueAxisOptions,
             grid: vGridConfig,
             series: createSeries(dataToUse.stations, getColor(tripType))
         });
@@ -1009,6 +1143,20 @@
         var dataToUse = displayData[dataKey];
         var config = METRICS_CONFIG[currentMetric];
 
+        var maxValue = calculateMaxValue(dataToUse);
+        var valueAxisOptions = (currentMetric === 'duration')
+            ? getDurationAxisConfig(maxValue, LANG)
+            : { // Recreate the simple formatter for other metrics
+                type: 'value',
+                axisLabel: {
+                    formatter: function (value) {
+                        if(currentMetric === 'km') return mToKm(value) + ' km';
+                        else if (currentMetric === 'carbon') return value >= 1e9 ? (value / 1e9) + ' Mt' : value >= 1e6 ? (value / 1e6) + ' kt' : value >= 1e3 ? (value / 1e3) + ' t' : value + ' kg';
+                        return value >= 1000 ? (value / 1000) + 'k' : value;
+                    }
+                }
+            };
+
         var option = {
             title: { 
                 text: chartsInstances[dataKey.replace('chart-', '')]?.getOption()?.title?.[0]?.text || ''
@@ -1066,17 +1214,7 @@
                         : item.operator
                 )
             };
-            option.xAxis = { 
-                type: 'value',
-                axisLabel: {
-                    formatter: function (value) {
-                        if (currentMetric === 'duration') {
-                            return formatDurationAxis(value, "{{langId}}");
-                        }
-                        return value >= 1000 ? (value / 1000) + 'k' : value;
-                    }
-                }
-            };
+            option.xAxis = valueAxisOptions;
             
             // Add vertical slider for countries/operators
             option.dataZoom = [
@@ -1103,17 +1241,7 @@
                     return item.station;
                 })
             };
-            option.yAxis = { 
-                type: 'value',
-                axisLabel: {
-                    formatter: function (value) {
-                        if (currentMetric === 'duration') {
-                            return formatDurationAxis(value, "{{langId}}");
-                        }
-                        return value >= 1000 ? (value / 1000) + 'k' : value;
-                    }
-                }
-            };
+            option.yAxis = valueAxisOptions;
             
             // Add horizontal slider for other charts
             if (dataKey !== 'years') {
