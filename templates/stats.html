@@ -130,7 +130,7 @@
             label: '{{km}}',
             suffix: 'Km',
             // raw value is meters → format as kilometers with unit handled by Intl
-            formatValue: (value) => mToKm(value) + ' km',
+            formatValue: (value) => mToKmStats(value) + ' km',
             enabled: true
         },
         duration: {
@@ -819,7 +819,7 @@
             axisLabel: {
                 formatter: function (value) {
                     if(currentMetric === 'km'){
-                        return mToKm(value) + ' km';
+                        return mToKmStats(value) + ' km';
                     }
                     else if (currentMetric === 'carbon'){
                         return value >= 1e9 ? (value / 1e9) + ' Mt' : value >= 1e6 ? (value / 1e6) + ' kt' : value >= 1e3 ? (value / 1e3) + ' t' : value + ' kg';
@@ -1150,7 +1150,7 @@
                 type: 'value',
                 axisLabel: {
                     formatter: function (value) {
-                        if(currentMetric === 'km') return mToKm(value) + ' km';
+                        if(currentMetric === 'km') return mToKmStats(value) + ' km';
                         else if (currentMetric === 'carbon') return value >= 1e9 ? (value / 1e9) + ' Mt' : value >= 1e6 ? (value / 1e6) + ' kt' : value >= 1e3 ? (value / 1e3) + ' t' : value + ' kg';
                         return value >= 1000 ? (value / 1000) + 'k' : value;
                     }

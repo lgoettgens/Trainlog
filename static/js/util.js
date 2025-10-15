@@ -248,6 +248,15 @@ function getGetParams(){
 }
 
 function mToKm(m) {
+  var km = m / 1000;
+  if (km > 1) {
+    return Math.round(km); // Round to nearest integer
+  } else {
+    return Number(km.toFixed(2)); // Round to two decimal places
+  }
+}
+
+function mToKmStats(m) {
     var km = m / 1000;
     
     if (km >= 1000000) {
@@ -262,7 +271,6 @@ function mToKm(m) {
         return Number(km.toFixed(2)) + '';
     }
 }
-
 function isNumber(num){
   if (!isNaN(num) && num != "" && num != " ")
   {
