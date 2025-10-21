@@ -1331,7 +1331,7 @@
     function updateTrip(copy) {
         $("#submit_text").hide();
         $(".spinner-border").show();
-        var tripId = $(location).attr("href").split('/').pop();
+        var tripId = location.pathname.split('/').pop();
         var data = $('form').serializeArray();
         var formData = Object.assign({}, ...data.map((x) => ({ [x.name]: x.value })));
 
