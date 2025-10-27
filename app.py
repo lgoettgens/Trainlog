@@ -2590,6 +2590,8 @@ def login():
         # Safely get form data to avoid KeyError
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "").strip()
+        # Ensure the next URL starts with / to avoid sending to external websites. 
+        next_page = n if (n := request.form.get("next", "").strip()).startswith("/") else url_for("landing", username=username)
 
         # Check if username and password are provided
         if not username or not password:
@@ -2632,7 +2634,7 @@ def login():
             )
             changeLang(user.lang, session)
 
-            return ("Success", 200) if raw else redirect(url_for("landing", username=username))
+            return ("Success", 200) if raw else redirect(next_page)
         else:
             # Log denied login attempts
             if user is None:

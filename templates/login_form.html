@@ -8,6 +8,7 @@
   <form  action="{{ url_for('login')}}" method="post">
     {{userName}} :  <input type="text" id="username" name="username" />
     {{password}} : <input type="password" id="password" name="password" />
+    <input type="hidden" name="next" value="{{ request.args.get('next','') }}">
     <div class="d-flex justify-content-center mt-2"> <!-- Flexbox container -->
       <button type="submit" class="btn btn-primary mx-2">{{login}}</button>
       <a href='/signup' class="btn btn-secondary mx-2">{{signup}}</a>

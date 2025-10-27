@@ -177,6 +177,19 @@ def sendEmail(address, subject, message):
     except Exception as e:
         print("Error:", e)
 
+def sendEmailToUser(user_id, subject, message):
+    try:
+        user = User.query.filter_by(uid=user_id).first()
+        if not user:
+            print(f"User with ID {user_id} not found.")
+            return False
+
+        sendEmail(user.email, subject, message)
+        return True
+
+    except Exception as e:
+        print("Error sending email to user:", e)
+        return False
 
 def sendOwnerEmail(subject, message):
     address = load_config()["owner"]["email"]
@@ -294,7 +307,7 @@ def login_required(f):
         user = User.query.filter_by(username=username).first()
 
         if not session.get("logged_in"):
-            return redirect(url_for("login"))
+            return redirect(url_for("login", next=request.path))
         elif user is None:
             abort(404)
         elif not (session.get(username) or session.get(owner)):
