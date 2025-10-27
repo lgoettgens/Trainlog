@@ -621,5 +621,20 @@
     "useNewRouter": "Попробуйте новый маршрутизатор (показывает электрификацию)",
     "news": "Новости Trainlog",
     "CO2": "CO₂e",
-    "donate": "Купи мне кофе"
+    "donate": "Купи мне кофе",
+    "feature_requests_status_planned": "Запланировано",
+    "feature_requests_update_status": "Обновить статус:",
+    "feature_requests_closure_reason_label": "Причина закрытия (необязательно)",
+    "feature_requests_closure_reason_placeholder": "Почему это закрывается?",
+    "feature_requests_closure_reason_hint": "Используется только при установке статуса на Выполнено или Не выполняется.",
+    "feature_requests_closure_reason_title": "Причина закрытия",
+    "feature_requests_merge_label": "Объединить повторяющиеся запросы",
+    "feature_requests_merge_hint": "Введите ID для объединения с этим (через запятую). Сохраняется последний голос каждого пользователя.",
+    "feature_requests_merge_button": "Объединить",
+    "feature_requests_status_merged": "Объединено",
+    "fr_email_greeting": "Здравствуйте, {username}",
+    "fr_email_feature_closed": "Ваш запрос на добавление функции <a href='{url}'>#{request_id}</a> был закрыт со статусом: {status}.",
+    "fr_email_reason_label": "Причина:",
+    "fr_email_english_note": "Примечание: Технические детали и причины предоставлены на английском языке для обеспечения читаемости нашей международной пользовательской базы.",
+    "fr_email_signature": "С наилучшими пожеланиями<br>Команда Trainlog"
 }

@@ -621,5 +621,20 @@
     "useNewRouter": "Proovi uut ruuterit (kuvab elektrifitseerimist)",
     "news": "Trainlog Uudised",
     "CO2": "CO₂e",
-    "donate": "Osta mulle kohv"
+    "donate": "Osta mulle kohv",
+    "feature_requests_status_planned": "Planeeritud",
+    "feature_requests_update_status": "Uuenda olekut:",
+    "feature_requests_closure_reason_label": "Sulgemise põhjus (valikuline)",
+    "feature_requests_closure_reason_placeholder": "Miks see suletakse?",
+    "feature_requests_closure_reason_hint": "Kasutatakse ainult staatuse määramisel „Valmis” või „Ei tehta”.",
+    "feature_requests_closure_reason_title": "Sulgemise põhjus",
+    "feature_requests_merge_label": "Ühenda dubleeritud päringud",
+    "feature_requests_merge_hint": "Sisestage ID-d, mida soovite sellesse ühendada (komadega eraldatud). Iga kasutaja viimane hääl säilitatakse.",
+    "feature_requests_merge_button": "Ühenda",
+    "feature_requests_status_merged": "Ühendatud",
+    "fr_email_greeting": "Tere {username}",
+    "fr_email_feature_closed": "Teie funktsioonitaotlus <a href='{url}'>#{request_id}</a> on suletud staatusega: {status}.",
+    "fr_email_reason_label": "Põhjus:",
+    "fr_email_english_note": "Märkus: Tehnilised üksikasjad ja põhjused on esitatud inglise keeles, et tagada loetavus meie rahvusvahelisele kasutajaskonnale.",
+    "fr_email_signature": "Parimate soovidega<br>Trainlogi meeskond"
 }

@@ -621,5 +621,20 @@
     "useNewRouter": "Probieret nejer Router (zeigt Elektrifizierung)",
     "news": "Trainlog-Nachrichte",
     "CO2": "CO₂e",
-    "donate": "Chauf mier es Kaffee"
+    "donate": "Chauf mier es Kaffee",
+    "feature_requests_status_planned": "Geplant",
+    "feature_requests_update_status": "Status aktualisiere:",
+    "feature_requests_closure_reason_label": "Uschlissigsgrund (optional)",
+    "feature_requests_closure_reason_placeholder": "Warum wird das gschlosse?",
+    "feature_requests_closure_reason_hint": "Num bruucht, woni dr Status uf Abgschlosse oder Nöd am mache setze.",
+    "feature_requests_closure_reason_title": "Uschlissigsgrund",
+    "feature_requests_merge_label": "Duplikats-Anfroge zämmefüege",
+    "feature_requests_merge_hint": "Gib d IDs ii, wo mit däre zämmegfiegt söue werde (mit Chrüz trennt). Dr letscht Stimm pro Benutzer wird behalte.",
+    "feature_requests_merge_button": "Zämmefüege",
+    "feature_requests_status_merged": "Zämmegfiegt",
+    "fr_email_greeting": "Grüezi {username}",
+    "fr_email_feature_closed": "Din Funktion uusgfunge <a href='{url}'>#{request_id}</a> isch mit em Status: {status} gschlosse worde.",
+    "fr_email_reason_label": "Grund:",
+    "fr_email_english_note": "Note: Technisch Detail und Gründ wärde uf Englisch aagee, zum d'Lesbarkeit für üsi internationali Benutzerbasis sicherzstelle.",
+    "fr_email_signature": "Freundlichi Grüess<br>S Trainlog Team"
 }

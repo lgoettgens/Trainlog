@@ -621,5 +621,20 @@
     "useNewRouter": "Wypróbuj nowy router (pokazuje elektryfikację)",
     "news": "Wiadomości Trainlog",
     "CO2": "CO₂e",
-    "donate": "Kup mi kawę"
+    "donate": "Kup mi kawę",
+    "feature_requests_status_planned": "Planowane",
+    "feature_requests_update_status": "Aktualizuj status:",
+    "feature_requests_closure_reason_label": "Powód zamknięcia (opcjonalny)",
+    "feature_requests_closure_reason_placeholder": "Dlaczego to jest zamykane?",
+    "feature_requests_closure_reason_hint": "Używane tylko przy ustawianiu statusu na Zakończony lub Nie dotyczy.",
+    "feature_requests_closure_reason_title": "Powód zamknięcia",
+    "feature_requests_merge_label": "Scal duplikaty próśb",
+    "feature_requests_merge_hint": "Wpisz identyfikatory do scalenia z tym (oddzielone przecinkami). Ostatni głos na użytkownika zostanie zachowany.",
+    "feature_requests_merge_button": "Scal",
+    "feature_requests_status_merged": "Scalony",
+    "fr_email_greeting": "Witaj {username}",
+    "fr_email_feature_closed": "Twoje żądanie funkcji <a href='{url}'>#{request_id}</a> zostało zamknięte ze statusem: {status}.",
+    "fr_email_reason_label": "Powód:",
+    "fr_email_english_note": "Uwaga: Szczegóły techniczne i powody są podane po angielsku, aby zapewnić czytelność dla naszej międzynarodowej bazy użytkowników.",
+    "fr_email_signature": "Z wyrazami szacunku<br>Zespół Trainlog"
 }

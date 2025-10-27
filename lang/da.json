@@ -621,5 +621,20 @@
     "useNewRouter": "Prøv ny router (viser elektrificering)",
     "news": "Trainlog Nyheder",
     "CO2": "CO₂e",
-    "donate": "Køb mig en kaffe"
+    "donate": "Køb mig en kaffe",
+    "feature_requests_status_planned": "Planlagt",
+    "feature_requests_update_status": "Opdater status:",
+    "feature_requests_closure_reason_label": "Lukningsårsag (valgfri)",
+    "feature_requests_closure_reason_placeholder": "Hvorfor bliver dette lukket?",
+    "feature_requests_closure_reason_hint": "Bruges kun, når status sættes til Fuldført eller Gøres ikke.",
+    "feature_requests_closure_reason_title": "Lukningsårsag",
+    "feature_requests_merge_label": "Sammenflet dublerede anmodninger",
+    "feature_requests_merge_hint": "Indtast ID'er der skal flettes ind i denne (kommasepareret). Seneste afstemning per bruger bevares.",
+    "feature_requests_merge_button": "Sammenflet",
+    "feature_requests_status_merged": "Sammenflettet",
+    "fr_email_greeting": "Hej {username}",
+    "fr_email_feature_closed": "Din funktionsanmodning <a href='{url}'>#{request_id}</a> er blevet lukket med status: {status}.",
+    "fr_email_reason_label": "Årsag:",
+    "fr_email_english_note": "Bemærk: Tekniske detaljer og årsager leveres på engelsk for at sikre læsbarhed for vores internationale brugerbase.",
+    "fr_email_signature": "Venlig hilsen<br>Trainlog-teamet"
 }

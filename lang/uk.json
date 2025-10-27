@@ -621,5 +621,20 @@
     "useNewRouter": "Спробуйте новий маршрутизатор (показує електрифікацію)",
     "news": "Новини Trainlog",
     "CO2": "CO₂e",
-    "donate": "Купи мені каву"
+    "donate": "Купи мені каву",
+    "feature_requests_status_planned": "Заплановано",
+    "feature_requests_update_status": "Оновити статус:",
+    "feature_requests_closure_reason_label": "Причина закриття (необов'язково)",
+    "feature_requests_closure_reason_placeholder": "Чому це закривається?",
+    "feature_requests_closure_reason_hint": "Використовується лише при встановленні статусу на Завершено або Не виконується.",
+    "feature_requests_closure_reason_title": "Причина закриття",
+    "feature_requests_merge_label": "Об'єднати дублікати запитів",
+    "feature_requests_merge_hint": "Введіть ідентифікатори для об'єднання з цим (через кому). Залишається останнє голосування для кожного користувача.",
+    "feature_requests_merge_button": "Об'єднати",
+    "feature_requests_status_merged": "Об'єднано",
+    "fr_email_greeting": "Привіт {username}",
+    "fr_email_feature_closed": "Ваш запит на функцію <a href='{url}'>#{request_id}</a> було закрито зі статусом: {status}.",
+    "fr_email_reason_label": "Причина:",
+    "fr_email_english_note": "Примітка: Технічні деталі та причини надаються англійською мовою, щоб забезпечити зрозумілість для нашої міжнародної аудиторії користувачів.",
+    "fr_email_signature": "З найкращими побажаннями<br>Команда Trainlog"
 }

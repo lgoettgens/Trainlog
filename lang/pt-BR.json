@@ -621,5 +621,20 @@
     "useNewRouter": "Experimente o novo roteador (mostra eletrificação)",
     "news": "Notícias do Trainlog",
     "CO2": "CO₂e",
-    "donate": "Compre-me um café"
+    "donate": "Compre-me um café",
+    "feature_requests_status_planned": "Planejado",
+    "feature_requests_update_status": "Atualizar status:",
+    "feature_requests_closure_reason_label": "Motivo do encerramento (opcional)",
+    "feature_requests_closure_reason_placeholder": "Por que isso está sendo fechado?",
+    "feature_requests_closure_reason_hint": "Usado apenas ao definir o status como Concluído ou Não fazer.",
+    "feature_requests_closure_reason_title": "Motivo do encerramento",
+    "feature_requests_merge_label": "Mesclar solicitações duplicadas",
+    "feature_requests_merge_hint": "Insira os IDs para mesclar neste (separados por vírgula). O último voto por usuário é mantido.",
+    "feature_requests_merge_button": "Mesclar",
+    "feature_requests_status_merged": "Mesclado",
+    "fr_email_greeting": "Olá {username}",
+    "fr_email_feature_closed": "Sua solicitação de recurso <a href='{url}'>#{request_id}</a> foi encerrada com o status: {status}.",
+    "fr_email_reason_label": "Motivo:",
+    "fr_email_english_note": "Nota: Os detalhes técnicos e os motivos são fornecidos em inglês para garantir a legibilidade para nossa base de usuários internacional.",
+    "fr_email_signature": "Atenciosamente<br>A equipe Trainlog"
 }

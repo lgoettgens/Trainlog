@@ -621,5 +621,20 @@
     "useNewRouter": "Próbálja ki az új útválasztót (mutatja az elektromos hálózatot)",
     "news": "Trainlog Hírek",
     "CO2": "CO₂e",
-    "donate": "Vegyél nekem egy kávét"
+    "donate": "Vegyél nekem egy kávét",
+    "feature_requests_status_planned": "Tervezett",
+    "feature_requests_update_status": "Státusz frissítése:",
+    "feature_requests_closure_reason_label": "Lezárás oka (opcionális)",
+    "feature_requests_closure_reason_placeholder": "Miért kerül ez lezárásra?",
+    "feature_requests_closure_reason_hint": "Csak akkor használatos, ha az állapot Kész vagy Nem végzik beállításra kerül.",
+    "feature_requests_closure_reason_title": "Lezárás oka",
+    "feature_requests_merge_label": "Ismétlődő kérések összevonása",
+    "feature_requests_merge_hint": "Adja meg az azonosítókat, amelyeket egyesíteni kell ebbe (vesszővel elválasztva). Felhasználónként a legutóbbi szavazat megmarad.",
+    "feature_requests_merge_button": "Összevonás",
+    "feature_requests_status_merged": "Összevont",
+    "fr_email_greeting": "Szia {username}",
+    "fr_email_feature_closed": "Az ön funkciókérése <a href='{url}'>#{request_id}</a> lezárásra került a következő státusszal: {status}.",
+    "fr_email_reason_label": "Ok:",
+    "fr_email_english_note": "Megjegyzés: A technikai részletek és okok angolul vannak megadva, hogy biztosítsuk nemzetközi felhasználói bázisunk számára az olvashatóságot.",
+    "fr_email_signature": "Üdvözlettel<br>A Trainlog csapat"
 }

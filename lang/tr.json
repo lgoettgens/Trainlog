@@ -621,5 +621,20 @@
     "useNewRouter": "Yeni yönlendiriciyi deneyin (elektrifikasyonu gösterir)",
     "news": "Trainlog Haberler",
     "CO2": "CO₂e",
-    "donate": "Bana bir kahve al"
+    "donate": "Bana bir kahve al",
+    "feature_requests_status_planned": "Planlandı",
+    "feature_requests_update_status": "Durumu Güncelle:",
+    "feature_requests_closure_reason_label": "Kapanış nedeni (isteğe bağlı)",
+    "feature_requests_closure_reason_placeholder": "Bu neden kapatılıyor?",
+    "feature_requests_closure_reason_hint": "Yalnızca durum Tamamlandı veya Yapılmıyor olarak ayarlandığında kullanılır.",
+    "feature_requests_closure_reason_title": "Kapanış nedeni",
+    "feature_requests_merge_label": "Yinelenen istekleri birleştir",
+    "feature_requests_merge_hint": "Bununla birleştirilecek kimlikleri girin (virgülle ayrılmış). Kullanıcı başına son oy korunur.",
+    "feature_requests_merge_button": "Birleştir",
+    "feature_requests_status_merged": "Birleşmiş",
+    "fr_email_greeting": "Merhaba {username}",
+    "fr_email_feature_closed": "Özellik talebiniz <a href='{url}'>#{request_id}</a> {status} durumu ile kapatıldı.",
+    "fr_email_reason_label": "Sebep:",
+    "fr_email_english_note": "Not: Teknik detaylar ve sebepler, uluslararası kullanıcı tabanımız için okunabilirliği sağlamak amacıyla İngilizce olarak sunulmaktadır.",
+    "fr_email_signature": "En içten dileklerimizle<br>Trainlog Ekibi"
 }

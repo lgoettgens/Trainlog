@@ -46,7 +46,7 @@
         {% for request in requests %}
             {% if request.status == 'completed' %}
                 {% set _ = completed_requests.append(request) %}
-            {% elif request.status == 'not_doing' %}
+            {% elif request.status == 'not_doing' or  request.status == 'merged' %}
                 {% set _ = not_doing_requests.append(request) %}
             {% elif request.score < 0 %}
                 {% set _ = negative_requests.append(request) %}
@@ -135,18 +135,22 @@
                                     {% elif request.status == 'completed' %}
                                         <span class="badge bg-success mb-2">{{ feature_requests_status_completed }}</span>
                                     {% elif request.status == 'not_doing' %}
-                                        <span class="badge bg-secondary mb-2">{{ feature_requests_status_not_doing }}</span>
+                                        <span class="badge bg-dark mb-2">{{ feature_requests_status_not_doing }}</span>
+                                    {% elif request.status == 'merged' %}
+                                        <span class="badge bg-secondary mb-2">{{ feature_requests_status_merged }}</span>
+                                    {% elif request.status == 'planned' %}
+                                        <span class="badge bg-info mb-2">{{ feature_requests_status_planned }}</span>
                                     {% endif %}
                                     
                                     <!-- Edit/Delete Buttons -->
                                     {% if logged_in_user and username and (is_owner or request.author_display == logged_in_user) %}
                                         <div class="btn-group btn-group-sm">
                                             <button type="button" class="btn btn-outline-secondary" 
-                                                    onclick="editRequest({{ request.id }}, '{{ request.title|e }}', '{{ request.description|e }}')">
+                                                    onclick="editRequest({{ request.id }}, `{{ request.title|e }}`, `{{ request.description|e }}`)">
                                                 <i class="fa-solid fa-edit"></i>
                                             </button>
                                             <button type="button" class="btn btn-outline-danger" 
-                                                    onclick="deleteRequest({{ request.id }}, '{{ request.title|e }}')">
+                                                    onclick="deleteRequest({{ request.id }}, `{{ request.title|e }}`)">
                                                 <i class="fa-solid fa-trash"></i>
                                             </button>
                                         </div>
@@ -175,6 +179,7 @@
                                             <option value="working_on_it" {{ 'selected' if request.status == 'working_on_it' else '' }}>{{ feature_requests_status_working }}</option>
                                             <option value="completed" {{ 'selected' if request.status == 'completed' else '' }}>{{ feature_requests_status_completed }}</option>
                                             <option value="not_doing" {{ 'selected' if request.status == 'not_doing' else '' }}>{{ feature_requests_status_not_doing }}</option>
+                                            <option value="planned" {{ 'selected' if request.status == 'planned' else '' }}>{{ feature_requests_status_planned }}</option>
                                         </select>
                                     </form>
                                 </div>

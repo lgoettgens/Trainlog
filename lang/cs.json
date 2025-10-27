@@ -621,5 +621,20 @@
     "useNewRouter": "Vyzkoušejte nový router (zobrazuje elektrifikaci)",
     "news": "Zprávy Trainlog",
     "CO2": "CO₂e",
-    "donate": "Kup mi kávu"
+    "donate": "Kup mi kávu",
+    "feature_requests_status_planned": "Plánováno",
+    "feature_requests_update_status": "Aktualizovat stav:",
+    "feature_requests_closure_reason_label": "Důvod uzavření (volitelný)",
+    "feature_requests_closure_reason_placeholder": "Proč je to zavíráno?",
+    "feature_requests_closure_reason_hint": "Používá se pouze při nastavení stavu na Dokončeno nebo Nedělá se.",
+    "feature_requests_closure_reason_title": "Důvod uzavření",
+    "feature_requests_merge_label": "Sloučit duplicitní požadavky",
+    "feature_requests_merge_hint": "Zadejte ID ke sloučení do tohoto (oddělené čárkami). Poslední hlas na uživatele je zachován.",
+    "feature_requests_merge_button": "Sloučit",
+    "feature_requests_status_merged": "Sloučeno",
+    "fr_email_greeting": "Ahoj {username}",
+    "fr_email_feature_closed": "Váš požadavek na funkci <a href='{url}'>#{request_id}</a> byl uzavřen se stavem: {status}.",
+    "fr_email_reason_label": "Důvod:",
+    "fr_email_english_note": "Poznámka: Technické detaily a důvody jsou uvedeny v angličtině, aby byla zajištěna srozumitelnost pro naši mezinárodní uživatelskou základnu.",
+    "fr_email_signature": "S pozdravem<br>Tým Trainlog"
 }

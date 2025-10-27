@@ -621,5 +621,20 @@
     "useNewRouter": "Neuen Router ausprobieren (zeigt Elektrifizierung)",
     "news": "Trainlog-Nachrichten",
     "CO2": "CO₂e",
-    "donate": "Kauf mir einen Kaffee"
+    "donate": "Kauf mir einen Kaffee",
+    "feature_requests_status_planned": "Geplant",
+    "feature_requests_update_status": "Status aktualisieren:",
+    "feature_requests_closure_reason_label": "Schließungsgrund (optional)",
+    "feature_requests_closure_reason_placeholder": "Warum wird dies geschlossen?",
+    "feature_requests_closure_reason_hint": "Nur verwendbar beim Setzen des Status auf Abgeschlossen oder Nicht durchgeführt.",
+    "feature_requests_closure_reason_title": "Schließungsgrund",
+    "feature_requests_merge_label": "Doppelte Anfragen zusammenführen",
+    "feature_requests_merge_hint": "Geben Sie die IDs ein, die in diese zusammengeführt werden sollen (durch Kommas getrennt). Die letzte Abstimmung pro Benutzer wird beibehalten.",
+    "feature_requests_merge_button": "Zusammenführen",
+    "feature_requests_status_merged": "Vereint",
+    "fr_email_greeting": "Hallo {username}",
+    "fr_email_feature_closed": "Ihre Funktionsanfrage <a href='{url}'>#{request_id}</a> wurde mit dem Status: {status} geschlossen.",
+    "fr_email_reason_label": "Grund:",
+    "fr_email_english_note": "Hinweis: Technische Details und Gründe werden auf Englisch bereitgestellt, um die Lesbarkeit für unsere internationale Nutzerschaft zu gewährleisten.",
+    "fr_email_signature": "Mit den besten Grüßen<br>Das Trainlog-Team"
 }

@@ -621,5 +621,20 @@
     "useNewRouter": "Try new router (shows electrification)",
     "news": "Trainlog News",
     "CO2": "CO₂e",
-    "donate": "Buy me a coffee"
+    "donate": "Buy me a coffee",
+    "feature_requests_status_planned": "Planned",
+    "feature_requests_update_status": "Update Status:",
+    "feature_requests_closure_reason_label": "Closure reason (optional)",
+    "feature_requests_closure_reason_placeholder": "Why is this being closed?",
+    "feature_requests_closure_reason_hint": "Only used when setting status to Completed or Not doing.",
+    "feature_requests_closure_reason_title": "Closure reason",
+    "feature_requests_merge_label": "Merge duplicate requests",
+    "feature_requests_merge_hint": "Enter IDs to merge into this one (comma-separated). Latest vote per user is kept.",
+    "feature_requests_merge_button": "Merge",
+    "feature_requests_status_merged": "Merged",
+    "fr_email_greeting": "Hello {username}",
+    "fr_email_feature_closed": "Your feature request <a href='{url}'>#{request_id}</a> has been closed with status: {status}.",
+    "fr_email_reason_label": "Reason:",
+    "fr_email_english_note": "Note: Technical details and reasons are provided in English to ensure readability for our international userbase.",
+    "fr_email_signature": "Kindest regards<br>The Trainlog Team"
 }

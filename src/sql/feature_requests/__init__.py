@@ -24,3 +24,6 @@ update_vote_counts = SqlTemplate("src/sql/feature_requests/update_vote_counts.sq
 
 # Voters list
 list_voters = SqlTemplate("src/sql/feature_requests/list_voters.sql")
+
+merge_votes_into_target = SqlTemplate("src/sql/feature_requests/merge_votes_into_target.sql")
+update_feature_request_status_with_reason = SqlTemplate("src/sql/feature_requests/update_feature_request_status_with_reason.sql")

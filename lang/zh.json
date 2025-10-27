@@ -621,5 +621,20 @@
     "useNewRouter": "尝试新路由器（显示电气化）",
     "news": "Trainlog 新闻",
     "CO2": "CO₂e",
-    "donate": "请给我买杯咖啡"
+    "donate": "请给我买杯咖啡",
+    "feature_requests_status_planned": "计划的",
+    "feature_requests_update_status": "更新状态：",
+    "feature_requests_closure_reason_label": "关闭原因（可选）",
+    "feature_requests_closure_reason_placeholder": "为什么要关闭这个？",
+    "feature_requests_closure_reason_hint": "仅在将状态设置为完成或不执行时使用。",
+    "feature_requests_closure_reason_title": "关闭原因",
+    "feature_requests_merge_label": "合并重复请求",
+    "feature_requests_merge_hint": "输入要合并到此的ID（以逗号分隔）。保留每个用户的最新投票。",
+    "feature_requests_merge_button": "合并",
+    "feature_requests_status_merged": "合并",
+    "fr_email_greeting": "你好 {username}",
+    "fr_email_feature_closed": "您的功能请求<a href='{url}'>#{request_id}</a>已被关闭，状态：{status}。",
+    "fr_email_reason_label": "原因：",
+    "fr_email_english_note": "注意：技术细节和原因以英语提供，以确保我们的国际用户群体能够阅读。",
+    "fr_email_signature": "最诚挚的问候<br>Trainlog团队"
 }

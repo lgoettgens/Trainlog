@@ -621,5 +621,20 @@
     "useNewRouter": "Probeer nieuwe router (toont elektrificatie)",
     "news": "Trainlog Nieuws",
     "CO2": "CO₂e",
-    "donate": "Koop een koffie voor me"
+    "donate": "Koop een koffie voor me",
+    "feature_requests_status_planned": "Gepland",
+    "feature_requests_update_status": "Status bijwerken:",
+    "feature_requests_closure_reason_label": "Sluitingsreden (optioneel)",
+    "feature_requests_closure_reason_placeholder": "Waarom wordt dit gesloten?",
+    "feature_requests_closure_reason_hint": "Alleen gebruikt bij het instellen van de status op Voltooid of Niet uitvoeren.",
+    "feature_requests_closure_reason_title": "Sluitingsreden",
+    "feature_requests_merge_label": "Dubbele verzoeken samenvoegen",
+    "feature_requests_merge_hint": "Voer ID's in om hiermee samen te voegen (komma-gescheiden). Laatste stem per gebruiker wordt bewaard.",
+    "feature_requests_merge_button": "Samenvoegen",
+    "feature_requests_status_merged": "Samengevoegd",
+    "fr_email_greeting": "Hallo {username}",
+    "fr_email_feature_closed": "Jouw functieverzoek <a href='{url}'>#{request_id}</a> is gesloten met de status: {status}.",
+    "fr_email_reason_label": "Reden:",
+    "fr_email_english_note": "Opmerking: Technische details en redenen worden in het Engels verstrekt om de leesbaarheid voor onze internationale gebruikersbasis te garanderen.",
+    "fr_email_signature": "Met vriendelijke groeten<br>Het Trainlog-team"
 }

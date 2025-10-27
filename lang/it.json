@@ -621,5 +621,20 @@
     "useNewRouter": "Prova il nuovo router (mostra l'elettrificazione)",
     "news": "Notizie Trainlog",
     "CO2": "CO₂e",
-    "donate": "Comprami un caffè"
+    "donate": "Comprami un caffè",
+    "feature_requests_status_planned": "Pianificato",
+    "feature_requests_update_status": "Aggiorna stato:",
+    "feature_requests_closure_reason_label": "Motivo della chiusura (opzionale)",
+    "feature_requests_closure_reason_placeholder": "Perché si sta chiudendo?",
+    "feature_requests_closure_reason_hint": "Da utilizzare solo quando si imposta lo stato su Completato o Non da fare.",
+    "feature_requests_closure_reason_title": "Motivo della chiusura",
+    "feature_requests_merge_label": "Unisci richieste duplicate",
+    "feature_requests_merge_hint": "Inserisci gli ID da unire a questo (separati da virgole). L'ultimo voto per utente viene mantenuto.",
+    "feature_requests_merge_button": "Unisci",
+    "feature_requests_status_merged": "Unito",
+    "fr_email_greeting": "Ciao {username}",
+    "fr_email_feature_closed": "La tua richiesta di funzionalità <a href='{url}'>#{request_id}</a> è stata chiusa con stato: {status}.",
+    "fr_email_reason_label": "Motivo:",
+    "fr_email_english_note": "Nota: I dettagli tecnici e i motivi sono forniti in inglese per garantire la leggibilità alla nostra base utenti internazionale.",
+    "fr_email_signature": "Cordiali saluti<br>Il team di Trainlog"
 }

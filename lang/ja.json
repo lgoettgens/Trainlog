@@ -621,5 +621,20 @@
     "useNewRouter": "新しいルーターを試す（電化を表示）",
     "news": "トレインログニュース",
     "CO2": "CO₂e",
-    "donate": "コーヒーを買ってください"
+    "donate": "コーヒーを買ってください",
+    "feature_requests_status_planned": "計画済み",
+    "feature_requests_update_status": "ステータスを更新:",
+    "feature_requests_closure_reason_label": "終了理由（任意）",
+    "feature_requests_closure_reason_placeholder": "なぜこれが閉じられるのですか？",
+    "feature_requests_closure_reason_hint": "ステータスを「完了」または「未実施」に設定するときのみ使用します。",
+    "feature_requests_closure_reason_title": "終了理由",
+    "feature_requests_merge_label": "重複したリクエストをマージする",
+    "feature_requests_merge_hint": "これにマージするIDを入力してください（カンマ区切り）。ユーザーごとの最新の投票が保持されます。",
+    "feature_requests_merge_button": "マージ",
+    "feature_requests_status_merged": "結合済み",
+    "fr_email_greeting": "こんにちは {username}",
+    "fr_email_feature_closed": "あなたの機能リクエスト<a href='{url}'>#{request_id}</a>は、ステータス: {status}で閉じられました。",
+    "fr_email_reason_label": "理由：",
+    "fr_email_english_note": "注意: 技術的な詳細と理由は、国際的なユーザーベースの読みやすさを確保するために英語で提供されています。",
+    "fr_email_signature": "よろしくお願い申し上げます<br>Trainlogチーム"
 }

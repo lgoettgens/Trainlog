@@ -4,8 +4,9 @@ from datetime import datetime
 from flask import Blueprint, render_template, request, session, redirect, url_for, jsonify
 
 from src.pg import pg_session
+from src.users import User
 from src.sql import feature_requests as fr_sql
-from src.utils import getUser, isCurrentTrip, lang, owner_required, owner, post_to_discord
+from src.utils import getUser, isCurrentTrip, lang, owner_required, owner, post_to_discord, sendEmailToUser, get_user_id
 
 logger = logging.getLogger(__name__)
 
@@ -58,7 +59,8 @@ def feature_requests(username=None):
                 'upvotes': req[6],
                 'downvotes': req[7],
                 'score': req[8],
-                'user_vote': req[9] if len(req) > 9 else 0
+                'user_vote': req[9] if len(req) > 9 else 0,
+                'closure_reason': req[10] if len(req) > 10 else None
             }
             request_list.append(request_dict)
 
@@ -113,7 +115,8 @@ def single_feature_request(request_id):
             'upvotes': result[6],
             'downvotes': result[7],
             'score': result[8],
-            'user_vote': result[9] if len(result) > 9 else 0
+            'user_vote': result[9] if len(result) > 9 else 0,
+            'closure_reason': result[10] if len(result) > 10 else None
         }
 
     return render_template(
@@ -328,28 +331,6 @@ def vote_feature_request(username):
     
     return redirect(url_for("feature_requests.feature_requests"))
 
-
-@feature_requests_blueprint.route("/<username>/feature_requests/update_status", methods=["POST"])
-@owner_required
-def update_feature_request_status(username):
-    """Update status of a feature request (owner only)"""
-    request_id = request.form["request_id"]
-    new_status = request.form["status"]
-    
-    with pg_session() as pg:
-        pg.execute(
-            fr_sql.update_feature_request_status(),
-            {"request_id": request_id, "status": new_status}
-        )
-    
-    # Check if we came from single request page
-    referer = request.headers.get('Referer', '')
-    if f'/feature_requests/{request_id}' in referer:
-        return redirect(url_for("feature_requests.single_feature_request", request_id=request_id))
-    
-    return redirect(url_for("feature_requests.feature_requests"))
-
-
 @feature_requests_blueprint.route("/feature_requests/<int:request_id>/voters")
 def feature_request_voters(request_id):
     """Get list of voters for a feature request"""
@@ -424,3 +405,103 @@ def get_feature_request_details(request_id):
             })
         else:
             return jsonify({'error': 'Feature request not found'}), 404
+
+def _close_feature_request_and_notify(request_id, new_status, closure_reason=None):
+    """Close a feature request and notify the author."""
+    with pg_session() as pg:
+        # Find author
+        author_row = pg.execute(
+            fr_sql.get_feature_request_author(),
+            {"request_id": request_id}
+        ).fetchone()
+        author_username = author_row[0] if author_row else None
+        
+        # Update status + reason
+        pg.execute(
+            fr_sql.update_feature_request_status_with_reason(),
+            {"request_id": request_id, "status": new_status, "closure_reason": closure_reason}
+        )
+    
+    # Send email if closed
+    if new_status in ("completed", "not_doing", "merged") and author_username:
+        try:
+            subject = f"Your feature request #{request_id} was closed"
+            if new_status == "completed":
+                msg_status = "completed"
+            elif new_status == "merged":
+                msg_status = "merged"
+            else:
+                msg_status = "won't be done"
+            
+            user = User.query.filter_by(username=author_username).first()
+            user_lang = user.lang
+            message = f"{lang[user_lang]['fr_email_greeting'].format(username=author_username)}<br><br>"
+            message += f"{lang[user_lang]['fr_email_feature_closed'].format(request_id=request_id, status=msg_status, url=url_for('feature_requests.single_feature_request', request_id=request_id, _external=True))}<br><br>"
+            if closure_reason:
+                message += f"{lang[user_lang]['fr_email_reason_label']}<br>{closure_reason}<br><br>"
+            message += f"<i>{lang[user_lang]['fr_email_english_note']}</i><br><br>"
+            message += f"{lang[user_lang]['fr_email_signature']}"
+            sendEmailToUser(get_user_id(author_username), subject, message)
+        except Exception as e:
+            logger.exception("sendEmailToUser failed: %s", e)
+
+
+@feature_requests_blueprint.route("/<username>/feature_requests/update_status", methods=["POST"])
+@owner_required
+def update_feature_request_status(username):
+    """Update status (owner only). If closing, store reason and notify author."""
+    request_id = request.form["request_id"]
+    new_status = request.form["status"]
+    closure_reason = request.form.get("closure_reason", "").strip()
+    
+    # Clamp reason to closures only
+    if new_status not in ("completed", "not_doing"):
+        closure_reason = None
+    
+    _close_feature_request_and_notify(request_id, new_status, closure_reason)
+    
+    # Preserve redirect behavior
+    referer = request.headers.get('Referer', '')
+    if f'/feature_requests/{request_id}' in referer:
+        return redirect(url_for("feature_requests.single_feature_request", request_id=request_id))
+    return redirect(url_for("feature_requests.feature_requests"))
+
+
+@feature_requests_blueprint.route("/<username>/feature_requests/merge", methods=["POST"])
+@owner_required
+def merge_feature_requests(username):
+    """
+    Merge two or more feature requests into a single target.
+    - Body: target_id, source_ids (comma-separated)
+    - Keeps only one vote per user (latest vote wins).
+    - Source requests are CLOSED (not deleted) via fr_sql.close_feature_requests_bulk().
+    """
+    from sqlalchemy import text
+    target_id = request.form.get("target_id")
+    source_ids_raw = request.form.get("source_ids", "")  # e.g. "12,13,15"
+    if not target_id or not source_ids_raw:
+        return redirect(url_for("feature_requests.feature_requests"))
+    try:
+        target_id = int(target_id)
+        source_ids = [int(x) for x in source_ids_raw.split(",") if x.strip()]
+        source_ids = [sid for sid in source_ids if sid != target_id]
+        if not source_ids:
+            return redirect(url_for("feature_requests.single_feature_request", request_id=request_id))
+    except ValueError:
+        return redirect(url_for("feature_requests.feature_requests"))
+    
+    with pg_session() as pg:
+        # 1) Merge votes into target
+        pg.execute(
+            fr_sql.merge_votes_into_target(),
+            {"target_id": target_id, "source_ids": source_ids}
+        )
+        # 2) Recompute vote counts on target
+        pg.execute(fr_sql.update_vote_counts(), {"request_id": target_id})
+
+    # 4) Notify authors of merged requests
+    merge_reason = f"Merged into feature request #{target_id}"
+    for source_id in source_ids:
+        _close_feature_request_and_notify(source_id, "merged", merge_reason)
+    
+    return redirect(url_for("feature_requests.single_feature_request", request_id=target_id))

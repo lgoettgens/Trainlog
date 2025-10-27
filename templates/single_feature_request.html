@@ -3,289 +3,413 @@
 
 {% include nav %}
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <!-- Back button -->
-            <div class="mb-3 mt-3">
-                <a href="{{ url_for('feature_requests.feature_requests') }}" class="btn btn-outline-secondary">
-                    <i class="fa-solid fa-arrow-left"></i> {{ feature_requests_back_to_list }}
-                </a>
-            </div>
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12 col-xl-10">
 
-            <!-- Main feature request card -->
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <!-- Voting Section -->
-                        <div class="col-2 col-md-1 text-center">
-                            {% if logged_in_user and not is_owner and username %}
-                                <form method="POST" action="{{ url_for('feature_requests.vote_feature_request', username=username) }}" class="d-inline">
-                                    <input type="hidden" name="request_id" value="{{ request.id }}">
-                                    <input type="hidden" name="vote_type" value="upvote">
-                                    <button type="submit" class="btn btn-sm {{ 'btn-success' if request.user_vote == 1 else 'btn-outline-success' }} mb-2">
-                                        <i class="fa-solid fa-chevron-up"></i>
-                                    </button>
-                                </form>
-                            {% else %}
-                                <div class="btn btn-sm btn-outline-success mb-2 disabled">
-                                    <i class="fa-solid fa-chevron-up"></i>
-                                </div>
-                            {% endif %}
-                            
-                            <div class="fw-bold text-{{ 'success' if request.score > 0 else 'danger' if request.score < 0 else 'muted' }} mb-2" style="font-size: 1.2em;">
-                                {{ request.score }}
-                            </div>
-                            
-                            {% if logged_in_user and not is_owner and username %}
-                                <form method="POST" action="{{ url_for('feature_requests.vote_feature_request', username=username) }}" class="d-inline">
-                                    <input type="hidden" name="request_id" value="{{ request.id }}">
-                                    <input type="hidden" name="vote_type" value="downvote">
-                                    <button type="submit" class="btn btn-sm {{ 'btn-danger' if request.user_vote == -1 else 'btn-outline-danger' }}">
-                                        <i class="fa-solid fa-chevron-down"></i>
-                                    </button>
-                                </form>
-                            {% else %}
-                                <div class="btn btn-sm btn-outline-danger disabled">
-                                    <i class="fa-solid fa-chevron-down"></i>
-                                </div>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Content Section -->
-                        <div class="col-10 col-md-11">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div class="flex-grow-1">
-                                    <h2 class="mb-2">{{ request.title }}</h2>
-                                    
-                                    <!-- Status Badge -->
-                                    {% if request.status == 'open' %}
-                                        <span class="badge bg-primary mb-2">{{ feature_requests_status_open }}</span>
-                                    {% elif request.status == 'working_on_it' %}
-                                        <span class="badge bg-warning mb-2">{{ feature_requests_status_working }}</span>
-                                    {% elif request.status == 'completed' %}
-                                        <span class="badge bg-success mb-2">{{ feature_requests_status_completed }}</span>
-                                    {% elif request.status == 'not_doing' %}
-                                        <span class="badge bg-secondary mb-2">{{ feature_requests_status_not_doing }}</span>
-                                    {% endif %}
-                                </div>
-                                
-                                <!-- Action Buttons -->
-                                {% if logged_in_user and username and (is_owner or request.author_display == logged_in_user) %}
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-outline-secondary" 
-                                                onclick="editRequest({{ request.id }}, '{{ request.title|e }}', '{{ request.description|e }}')">
-                                            <i class="fa-solid fa-edit"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-danger" 
-                                                onclick="deleteRequest({{ request.id }}, '{{ request.title|e }}')">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </div>
-                                {% endif %}
-                            </div>
-                            
-                            <!-- Description -->
-                            <div class="mb-3">
-                                <p class="fs-6" style="white-space: pre-wrap;">{{ request.description }}</p>
-                            </div>
-                            
-                            <!-- Author and Date -->
-                            <div class="text-muted mb-3">
-                                <small>
-                                    {{ feature_requests_by }} 
-                                    {% if request.author_display == "admin" %}
-                                        <span class="badge bg-warning text-dark">
-                                            <i class="fa-solid fa-crown"></i> admin
-                                        </span>
-                                    {% else %}
-                                        <span class="badge bg-primary text-white">
-                                            {{ request.author_display }}
-                                        </span>
-                                    {% endif %}
-                                     • 
-                                    {% if request.created %}
-                                        {{ request.created.strftime('%Y-%m-%d %H:%M') }}
-                                    {% else %}
-                                        {{ feature_requests_unknown }}
-                                    {% endif %}
-                                </small>
-                            </div>
-                            
-                            <!-- Vote Details -->
-                            <div class="border-top pt-3">
-                                <small class="text-muted">
-                                    <span class="text-decoration-none" onclick="showVoters({{ request.id }})" style="cursor: pointer;">
-                                        <i class="fa-solid fa-chevron-up text-success"></i> {{ request.upvotes }} {{ feature_requests_upvotes }}
-                                        <i class="fa-solid fa-chevron-down text-danger ms-3"></i> {{ request.downvotes }} {{ feature_requests_downvotes_count }}
-                                    </span>
-                                </small>
-                            </div>
-                            
-                            <!-- Owner Status Change -->
-                            {% if is_owner %}
-                            <div class="mt-3 border-top pt-3">
-                                <form method="POST" action="{{ url_for('feature_requests.update_feature_request_status', username=username) }}" class="d-inline">
-                                    <input type="hidden" name="request_id" value="{{ request.id }}">
-                                    <label class="form-label">Update Status:</label>
-                                    <select name="status" class="form-select" style="width: auto; display: inline-block;" onchange="this.form.submit()">
-                                        <option value="open" {{ 'selected' if request.status == 'open' else '' }}>{{ feature_requests_status_open }}</option>
-                                        <option value="working_on_it" {{ 'selected' if request.status == 'working_on_it' else '' }}>{{ feature_requests_status_working }}</option>
-                                        <option value="completed" {{ 'selected' if request.status == 'completed' else '' }}>{{ feature_requests_status_completed }}</option>
-                                        <option value="not_doing" {{ 'selected' if request.status == 'not_doing' else '' }}>{{ feature_requests_status_not_doing }}</option>
-                                    </select>
-                                </form>
-                            </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <!-- Header Section with Back Button -->
+      <div class="row mb-4 mt-4">
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center">
+            <a href="{{ url_for('feature_requests.feature_requests') }}" class="btn btn-outline-secondary">
+              <i class="fa-solid fa-arrow-left me-2"></i>{{ feature_requests_back_to_list }}
+            </a>
+          </div>
         </div>
+      </div>
+
+      <!-- STATUS MAPS (centralized) -->
+      {% set STATUS_LABEL = {
+        'open': feature_requests_status_open if feature_requests_status_open is defined else 'Open',
+        'planned': feature_requests_status_planned if feature_requests_status_planned is defined else 'Planned',
+        'working_on_it': feature_requests_status_working if feature_requests_status_working is defined else 'Working on it',
+        'completed': feature_requests_status_completed if feature_requests_status_completed is defined else 'Completed',
+        'not_doing': feature_requests_status_not_doing if feature_requests_status_not_doing is defined else 'Not doing',
+        'merged': feature_requests_status_merged if feature_requests_status_merged is defined else 'Merged'
+      } %}
+      {% set STATUS_BADGE = {
+        'open': 'primary',
+        'planned': 'secondary',
+        'working_on_it': 'warning',
+        'completed': 'success',
+        'not_doing': 'dark',
+        'merged': 'secondary'
+      } %}
+      {% set ALL_STATUSES = ['open','planned','working_on_it','completed','not_doing'] %}
+
+      <!-- Main Content Row -->
+      <div class="row g-4">
+
+        <!-- Left Sidebar - Voting -->
+        <div class="col-12 col-lg-3">
+          <div class="card h-100">
+            <div class="card-body text-center">
+
+              <h6 class="card-subtitle mb-3 text-muted">{{ feature_requests_voting if feature_requests_voting is defined else 'Voting' }}</h6>
+
+              {% if logged_in_user and not is_owner and username %}
+                <form method="POST" action="{{ url_for('feature_requests.vote_feature_request', username=username) }}" class="mb-2">
+                  <input type="hidden" name="request_id" value="{{ request.id }}">
+                  <input type="hidden" name="vote_type" value="upvote">
+                  <button type="submit" class="btn btn-lg w-100 {{ 'btn-success' if request.user_vote == 1 else 'btn-outline-success' }}">
+                    <i class="fa-solid fa-chevron-up"></i>
+                  </button>
+                </form>
+              {% else %}
+                <div class="btn btn-lg w-100 btn-outline-success disabled mb-2">
+                  <i class="fa-solid fa-chevron-up"></i>
+                </div>
+              {% endif %}
+
+              <div class="fs-2 fw-bold text-{{ 'success' if request.score > 0 else 'danger' if request.score < 0 else 'muted' }} my-3">
+                {{ request.score }}
+              </div>
+
+              {% if logged_in_user and not is_owner and username %}
+                <form method="POST" action="{{ url_for('feature_requests.vote_feature_request', username=username) }}">
+                  <input type="hidden" name="request_id" value="{{ request.id }}">
+                  <input type="hidden" name="vote_type" value="downvote">
+                  <button type="submit" class="btn btn-lg w-100 {{ 'btn-danger' if request.user_vote == -1 else 'btn-outline-danger' }}">
+                    <i class="fa-solid fa-chevron-down"></i>
+                  </button>
+                </form>
+              {% else %}
+                <div class="btn btn-lg w-100 btn-outline-danger disabled">
+                  <i class="fa-solid fa-chevron-down"></i>
+                </div>
+              {% endif %}
+
+              <div class="border-top pt-3 text-start mt-4">
+                <small class="text-muted d-block mb-2">{{ feature_requests_vote_details if feature_requests_vote_details is defined else 'Vote details' }}</small>
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-success">
+                    <i class="fa-solid fa-chevron-up"></i>
+                    <span onclick="showVoters({{ request.id }})" style="cursor: pointer; text-decoration: underline;">
+                      {{ request.upvotes }} {{ feature_requests_votes_positive if feature_requests_votes_positive is defined else 'upvotes' }}
+                    </span>
+                  </span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span class="text-danger">
+                    <i class="fa-solid fa-chevron-down"></i>
+                    <span onclick="showVoters({{ request.id }})" style="cursor: pointer; text-decoration: underline;">
+                      {{ request.downvotes }} {{ feature_requests_votes_negative if feature_requests_votes_negative is defined else 'downvotes' }}
+                    </span>
+                  </span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="col-12 col-lg-6">
+          <div class="card">
+            <div class="card-body">
+
+              <!-- Title and Status -->
+              <div class="row align-items-start mb-3">
+                <div class="col-12">
+                  <div class="d-flex justify-content-between align-items-start flex-wrap">
+                    <div class="flex-grow-1 me-3">
+                      <h1 class="h2 mb-3">{{ request.title }}</h1>
+
+                      <div class="mb-2">
+                        <span class="badge bg-{{ STATUS_BADGE.get(request.status, 'secondary') }} fs-6 px-3 py-2">
+                          {{ STATUS_LABEL.get(request.status, request.status) }}
+                        </span>
+                      </div>
+                    </div>
+
+                    {% if logged_in_user and username and (is_owner or request.author_display == logged_in_user) %}
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-outline-secondary"
+                                onclick="editRequest({{ request.id }}, `{{ request.title|e }}`, `{{ request.description|e }}`)">
+                          <i class="fa-solid fa-edit"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger"
+                                onclick="deleteRequest({{ request.id }}, `{{ request.title|e }}`)">
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Closure Reason Alert -->
+              {% if request.status in ['completed','not_doing', 'merged'] and request.closure_reason %}
+                <div class="alert alert-info mb-4">
+                  <h6 class="alert-heading">
+                    <i class="fa-solid fa-circle-info me-2"></i>{{ feature_requests_closure_reason_title }}
+                  </h6>
+                  <div style="white-space: pre-wrap;">{{ request.closure_reason }}</div>
+                </div>
+              {% endif %}
+
+              <!-- Description -->
+              <div class="mb-2">
+                <h5 class="border-bottom pb-2 mb-3">{{ feature_requests_description if feature_requests_description is defined else 'Description' }}</h5>
+                <div class="fs-6 lh-lg" style="white-space: pre-wrap;">{{ request.description }}</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Sidebar - Info (always) + Admin (owner only) -->
+        <div class="col-12 col-lg-3">
+          <!-- Info Card -->
+          <div class="card mb-4">
+            <div class="card-header">
+              <h6 class="card-title mb-0">
+                <i class="fa-solid fa-circle-info me-2"></i>{{ feature_requests_details if feature_requests_details is defined else 'Details' }}
+              </h6>
+            </div>
+            <div class="card-body">
+              <div class="mb-2">
+                <small class="text-muted d-block">{{ feature_requests_by }}</small>
+                {% if request.author_display == "admin" %}
+                  <span class="badge bg-warning text-dark"><i class="fa-solid fa-crown"></i> admin</span>
+                {% else %}
+                  <span class="badge bg-primary">{{ request.author_display }}</span>
+                {% endif %}
+              </div>
+              <div class="mb-2">
+                <small class="text-muted d-block">{{ feature_requests_created if feature_requests_created is defined else 'Created' }}</small>
+                <span>
+                  {% if request.created %}
+                    {{ request.created.strftime('%Y-%m-%d %H:%M') }}
+                  {% else %}
+                    {{ feature_requests_unknown }}
+                  {% endif %}
+                </span>
+              </div>
+              {% if request.updated %}
+              <div class="mb-2">
+                <small class="text-muted d-block">{{ feature_requests_updated if feature_requests_updated is defined else 'Updated' }}</small>
+                <span>{{ request.updated.strftime('%Y-%m-%d %H:%M') }}</span>
+              </div>
+              {% endif %}
+              <div class="mb-2">
+                <small class="text-muted d-block">{{ feature_requests_status if feature_requests_status is defined else 'Status' }}</small>
+                <span class="badge bg-{{ STATUS_BADGE.get(request.status, 'secondary') }}">
+                  {{ STATUS_LABEL.get(request.status, request.status) }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {% if is_owner %}
+          <!-- Admin Actions -->
+          <div class="card">
+            <div class="card-header">
+              <h6 class="card-title mb-0">
+                <i class="fa-solid fa-cog me-2"></i>{{ feature_requests_admin_actions if feature_requests_admin_actions is defined else 'Admin Actions' }}
+              </h6>
+            </div>
+            <div class="card-body">
+
+              <div class="mb-4">
+                <form method="POST" action="{{ url_for('feature_requests.update_feature_request_status', username=username) }}">
+                  <input type="hidden" name="request_id" value="{{ request.id }}">
+
+                  <div class="mb-3">
+                    <label for="status" class="form-label fw-semibold">{{ feature_requests_update_status if feature_requests_update_status is defined else 'Update status:' }}</label>
+                    <select class="form-select" name="status" id="status">
+                      {% for value in ALL_STATUSES %}
+                        <option value="{{ value }}" {{ 'selected' if request.status == value else '' }}>
+                          {{ STATUS_LABEL[value] }}
+                        </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="closure_reason" class="form-label fw-semibold">{{ feature_requests_closure_reason_label if feature_requests_closure_reason_label is defined else 'Closure reason (optional)' }}</label>
+                    <textarea class="form-control" name="closure_reason" id="closure_reason" rows="3"
+                              placeholder="{{ feature_requests_closure_reason_placeholder if feature_requests_closure_reason_placeholder is defined else 'Why is this closed?' }}">{{ request.closure_reason or '' }}</textarea>
+                    <div class="form-text">
+                      {{ feature_requests_closure_reason_hint if feature_requests_closure_reason_hint is defined else 'Used only when moving to Completed or Not doing.' }}
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary w-100">
+                    <i class="fa-solid fa-save me-2"></i>{{ feature_requests_update if feature_requests_update is defined else 'Update' }}
+                  </button>
+                </form>
+              </div>
+
+              <div class="border-top pt-4">
+                <h6 class="fw-semibold mb-3">
+                  <i class="fa-solid fa-object-group me-2"></i>{{ feature_requests_merge_title if feature_requests_merge_title is defined else 'Merge requests' }}
+                </h6>
+                <form method="POST" action="{{ url_for('feature_requests.merge_feature_requests', username=username) }}">
+                  <input type="hidden" name="target_id" value="{{ request.id }}">
+
+                  <div class="mb-3">
+                    <label class="form-label">{{ feature_requests_merge_label }}</label>
+                    <input class="form-control" name="source_ids" placeholder="e.g. 12,13,15">
+                    <div class="form-text">{{ feature_requests_merge_hint }}</div>
+                  </div>
+
+                  <button type="submit" class="btn btn-outline-secondary w-100">
+                    <i class="fa-solid fa-object-group me-2"></i>{{ feature_requests_merge_button }}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+      </div>
     </div>
+  </div>
 </div>
 
-<!-- Edit Feature Request Modal -->
+<!-- Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">{{ feature_requests_edit_title }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ feature_requests_close }}"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editForm" method="POST" action="{{ url_for('feature_requests.edit_feature_request', username=username) }}">
-                    <input type="hidden" id="editRequestId" name="request_id">
-                    <div class="form-group mb-3">
-                        <label for="editTitle" class="form-label">{{ feature_requests_form_title_label }}</label>
-                        <input type="text" class="form-control" id="editTitle" name="title" required maxlength="200">
-                        <div class="form-text">{{ feature_requests_form_title_hint }}</div>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="editDescription" class="form-label">{{ feature_requests_form_description_label }}</label>
-                        <textarea class="form-control" id="editDescription" name="description" rows="4" required maxlength="2000"></textarea>
-                        <div class="form-text">{{ feature_requests_form_description_hint }}</div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ cancel }}</button>
-                        <button type="submit" class="btn btn-primary">{{ update }}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">{{ feature_requests_edit_title }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ feature_requests_close }}"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" method="POST" action="{{ url_for('feature_requests.edit_feature_request', username=username) }}">
+          <input type="hidden" id="editRequestId" name="request_id">
+          <div class="form-group mb-3">
+            <label for="editTitle" class="form-label">{{ feature_requests_form_title_label }}</label>
+            <input type="text" class="form-control" id="editTitle" name="title" required maxlength="200">
+            <div class="form-text">{{ feature_requests_form_title_hint }}</div>
+          </div>
+          <div class="form-group mb-3">
+            <label for="editDescription" class="form-label">{{ feature_requests_form_description_label }}</label>
+            <textarea class="form-control" id="editDescription" name="description" rows="4" required maxlength="2000"></textarea>
+            <div class="form-text">{{ feature_requests_form_description_hint }}</div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ cancel }}</button>
+            <button type="submit" class="btn btn-primary">{{ update }}</button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">{{ feature_requests_delete_title }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ feature_requests_close }}"></button>
-            </div>
-            <div class="modal-body">
-                <p>{{ feature_requests_delete_confirm }} "<span id="deleteRequestTitle"></span>"?</p>
-                <div class="alert alert-warning">
-                    <i class="fa-solid fa-triangle-exclamation"></i> {{ feature_requests_delete_warning }}
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ cancel }}</button>
-                <form id="deleteForm" method="POST" action="{{ url_for('feature_requests.delete_feature_request', username=username) }}" class="d-inline">
-                    <input type="hidden" id="deleteRequestId" name="request_id">
-                    <button type="submit" class="btn btn-danger">{{ delete }}</button>
-                </form>
-            </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">{{ feature_requests_delete_title }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ feature_requests_close }}"></button>
+      </div>
+      <div class="modal-body">
+        <p>{{ feature_requests_delete_confirm }} "<span id="deleteRequestTitle"></span>"?</p>
+        <div class="alert alert-warning">
+          <i class="fa-solid fa-triangle-exclamation"></i> {{ feature_requests_delete_warning }}
         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ cancel }}</button>
+        <form id="deleteForm" method="POST" action="{{ url_for('feature_requests.delete_feature_request', username=username) }}" class="d-inline">
+          <input type="hidden" id="deleteRequestId" name="request_id">
+          <button type="submit" class="btn btn-danger">{{ delete }}</button>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Voters Modal -->
 <div class="modal fade" id="votersModal" tabindex="-1" aria-labelledby="votersModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="votersModalLabel">{{ feature_requests_voters }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ feature_requests_close }}"></button>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="votersModalLabel">{{ feature_requests_voters }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ feature_requests_close }}"></button>
+      </div>
+      <div class="modal-body">
+        <div id="votersContent">
+          <div class="text-center">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">{{ feature_requests_loading }}</span>
             </div>
-            <div class="modal-body">
-                <div id="votersContent">
-                    <div class="text-center">
-                        <div class="spinner-border" role="status">
-                            <span class="visually-hidden">{{ feature_requests_loading }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <script>
 function editRequest(id, title, description) {
-    document.getElementById('editRequestId').value = id;
-    document.getElementById('editTitle').value = title;
-    document.getElementById('editDescription').value = description;
-    
-    const modal = new bootstrap.Modal(document.getElementById('editModal'));
-    modal.show();
+  document.getElementById('editRequestId').value = id;
+  document.getElementById('editTitle').value = title;
+  document.getElementById('editDescription').value = description;
+
+  const modal = new bootstrap.Modal(document.getElementById('editModal'));
+  modal.show();
 }
 
 function deleteRequest(id, title) {
-    document.getElementById('deleteRequestId').value = id;
-    document.getElementById('deleteRequestTitle').textContent = title;
-    
-    const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
-    modal.show();
+  document.getElementById('deleteRequestId').value = id;
+  document.getElementById('deleteRequestTitle').textContent = title;
+
+  const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+  modal.show();
 }
 
 function showVoters(requestId) {
-    const modal = new bootstrap.Modal(document.getElementById('votersModal'));
-    modal.show();
+  const modal = new bootstrap.Modal(document.getElementById('votersModal'));
+  modal.show();
 
-    {% if username %}
-        fetch(`{{ url_for('feature_requests.feature_request_voters', request_id=0) }}`.replace('0', requestId))
-    {% else %}
-        fetch(`/feature_requests/${requestId}/voters`)
-    {% endif %}
-        .then(response => response.json())
-        .then(data => {
-            let content = '';
-            
-            if (data.upvoters.length > 0) {
-                content += '<h6 class="text-success"><i class="fa-solid fa-chevron-up"></i> {{ feature_requests_upvoters }} (' + data.upvoters.length + ')</h6>';
-                content += '<ul class="list-unstyled mb-3">';
-                data.upvoters.forEach(voter => {
-                    content += `<li><small>${voter.username} <span class="text-muted">• ${new Date(voter.created).toLocaleDateString()}</span></small></li>`;
-                });
-                content += '</ul>';
-            }
+  {% if username %}
+    fetch(`{{ url_for('feature_requests.feature_request_voters', request_id=0) }}`.replace('0', requestId))
+  {% else %}
+    fetch(`/feature_requests/${requestId}/voters`)
+  {% endif %}
+    .then(response => response.json())
+    .then(data => {
+      let content = '';
 
-            if (data.downvoters.length > 0) {
-                content += '<h6 class="text-danger"><i class="fa-solid fa-chevron-down"></i> {{ feature_requests_downvoters }} (' + data.downvoters.length + ')</h6>';
-                content += '<ul class="list-unstyled">';
-                data.downvoters.forEach(voter => {
-                    content += `<li><small>${voter.username} <span class="text-muted">• ${new Date(voter.created).toLocaleDateString()}</span></small></li>`;
-                });
-                content += '</ul>';
-            }
-
-            if (data.upvoters.length === 0 && data.downvoters.length === 0) {
-                content = '<p class="text-muted text-center">{{ feature_requests_no_votes }}</p>';
-            }
-
-            document.getElementById('votersContent').innerHTML = content;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('votersContent').innerHTML = '<p class="text-danger">{{ feature_requests_error_loading }}</p>';
+      if (data.upvoters.length > 0) {
+        content += '<h6 class="text-success"><i class="fa-solid fa-chevron-up"></i> {{ feature_requests_upvoters }} (' + data.upvoters.length + ')</h6>';
+        content += '<ul class="list-unstyled mb-3">';
+        data.upvoters.forEach(voter => {
+          content += `<li><small>${voter.username} <span class="text-muted">• ${new Date(voter.created).toLocaleDateString()}</span></small></li>`;
         });
+        content += '</ul>';
+      }
+
+      if (data.downvoters.length > 0) {
+        content += '<h6 class="text-danger"><i class="fa-solid fa-chevron-down"></i> {{ feature_requests_downvoters }} (' + data.downvoters.length + ')</h6>';
+        content += '<ul class="list-unstyled">';
+        data.downvoters.forEach(voter => {
+          content += `<li><small>${voter.username} <span class="text-muted">• ${new Date(voter.created).toLocaleDateString()}</span></small></li>`;
+        });
+        content += '</ul>';
+      }
+
+      if (data.upvoters.length === 0 && data.downvoters.length === 0) {
+        content = '<p class="text-muted text-center">{{ feature_requests_no_votes }}</p>';
+      }
+
+      document.getElementById('votersContent').innerHTML = content;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      document.getElementById('votersContent').innerHTML = '<p class="text-danger">{{ feature_requests_error_loading }}</p>';
+    });
 }
 
 // Reset forms when modals are hidden
 document.getElementById('editModal').addEventListener('hidden.bs.modal', function () {
-    document.getElementById('editForm').reset();
+  document.getElementById('editForm').reset();
 });
 </script>
 

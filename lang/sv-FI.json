@@ -621,5 +621,20 @@
     "useNewRouter": "Prova ny router (visar elektrifiering)",
     "news": "Trainlog Nyheter",
     "CO2": "CO₂e",
-    "donate": "Köp mig en kaffe"
+    "donate": "Köp mig en kaffe",
+    "feature_requests_status_planned": "Planerad",
+    "feature_requests_update_status": "Uppdatera status:",
+    "feature_requests_closure_reason_label": "Orsak till stängning (valfritt)",
+    "feature_requests_closure_reason_placeholder": "Varför stängs detta?",
+    "feature_requests_closure_reason_hint": "Används endast när man ställer in status till Slutförd eller Görs ej.",
+    "feature_requests_closure_reason_title": "Orsak till stängning",
+    "feature_requests_merge_label": "Sammanfoga dubblettförfrågningar",
+    "feature_requests_merge_hint": "Ange ID:n som ska slås samman i denna (kommaseparerade). Senaste rösten per användare behålls.",
+    "feature_requests_merge_button": "Sammanfoga",
+    "feature_requests_status_merged": "Sammanfogad",
+    "fr_email_greeting": "Hej {username}",
+    "fr_email_feature_closed": "Din funktionsförfrågan <a href='{url}'>#{request_id}</a> har stängts med status: {status}.",
+    "fr_email_reason_label": "Orsak:",
+    "fr_email_english_note": "Obs: Tekniska detaljer och orsaker ges på engelska för att säkerställa läsbarhet för vår internationella användarbas.",
+    "fr_email_signature": "Vänliga hälsningar<br>Trainlog-teamet"
 }

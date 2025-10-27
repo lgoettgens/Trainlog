@@ -12,7 +12,8 @@ SELECT
         WHEN frv.vote_type = 'upvote' THEN 1
         WHEN frv.vote_type = 'downvote' THEN -1
         ELSE 0
-    END as user_vote
+    END as user_vote,
+    fr.closure_reason
 FROM feature_requests fr
 LEFT JOIN feature_request_votes frv ON fr.id = frv.feature_request_id 
     AND frv.username = :username

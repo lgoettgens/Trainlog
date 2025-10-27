@@ -621,5 +621,20 @@
     "useNewRouter": "Prøv ny ruter (viser elektrifisering)",
     "news": "Trainlog Nyheter",
     "CO2": "CO₂e",
-    "donate": "Kjøp meg en kaffe"
+    "donate": "Kjøp meg en kaffe",
+    "feature_requests_status_planned": "Planlagt",
+    "feature_requests_update_status": "Oppdater status:",
+    "feature_requests_closure_reason_label": "Årsak til stenging (valgfritt)",
+    "feature_requests_closure_reason_placeholder": "Hvorfor stenges dette?",
+    "feature_requests_closure_reason_hint": "Brukes kun når status settes til Fullført eller Gjør ikke.",
+    "feature_requests_closure_reason_title": "Årsak til stenging",
+    "feature_requests_merge_label": "Slå sammen dupliserte forespørsler",
+    "feature_requests_merge_hint": "Oppgi ID-er som skal slås sammen i denne (komma-separert). Siste stemme per bruker beholdes.",
+    "feature_requests_merge_button": "Slå sammen",
+    "feature_requests_status_merged": "Slått sammen",
+    "fr_email_greeting": "Hei {username}",
+    "fr_email_feature_closed": "Din funksjonsforespørsel <a href='{url}'>#{request_id}</a> har blitt avsluttet med status: {status}.",
+    "fr_email_reason_label": "Årsak:",
+    "fr_email_english_note": "Merk: Tekniske detaljer og årsaker er gitt på engelsk for å sikre lesbarhet for vår internasjonale brukerbase.",
+    "fr_email_signature": "Med vennlig hilsen<br>Trainlog-teamet"
 }

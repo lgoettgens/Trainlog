@@ -621,5 +621,20 @@
     "useNewRouter": "새 라우터를 시도하세요 (전력 공급을 표시)",
     "news": "트레인로그 뉴스",
     "CO2": "CO₂e",
-    "donate": "커피 한 잔 사줘"
+    "donate": "커피 한 잔 사줘",
+    "feature_requests_status_planned": "계획됨",
+    "feature_requests_update_status": "상태 업데이트:",
+    "feature_requests_closure_reason_label": "종료 사유 (선택 사항)",
+    "feature_requests_closure_reason_placeholder": "왜 이것이 닫히나요?",
+    "feature_requests_closure_reason_hint": "상태를 완료 또는 수행 안 함으로 설정할 때만 사용됩니다.",
+    "feature_requests_closure_reason_title": "종료 사유",
+    "feature_requests_merge_label": "중복 요청 병합",
+    "feature_requests_merge_hint": "여기에 병합할 ID를 입력하세요 (쉼표로 구분). 사용자당 최신 투표가 유지됩니다.",
+    "feature_requests_merge_button": "병합",
+    "feature_requests_status_merged": "병합됨",
+    "fr_email_greeting": "안녕하세요 {username}",
+    "fr_email_feature_closed": "귀하의 기능 요청 <a href='{url}'>#{request_id}</a>이(가) 상태: {status}로 종료되었습니다.",
+    "fr_email_reason_label": "이유:",
+    "fr_email_english_note": "참고: 기술 세부 사항 및 이유는 국제 사용자 기반의 가독성을 보장하기 위해 영어로 제공됩니다.",
+    "fr_email_signature": "최고의 안부를 전하며<br>Trainlog 팀"
 }
