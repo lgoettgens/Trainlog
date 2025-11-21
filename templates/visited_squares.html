@@ -22,7 +22,7 @@
   var map = createMap();
 
   function fetchVisitedSquaresGeoJSON() {
-    fetch(`/{{username}}/visited_squares_data`)
+    fetch(`/u/{{username}}/visited_squares_data`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

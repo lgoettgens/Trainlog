@@ -7,13 +7,16 @@
   <meta name="description" content="Your go-to app for storing and sharing public transport trips. Use Trainlog to create, edit, share routes using OSM data, and more.">
   <script type="application/ld+json">
     {
-        "@context": "http://schema.org",
-        "@type": "Organization",
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
         "name": "Trainlog",
         "url": "https://trainlog.me",
-        "logo": "https://trainlog.me/static/images/logo_square.png"
+        "logo": "https://trainlog.me/static/images/logo_square.png",
+        "description": "Track and log your train journeys",
+        "applicationCategory": "TravelApplication"
     }
   </script>
+  <link rel="canonical" href="https://trainlog.me" />
   <link rel="shortcut icon" href="/static/favicon/favicon.ico" type="image/x-icon">
 
     <title>
@@ -37,7 +40,6 @@
     <meta content="{{ url_for('static',filename='images/logo_og.png', _external=True) }}" property="og:image" />
   {% endif %}
   
-    <link rel="canonical" href="https://trainlog.me" />
   <!-- CSS	 -->
     <!-- Jquery -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.13.2/jquery-ui.min.css">

@@ -81,7 +81,7 @@ def news(username=None):
     return response
 
 
-@news_blueprint.route("/<username>/news/submit", methods=["POST"])
+@news_blueprint.route("/u/<username>/news/submit", methods=["POST"])
 @owner_required
 def submit_news(username):
     """Submit a new news item (owner only)"""
@@ -102,7 +102,7 @@ def submit_news(username):
     return redirect(url_for("news.news"))
 
 
-@news_blueprint.route("/<username>/news/edit", methods=["POST"])
+@news_blueprint.route("/u/<username>/news/edit", methods=["POST"])
 @owner_required
 def edit_news(username):
     """Edit a news item (owner only)"""
@@ -123,7 +123,7 @@ def edit_news(username):
     return redirect(url_for("news.news"))
 
 
-@news_blueprint.route("/<username>/news/delete", methods=["POST"])
+@news_blueprint.route("/u/<username>/news/delete", methods=["POST"])
 @owner_required
 def delete_news(username):
     """Delete a news item (owner only)"""

@@ -141,7 +141,7 @@ def login_required(f):
     return decorated_function
 
 
-@feature_requests_blueprint.route("/<username>/feature_requests/submit", methods=["POST"])
+@feature_requests_blueprint.route("/u/<username>/feature_requests/submit", methods=["POST"])
 @login_required
 def submit_feature_request(username):
     """Submit a new feature request"""
@@ -182,7 +182,7 @@ def submit_feature_request(username):
     return redirect(url_for("feature_requests.feature_requests"))
 
 
-@feature_requests_blueprint.route("/<username>/feature_requests/edit", methods=["POST"])
+@feature_requests_blueprint.route("/u/<username>/feature_requests/edit", methods=["POST"])
 @login_required
 def edit_feature_request(username):
     """Edit a feature request (owner can edit any, users can edit their own)"""
@@ -218,7 +218,7 @@ def edit_feature_request(username):
     return redirect(url_for("feature_requests.single_feature_request", request_id=request_id))
 
 
-@feature_requests_blueprint.route("/<username>/feature_requests/delete", methods=["POST"])
+@feature_requests_blueprint.route("/u/<username>/feature_requests/delete", methods=["POST"])
 @login_required
 def delete_feature_request(username):
     """Delete a feature request (owner can delete any, users can delete their own)"""
@@ -254,7 +254,7 @@ def delete_feature_request(username):
     return redirect(url_for("feature_requests.feature_requests"))
 
 
-@feature_requests_blueprint.route("/<username>/feature_requests/vote", methods=["POST"])
+@feature_requests_blueprint.route("/u/<username>/feature_requests/vote", methods=["POST"])
 @login_required
 def vote_feature_request(username):
     """Handle upvote/downvote for feature requests"""
@@ -446,7 +446,7 @@ def _close_feature_request_and_notify(request_id, new_status, closure_reason=Non
             logger.exception("sendEmailToUser failed: %s", e)
 
 
-@feature_requests_blueprint.route("/<username>/feature_requests/update_status", methods=["POST"])
+@feature_requests_blueprint.route("/u/<username>/feature_requests/update_status", methods=["POST"])
 @owner_required
 def update_feature_request_status(username):
     """Update status (owner only). If closing, store reason and notify author."""
@@ -467,7 +467,7 @@ def update_feature_request_status(username):
     return redirect(url_for("feature_requests.feature_requests"))
 
 
-@feature_requests_blueprint.route("/<username>/feature_requests/merge", methods=["POST"])
+@feature_requests_blueprint.route("/u/<username>/feature_requests/merge", methods=["POST"])
 @owner_required
 def merge_feature_requests(username):
     """

@@ -395,7 +395,7 @@ def fetch_and_filter_flights(flight_filter_key, flight_filter_value, target_date
     return {"data": filtered}, 200
 
 
-@app.route("/api/<username>/flight_summary")
+@app.route("/api/u/<username>/flight_summary")
 @login_required
 def flight_summary(username):
     raw_flight_number = request.args.get("flight_number", "")
@@ -420,7 +420,7 @@ def flight_summary(username):
     return jsonify(result), status
 
 
-@app.route("/api/<username>/flight_summary_reg")
+@app.route("/api/u/<username>/flight_summary_reg")
 @login_required
 def flight_summary_reg(username):
     registration = request.args.get("registration", "").strip().upper()
@@ -443,7 +443,7 @@ def flight_summary_reg(username):
     return jsonify(result), status
 
 
-@app.route("/api/<username>/flight_tracks/<fr24_id>")
+@app.route("/api/u/<username>/flight_tracks/<fr24_id>")
 @login_required
 def flight_tracks(username, fr24_id):
     if not check_and_increment_fr24_usage(username=getUser()):
@@ -1083,7 +1083,7 @@ def apple_touch_icon(icon_name):
     )
 
 
-@app.route("/<username>/new/auto")
+@app.route("/u/<username>/new/auto")
 @login_required
 def new_auto(username):
     return render_template(
@@ -1098,7 +1098,7 @@ def new_auto(username):
     )
 
 
-@app.route("/<username>/new/<vehicle_type>")
+@app.route("/u/<username>/new/<vehicle_type>")
 @login_required
 def new(username, vehicle_type):
     if vehicle_type == "train":
@@ -1245,7 +1245,7 @@ def new(username, vehicle_type):
     )
 
 
-@app.route("/<username>/new_tag")
+@app.route("/u/<username>/new_tag")
 @login_required
 def new_tag(username):
     with managed_cursor(mainConn) as cursor:
@@ -1263,7 +1263,7 @@ def new_tag(username):
     )
 
 
-@app.route("/<username>/submit_tag", methods=["POST"])
+@app.route("/u/<username>/submit_tag", methods=["POST"])
 def submit_tag(username):
     # Extract data from form
     tag_name = request.form["name"]
@@ -1281,7 +1281,7 @@ def submit_tag(username):
     return redirect(url_for("new_tag", username=username))
 
 
-@app.route("/<username>/attach_tag", methods=["POST"])
+@app.route("/u/<username>/attach_tag", methods=["POST"])
 @login_required
 def attach_tag(username):
     data = request.json
@@ -1307,7 +1307,7 @@ def attach_tag(username):
     return ""
 
 
-@app.route("/<username>/detach_tag", methods=["POST"])
+@app.route("/u/<username>/detach_tag", methods=["POST"])
 @login_required
 def detach_tag(username):
     data = request.json
@@ -1330,7 +1330,7 @@ def detach_tag(username):
     return ""
 
 
-@app.route("/<username>/new_ticket")
+@app.route("/u/<username>/new_ticket")
 @login_required
 def new_ticket(username):
     return render_template(
@@ -1366,7 +1366,7 @@ def getAddressFromCoords(lat, lng):
     return f"{flag} {city}" + (f" - {suburb}" if suburb else "")
 
 
-@app.route("/<username>/handle_gpx_upload/<source>", methods=["POST"])
+@app.route("/u/<username>/handle_gpx_upload/<source>", methods=["POST"])
 @login_required
 def handle_gpx_upload(username, source):
     files = request.files.getlist("gpx_files")
@@ -1504,7 +1504,7 @@ def handle_gpx_upload(username, source):
     return jsonify({"message": "Files processed successfully"}), 200
 
 
-@app.route("/<username>/upload_gpx")
+@app.route("/u/<username>/upload_gpx")
 @login_required
 def upload_gpx(username):
     return render_template(
@@ -1516,7 +1516,7 @@ def upload_gpx(username):
     )
 
 
-@app.route("/<username>/update_gpx", methods=["POST"])
+@app.route("/u/<username>/update_gpx", methods=["POST"])
 @login_required
 def update_gpx(username):
     data = request.json
@@ -1594,7 +1594,7 @@ def update_gpx(username):
     return jsonify({"success": True})
 
 
-@app.route("/<username>/list_gpx", methods=["GET"])
+@app.route("/u/<username>/list_gpx", methods=["GET"])
 @login_required
 def list_gpx(username):
     with managed_cursor(mainConn) as cursor:
@@ -1635,7 +1635,7 @@ def list_gpx(username):
     )
 
 
-@app.route("/<username>/delete_gpx/<gpx_id>", methods=["POST"])
+@app.route("/u/<username>/delete_gpx/<gpx_id>", methods=["POST"])
 @login_required
 def delete_gpx(username, gpx_id):
     with managed_cursor(mainConn) as cursor:
@@ -1712,7 +1712,7 @@ def cluster_waypoints(waypoints, min_distance_meters=10):
     return simplified
 
 
-@app.route("/<username>/save_trip_from_gpx/<gpx_id>", methods=["POST"])
+@app.route("/u/<username>/save_trip_from_gpx/<gpx_id>", methods=["POST"])
 @login_required
 def saveTripFromGPX(username, gpx_id):
     request_data = request.get_json()
@@ -1841,7 +1841,7 @@ def saveTripFromGPX(username, gpx_id):
     }), 200
 
 
-@app.route("/<username>/preview_smart_routing/<gpx_id>/<trip_type>", methods=["POST", "GET"])
+@app.route("/u/<username>/preview_smart_routing/<gpx_id>/<trip_type>", methods=["POST", "GET"])
 @login_required  
 def previewSmartRouting(username, gpx_id, trip_type):
     """
@@ -1905,7 +1905,7 @@ def previewSmartRouting(username, gpx_id, trip_type):
                          cleaning_result=json.dumps(cleaning_result),
                          success=cleaning_result["success"])
 
-@app.route("/<username>/submit_ticket", methods=["POST"])
+@app.route("/u/<username>/submit_ticket", methods=["POST"])
 @login_required
 def submit_ticket(username):
     name = request.form["name"]
@@ -1937,7 +1937,7 @@ def submit_ticket(username):
     return redirect(url_for("ticket_list", username=username))
 
 
-@app.route("/<username>/edit_ticket", methods=["POST"])
+@app.route("/u/<username>/edit_ticket", methods=["POST"])
 @login_required
 def edit_ticket(username):
     ticket_id = request.form["ticket_id"]
@@ -1984,7 +1984,7 @@ def convert_to_user_currency(amount, base_currency, target_currency, date):
     )
 
 
-@app.route("/<username>/ticket_list")
+@app.route("/u/<username>/ticket_list")
 @login_required
 def ticket_list(username):
     with managed_cursor(mainConn) as cursor:
@@ -2120,7 +2120,7 @@ def ticket_list(username):
     )
 
 
-@app.route("/<username>/tag_list")
+@app.route("/u/<username>/tag_list")
 @login_required
 def tag_list(username):
     with managed_cursor(mainConn) as cursor:
@@ -2179,7 +2179,7 @@ def tag_list(username):
     )
 
 
-@app.route("/<username>/delete_tag/<tag_id>", methods=["POST"])
+@app.route("/u/<username>/delete_tag/<tag_id>", methods=["POST"])
 @login_required
 def delete_tag(username, tag_id):
     with managed_cursor(mainConn) as cursor:
@@ -2193,7 +2193,7 @@ def delete_tag(username, tag_id):
     return redirect(url_for("tag_list", username=username))
 
 
-@app.route("/<username>/update_tag/<tag_id>", methods=["POST"])
+@app.route("/u/<username>/update_tag/<tag_id>", methods=["POST"])
 @login_required
 def update_tag(username, tag_id):
     tag_name = request.form["name"]
@@ -2212,7 +2212,7 @@ def update_tag(username, tag_id):
     return redirect(url_for("tag_list", username=username))
 
 
-@app.route("/<username>/get_all_tickets")
+@app.route("/u/<username>/get_all_tickets")
 @login_required
 def get_all_tickets(username):
     with managed_cursor(mainConn) as cursor:
@@ -2221,7 +2221,7 @@ def get_all_tickets(username):
     return jsonify(tickets=[dict(ticket) for ticket in tickets])
 
 
-@app.route("/<username>/get_all_tags")
+@app.route("/u/<username>/get_all_tags")
 @login_required
 def get_all_tags(username):
     with managed_cursor(mainConn) as cursor:
@@ -2230,7 +2230,7 @@ def get_all_tags(username):
     return jsonify(tags=[dict(tag) for tag in tags])
 
 
-@app.route("/<username>/delete_ticket/<ticket_id>")
+@app.route("/u/<username>/delete_ticket/<ticket_id>")
 @login_required
 def delete_ticket(username, ticket_id):
     success, error = delete_ticket_from_db(username, ticket_id)
@@ -2241,7 +2241,7 @@ def delete_ticket(username, ticket_id):
         return jsonify({"error": "An error occurred while deleting the ticket"}), 500
 
 
-@app.route("/<username>/attachSelected")
+@app.route("/u/<username>/attachSelected")
 @login_required
 def attachSelected(username):
     trip_ids = request.args.get("trips")
@@ -2260,7 +2260,7 @@ def attachSelected(username):
         return jsonify({"error": "An error occurred while attaching the ticket"}), 500
 
 
-@app.route("/<username>/toggle_ticket_active/<ticket_id>")
+@app.route("/u/<username>/toggle_ticket_active/<ticket_id>")
 @login_required
 def toggle_ticket_active(username, ticket_id):
     try:
@@ -2282,7 +2282,7 @@ def toggle_ticket_active(username, ticket_id):
         return jsonify({"error": "An error occurred while toggling the ticket"}), 500
 
 
-@app.route("/<username>/new_flight")
+@app.route("/u/<username>/new_flight")
 @login_required
 def new_flight(username):
     fr24_calls = fr24_usage(username)
@@ -2298,7 +2298,7 @@ def new_flight(username):
     )
 
 
-@app.route("/<username>/routing")
+@app.route("/u/<username>/routing")
 @login_required
 def routing(username):
     return render_template(
@@ -2309,7 +2309,7 @@ def routing(username):
     )
 
 
-@app.route("/<username>/air_routing/<type>")
+@app.route("/u/<username>/air_routing/<type>")
 @login_required
 def air_routing(username, type):
     return render_template(
@@ -2321,7 +2321,7 @@ def air_routing(username, type):
     )
 
 
-@app.route("/<username>/freehand")
+@app.route("/u/<username>/freehand")
 @login_required
 def freehand(username):
     return render_template(
@@ -2332,7 +2332,7 @@ def freehand(username):
     )
 
 
-@app.route("/<username>/ship_routing")
+@app.route("/u/<username>/ship_routing")
 @login_required
 def ship_routing(username):
     return render_template(
@@ -2385,7 +2385,6 @@ def signup():
         "admin",
         "login",
         "getCountry",
-        "convertCurrency",
         "removePolygons",
         "getAirliners",
         "password_reset_request",
@@ -2661,7 +2660,7 @@ def login():
     )
 
 
-@app.route("/<username>")
+@app.route("/u/<username>")
 @login_required
 def user_home(username):
     """
@@ -2680,7 +2679,7 @@ def user_home(username):
     )
 
 # 1. SEARCH PAGE - Shows the search form
-@app.route("/<username>/motis")
+@app.route("/u/<username>/motis")
 @login_required
 def motis_search(username):
     """
@@ -2696,7 +2695,7 @@ def motis_search(username):
     )
 
 # 2. RESULTS PAGE - Shows routing results and handles search
-@app.route("/<username>/motis/results", methods=["GET", "POST"])
+@app.route("/u/<username>/motis/results", methods=["GET", "POST"])
 @login_required 
 def motis_results(username):
     """
@@ -2735,7 +2734,7 @@ def vector_style(language, style):
     return jsonify(vectorStyle)
 
 
-@app.route("/<username>/new_map")
+@app.route("/u/<username>/new_map")
 @login_required
 def new_map(username):
     """
@@ -2766,7 +2765,7 @@ def pCountries(cc):
         return redirect(url_for("login"))
 
 
-@app.route("/<username>/countries/<cc>")
+@app.route("/u/<username>/countries/<cc>")
 @app.route("/public/<username>/countries/<cc>")
 @public_required
 def countries(username, cc):
@@ -2797,7 +2796,7 @@ def countries(username, cc):
     )
 
 
-@app.route("/<username>/countryGeoJSON/<cc>")
+@app.route("/u/<username>/countryGeoJSON/<cc>")
 @public_required
 def getCountryGeoJSON(username, cc):
     def midpoint(point1, point2):
@@ -2924,19 +2923,6 @@ def get_full_geojson(cc):
         geojson_data = json.load(file)
 
     return jsonify(geojson_data)
-
-
-@app.route(
-    "/convertCurrency/<baseCurrency>/<targetCurrency>/<date>/<price>", methods=["GET"]
-)
-def convertCurrency(baseCurrency, targetCurrency, date, price):
-    convertedPrice = get_exchange_rate(
-        base_currency=baseCurrency,
-        target_currency=targetCurrency,
-        date=date,
-        price=price,
-    )
-    return jsonify(convertedPrice)
 
 
 @app.route("/processQueue/<cc>", methods=["POST"])
@@ -3271,7 +3257,7 @@ def public_new(username):
 
 
 @app.route("/admin/borked_trips")
-@app.route("/admin/borked_trips/<username>")
+@app.route("/admin/borked_trips/u/<username>")
 @owner_required
 def borked_trips(username=None):
     with managed_cursor(mainConn) as main_cursor:
@@ -3802,7 +3788,7 @@ def download_path(trip_ids):
     )
 
 
-@app.route("/<username>/current")
+@app.route("/u/<username>/current")
 @login_required
 def current(username):
     """
@@ -3816,8 +3802,8 @@ def current(username):
         **session["userinfo"],
     )
 
-@app.route("/<username>/getStats/<tripType>", methods=["GET"])
-@app.route("/<username>/getStats/<year>/<tripType>", methods=["GET"])
+@app.route("/u/<username>/getStats/<tripType>", methods=["GET"])
+@app.route("/u/<username>/getStats/<year>/<tripType>", methods=["GET"])
 @public_required
 def get_stats_api(username, tripType, year=None):
     """JSON API endpoint for fetching stats (both trips and km)"""
@@ -3912,9 +3898,9 @@ def admin_stats(tripType=None, year=None):
     )
 
 
-@app.route("/<username>/stats/<year>/<tripType>")
-@app.route("/<username>/stats/<tripType>")
-@app.route("/<username>/stats")
+@app.route("/u/<username>/stats/<year>/<tripType>")
+@app.route("/u/<username>/stats/<tripType>")
+@app.route("/u/<username>/stats")
 @login_required
 def stats(username, tripType=None, year=None):
     if tripType is None:
@@ -3961,7 +3947,7 @@ def privacy(override_lang):
     )
 
 
-@app.route("/<username>/logout")
+@app.route("/u/<username>/logout")
 def logout(username):
     """Logout user and redirect to login page with success message."""
     session.pop(username, None)
@@ -3970,7 +3956,7 @@ def logout(username):
     return redirect(url_for("login"))
 
 
-@app.route("/<username>/saveTrip", methods=["GET", "POST"])
+@app.route("/u/<username>/saveTrip", methods=["GET", "POST"])
 def saveTrip(username):
     if not (session.get(username) or session.get(owner)):
         abort(401)
@@ -3989,7 +3975,7 @@ def saveTrip(username):
     return ""
 
 
-@app.route("/<username>/scottySaveTrip", methods=["GET", "POST"])
+@app.route("/u/<username>/scottySaveTrip", methods=["GET", "POST"])
 def scottySaveTrip(username):
     if not (session.get(username) or session.get(owner)):
         abort(401)
@@ -4075,7 +4061,7 @@ def scottySaveTrip(username):
             return f"Unsupported trip type: {trip_type}", 400
 
 
-@app.route("/<username>/saveFlight/<type>", methods=["GET", "POST"])
+@app.route("/u/<username>/saveFlight/<type>", methods=["GET", "POST"])
 @login_required
 def saveFlight(username, type):
     if request.method == "POST":
@@ -4091,7 +4077,7 @@ def saveFlight(username, type):
     return ""
 
 
-@app.route("/<username>/deleteTrip", methods=["GET", "POST"])
+@app.route("/u/<username>/deleteTrip", methods=["GET", "POST"])
 @login_required
 def deleteTrip(username):
     if request.method == "POST":
@@ -4103,7 +4089,7 @@ def deleteTrip(username):
     return ""
 
 
-@app.route("/<username>/updateTrip", methods=["GET", "POST"])
+@app.route("/u/<username>/updateTrip", methods=["GET", "POST"])
 @login_required
 def updateTrip(username):
     if request.method == "POST":
@@ -4117,7 +4103,7 @@ def updateTrip(username):
     return ""
 
 
-@app.route("/<username>/copyTrip", methods=["GET", "POST"])
+@app.route("/u/<username>/copyTrip", methods=["GET", "POST"])
 @login_required
 def copyTrip(username):
     if request.method == "POST":
@@ -4294,7 +4280,7 @@ def update_trip_values_from_form_data(trip_id, formData, update_created_ts=False
 
 
 @app.route(
-    "/<username>/hereRouteDisplay/<origin_name>/<destination_name>/<origin>/<destination>/<startDatetime>",
+    "/u/<username>/hereRouteDisplay/<origin_name>/<destination_name>/<origin>/<destination>/<startDatetime>",
     methods=["GET"],
 )
 def here_route_display(
@@ -4355,7 +4341,7 @@ def here_route_display(
 
 
 @app.route(
-    "/<username>/googleRouteDisplay/<origin_name>/<destination_name>/<origin>/<destination>/<startDatetime>",
+    "/u/<username>/googleRouteDisplay/<origin_name>/<destination_name>/<origin>/<destination>/<startDatetime>",
     methods=["GET"],
 )
 def google_route_display(
@@ -4697,7 +4683,7 @@ def router_status_photon():
         return jsonify({"status": "DOWN", "message": str(e)}), 500
 
 
-@app.route("/airportAutocomplete/<searchPattern>")
+@app.route("/api/airportAutocomplete/<searchPattern>")
 def airportAutocomplete(searchPattern):
     with managed_cursor(mainConn) as cursor:
         airports = [
@@ -4876,7 +4862,7 @@ def stationAutocomplete():
     return jsonify(responseJson)
 
 
-@app.route("/<username>/getManAndOps/<station_type>", methods=["GET", "POST"])
+@app.route("/u/<username>/getManAndOps/<station_type>", methods=["GET", "POST"])
 def getManAndOps(username, station_type):
     manualStations = {}
     visitedStations = {}
@@ -5296,14 +5282,14 @@ def public_getTripsPaths(username, lastLocal):
     return jsonify(result)
 
 
-@app.route("/<username>/getTripsPaths/<lastLocal>", methods=["GET", "POST"])
+@app.route("/u/<username>/getTripsPaths/<lastLocal>", methods=["GET", "POST"])
 @login_required  # Login access check
 def getTripsPaths(username, lastLocal):
     result = fetchTripsPaths(username, lastLocal, public=0)
     return jsonify(result)
 
 
-@app.route("/<username>/getCurrentTrip", methods=["GET", "POST"])
+@app.route("/u/<username>/getCurrentTrip", methods=["GET", "POST"])
 @login_required
 def getCurrentTripPath(username):
     with managed_cursor(mainConn) as cursor:
@@ -5530,7 +5516,7 @@ def getPublicTrips():
     return jsonify([sortedTripList, priceDict])
 
 
-@app.route("/<username>/toType/<tripType>/<tripIds>", methods=["GET"])
+@app.route("/u/<username>/toType/<tripType>/<tripIds>", methods=["GET"])
 @login_required
 def changeTripType(username, tripType, tripIds):
     # make sure the user owns all the listed trips
@@ -5568,7 +5554,7 @@ def changeTripType(username, tripType, tripIds):
         return jsonify({"error": str(e)}), 500
 
 
-@app.route("/<username>/merge/<tripIds>", methods=["GET", "POST"])
+@app.route("/u/<username>/merge/<tripIds>", methods=["GET", "POST"])
 @login_required
 def mergeTrips(username, tripIds):
     # Process and sort the trips (includes permission checks)
@@ -5948,13 +5934,13 @@ def get_trips_api_internal(username, is_public=False):
     )
 
 
-@app.route("/<username>/get_trips_api", methods=["POST"])
+@app.route("/u/<username>/get_trips_api", methods=["POST"])
 @login_required
 def get_trips_api(username):
     return get_trips_api_internal(username, is_public=False)
 
 
-@app.route("/<username>/get_trips_api_public", methods=["POST"])
+@app.route("/u/<username>/get_trips_api_public", methods=["POST"])
 @public_required
 def get_trips_api_public(username):
     return get_trips_api_internal(username, is_public=True)
@@ -6015,7 +6001,7 @@ def toggle_role(uid, role, action):
     return jsonify(success=True)
 
 
-@app.route("/<username>/settings", methods=["GET", "POST"])
+@app.route("/u/<username>/settings", methods=["GET", "POST"])
 @login_required
 def user_settings(username):
     """
@@ -6070,12 +6056,12 @@ def user_settings(username):
     )
 
 
-@app.route("/<username>/dynamic/<time>")
+@app.route("/u/<username>/dynamic/<time>")
 def redirect_dynamic_trips(username, time):
     return redirect(url_for("dynamic_trips", username=username, time=time), code=301)
 
 
-@app.route("/<username>/<time>")
+@app.route("/u/<username>/<time>")
 @login_required
 def dynamic_trips(username, time=None):
     """
@@ -6128,7 +6114,7 @@ def public_trips(username, time=None):
 
 
 
-@app.route("/<username>/<edit_copy_type>/<tripId>")
+@app.route("/u/<username>/<edit_copy_type>/<tripId>")
 def edit_copy_trip(username, tripId, edit_copy_type):
     """
     Edit or copy trip details
@@ -6235,7 +6221,7 @@ def edit_copy_trip(username, tripId, edit_copy_type):
     )
 
 
-@app.route("/<username>/export")
+@app.route("/u/<username>/export")
 @login_required
 def export(username):
     requestedTrips = request.args.get("trips", default=None)
@@ -6364,7 +6350,7 @@ def proxy_airlines():
     return jsonify([]), 200
 
 
-@app.route("/<username>/processMFR24", methods=["POST"])
+@app.route("/u/<username>/processMFR24", methods=["POST"])
 @login_required
 def processMFR24(username):
     newTrip = {}
@@ -6745,7 +6731,7 @@ def getTimelineData(username):
     return blocks, days_abroad_by_year, residence_country_by_year
 
 
-@app.route("/<username>/timeline")
+@app.route("/u/<username>/timeline")
 @login_required
 def timeline(username):
     blocks, days_abroad_by_year, residence_country_by_year = getTimelineData(username)
@@ -6781,7 +6767,7 @@ def p_timeline(username):
     )
 
 
-@app.route("/<username>/import", methods=["POST"])
+@app.route("/u/<username>/import", methods=["POST"])
 @login_required
 def importAll(username):
     if getUser() not in (username, owner):
@@ -7087,7 +7073,7 @@ def airliners():
     )
 
 
-@app.route("/<username>/importFlight")
+@app.route("/u/<username>/importFlight")
 def importFlight(username):
     return render_template(
         "import_flight.html",
@@ -7097,7 +7083,7 @@ def importFlight(username):
     )
 
 
-@app.route("/<username>/upload_image", methods=["POST"])
+@app.route("/u/<username>/upload_image", methods=["POST"])
 def upload_image(username):
     if "image" not in request.files:
         return redirect(request.url)
@@ -7869,7 +7855,7 @@ def admin_user_growth():
 
 
 
-@app.route("/<username>/friends")
+@app.route("/u/<username>/friends")
 @login_required
 def friends(username):
     user_id = User.query.filter_by(username=username).first().uid
@@ -7914,7 +7900,7 @@ def friends(username):
     )
 
 
-@app.route("/<username>/cancelFriendship/<int:friendId>", methods=["GET"])
+@app.route("/u/<username>/cancelFriendship/<int:friendId>", methods=["GET"])
 @login_required
 def cancelFriendship(username, friendId):
     user_id = User.query.filter_by(username=username).first().uid
@@ -7942,7 +7928,7 @@ def cancelFriendship(username, friendId):
     return redirect(url_for("friends", username=username))
 
 
-@app.route("/<username>/acceptFriendship/<int:friendId>", methods=["GET"])
+@app.route("/u/<username>/acceptFriendship/<int:friendId>", methods=["GET"])
 @login_required
 def acceptFriendship(username, friendId):
     user_id = User.query.filter_by(username=username).first().uid
@@ -7977,7 +7963,7 @@ def acceptFriendship(username, friendId):
     return redirect(url_for("friends", username=username))
 
 
-@app.route("/<username>/requestFriend/<friendId>", methods=["GET"])
+@app.route("/u/<username>/requestFriend/<friendId>", methods=["GET"])
 @login_required
 def requestFriend(username, friendId):
     user = User.query.filter_by(username=username).first()
@@ -8136,7 +8122,7 @@ def resize_image(max_width, target_height):
         return send_file(img_io, mimetype="image/png")
 
 
-@app.route("/<username>/visited_squares")
+@app.route("/u/<username>/visited_squares")
 @public_required
 def visited_squares(username):
     """Render the template for the visited squares map."""
@@ -8155,7 +8141,7 @@ def visited_squares(username):
     )
 
 
-@app.route("/<username>/visited_squares_data")
+@app.route("/u/<username>/visited_squares_data")
 @public_required
 def visited_squares_data(username):
     """Fetch the GeoJSON data for the visited squares."""
@@ -8755,7 +8741,7 @@ def migrate_logos():
     return "Logos and types migrated successfully"
 
 
-@app.route("/<username>/tll")
+@app.route("/u/<username>/tll")
 @login_required
 def trainloglogger(username):
     return render_template(
@@ -8768,7 +8754,7 @@ def trainloglogger(username):
     )
 
 
-@app.route("/getBounds/<username>")
+@app.route("/getBounds/u/<username>")
 @login_required
 def get_bounds(username):
     def get_location(lat, lon):
@@ -8903,7 +8889,7 @@ def get_bounds(username):
     return jsonify(bounds), 200
 
 
-@app.route("/<username>/bounds")
+@app.route("/u/<username>/bounds")
 @login_required
 def user_bounds(username):
     return render_template(
@@ -9052,7 +9038,7 @@ def admin_live_map():
         **session["userinfo"],
     )
 
-@app.route("/api/user_completion/<username>")
+@app.route("/api/user_completion/u/<username>")
 @login_required
 def user_completion(username):
     with managed_cursor(mainConn) as cursor:
@@ -9104,7 +9090,7 @@ def sitemap():
     response.headers['Content-Type'] = 'application/xml'
     return response
 
-@app.route("/video/<tripIds>")
+@app.route("/public/video/<tripIds>")
 @owner_required
 def video(tripIds):
     return render_template(
@@ -9114,7 +9100,7 @@ def video(tripIds):
         **session["userinfo"],
     )
 
-@app.route("/<username>/dashboard")
+@app.route("/u/<username>/dashboard")
 @login_required
 def user_dashboard(username):
     return render_template(
@@ -9126,6 +9112,20 @@ def user_dashboard(username):
         **session["userinfo"],
     )
 
+@app.route('/debug/routes')
+def list_routes():
+    routes = set()
+    for rule in app.url_map.iter_rules():
+        path = rule.rule
+        # Extract first level path segment
+        parts = path.strip('/').split('/')
+        if parts and parts[0]:
+            # Remove parameter markers like <username>
+            first_segment = parts[0].split('<')[0].split('>')[0]
+            if first_segment:
+                routes.add(first_segment)
+    
+    return '<br>'.join(sorted(routes))
 
 with app.app_context():
     if not database_exists(authDb.get_engine().url):

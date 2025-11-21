@@ -956,11 +956,11 @@
             try {
                 // Fetch airport data for display
                 const originData = await $.ajax({
-                    url: "/airportAutocomplete/" + leg.orig_icao,
+                    url: "/api/airportAutocomplete/" + leg.orig_icao,
                     dataType: "json"
                 });
                 const destData = await $.ajax({
-                    url: "/airportAutocomplete/" + leg.dest_icao,
+                    url: "/api/airportAutocomplete/" + leg.dest_icao,
                     dataType: "json"
                 });
 
@@ -1151,7 +1151,7 @@
             if (flight.orig_icao) {
                 try {
                     const originData = await $.ajax({
-                        url: "/airportAutocomplete/" + flight.orig_icao,
+                        url: "/api/airportAutocomplete/" + flight.orig_icao,
                         dataType: "json"
                     });
                     if (originData && originData[0]) {
@@ -1178,7 +1178,7 @@
             if (flight.dest_icao) {
                 try {
                     const destData = await $.ajax({
-                        url: "/airportAutocomplete/" + flight.dest_icao,
+                        url: "/api/airportAutocomplete/" + flight.dest_icao,
                         dataType: "json"
                     });
                     if (destData && destData[0]) {

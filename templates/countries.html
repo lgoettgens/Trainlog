@@ -59,7 +59,7 @@
 
   // Fetch GeoJSON data for a given country code from the Flask endpoint
   function fetchCountryGeoJSON(cc) {
-    fetch(`/{{username}}/countryGeoJSON/${cc}`)
+    fetch(`/u/{{username}}/countryGeoJSON/${cc}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

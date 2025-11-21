@@ -180,7 +180,7 @@ const stationURLs = {
   'tram':  '/stationAutocomplete?osm_tag=railway:tram_stop&osm_tag=railway:station',
   'metro': '/stationAutocomplete?osm_tag=railway:station&osm_tag=railway:subway_entrance',
   'ferry': '/stationAutocomplete?osm_tag=amenity:ferry_terminal',
-  'air':   '/airportAutocomplete/',
+  'air':   '/api/airportAutocomplete/',
   'car':   '/stationAutocomplete',
   'walk':  '/stationAutocomplete',
   'cycle': '/stationAutocomplete'
@@ -293,7 +293,7 @@ function makeAbortableSource(buildUrl) {
         .done(function(data) {
           if ($inp.data('token') !== token) return; // stale
           let items = [];
-          if (url.startsWith('/airportAutocomplete/')) {
+          if (url.startsWith('/api/airportAutocomplete/')) {
             items = Array.isArray(data) ? data.map(a => {
               const cc = (a.iso_country || '').toString().slice(0,2);
               const label = `${a.name} (${a.iata || a.icao || '—'})`;

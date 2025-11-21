@@ -294,7 +294,7 @@
   $(".stationSearch").autocomplete({
     source: function (request, response) {
       $.ajax({
-          url:"/airportAutocomplete/"+request.term,
+          url:"/api/airportAutocomplete/"+request.term,
           dataType: "json",
           success: function (data) {
             var airportList = [];
@@ -439,7 +439,7 @@ function getQueryParams() {
 function fillFromBarcode(element, icao) {
   return new Promise((resolve, reject) => {
     $.ajax({
-      url: "/airportAutocomplete/" + icao,
+      url: "/api/airportAutocomplete/" + icao,
       dataType: "json",
       success: function (data) {
         const airport = data[0];
@@ -575,7 +575,7 @@ async function showLegSelector(legs) {
     
     // Fetch origin airport data
     const originData = await $.ajax({
-      url: "/airportAutocomplete/" + leg.orig_icao,
+      url: "/api/airportAutocomplete/" + leg.orig_icao,
       dataType: "json"
     });
     const originAirport = originData[0];
@@ -584,7 +584,7 @@ async function showLegSelector(legs) {
 
     // Fetch destination airport data
     const destData = await $.ajax({
-      url: "/airportAutocomplete/" + leg.dest_icao,
+      url: "/api/airportAutocomplete/" + leg.dest_icao,
       dataType: "json"
     });
     const destAirport = destData[0];

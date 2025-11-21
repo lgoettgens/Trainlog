@@ -125,7 +125,7 @@
       const router = new URLSearchParams(window.location.search).get('type') === 'google' ? 'googleRouteDisplay' : 'hereRouteDisplay';
 
       // 5) Build the route with optional '?modes=...' query parameter
-      let route = "/{{username}}/" 
+      let route = "/u/{{username}}/" 
         + encodeURIComponent(router) + "/" 
         + encodeURIComponent(originName) + "/" 
         + encodeURIComponent(destinationName) + "/" 
