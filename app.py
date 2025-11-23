@@ -9091,14 +9091,16 @@ def sitemap():
     return response
 
 @app.route("/public/video/<tripIds>")
-@owner_required
 def video(tripIds):
-    return render_template(
-        "video.html",
-        tripIds=tripIds,
-        **lang[session["userinfo"]["lang"]],
-        **session["userinfo"],
-    )
+    if User.query.filter_by(username=getUser()).first().alpha:
+        return render_template(
+            "video.html",
+            tripIds=tripIds,
+            **lang[session["userinfo"]["lang"]],
+            **session["userinfo"],
+        )
+    else:
+        abort(401)
 
 @app.route("/u/<username>/dashboard")
 @login_required
