@@ -4022,7 +4022,12 @@ def scottySaveTrip(username):
             response = forwardRouting(router_path, trip_type, "overview=full")
 
             # Parse the router response (if necessary for your DB structure)
-            routing_result = json.loads(response)
+            if hasattr(response, 'text'):
+                routing_result = json.loads(response.text)
+            elif hasattr(response, 'json'):
+                routing_result = response.json()
+            else:
+                routing_result = json.loads(response)
 
             # If the router returns an error, handle it
             if routing_result["code"] != "Ok":
