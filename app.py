@@ -4025,7 +4025,7 @@ def scottySaveTrip(username):
             if hasattr(response, 'text'):
                 routing_result = json.loads(response.text)
             elif hasattr(response, 'json'):
-                routing_result = response.json()
+                routing_result = response.json
             else:
                 routing_result = json.loads(response)
 
