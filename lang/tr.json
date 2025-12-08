@@ -608,6 +608,7 @@
     "smart_search_operator": "Ulaşım operatörü",
     "smart_search_line": "Hat adı",
     "smart_search_country": "Ziyaret edilen ülkeler (ISO3166-1 alpha2, örn: FR, DE, NO)",
+    "smart_search_visibility": "Görünürlüğü (public, friends, private)",
     "smart_search_material": "Araç tipi/modeli",
     "smart_search_reg": "Kayıt",
     "smart_search_notes": "Seyahat notları",
@@ -729,5 +730,11 @@
     "email_premium_title": "Premium özellik",
     "email_premium_greeting": "Merhaba {username},",
     "email_premium_description": "E-posta bilet çözümleme, Trainlogger üyeleri ve üzeri için mevcut bir premium özelliktir.",
-    "email_premium_cta": "Üye ol"
+    "email_premium_cta": "Üye ol",
+    "visibility": "Görünürlük",
+    "visibility_select": "Görünürlüğü seçin",
+    "visibility_public": "Herkese açık",
+    "visibility_friends": "Arkadaşlar",
+    "visibility_private": "Gizli",
+    "bulk_change_visibility": "Görünürlüğü ayarla"
 }

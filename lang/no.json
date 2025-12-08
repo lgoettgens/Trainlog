@@ -608,6 +608,7 @@
     "smart_search_operator": "Transportoperatør",
     "smart_search_line": "Linjenavn",
     "smart_search_country": "Land besøkt (ISO3166-1 alfa2, f.eks.: FR, DE, NO)",
+    "smart_search_visibility": "Synlighet (public, friends, private)",
     "smart_search_material": "Kjøretøytype/modell",
     "smart_search_reg": "Registrering",
     "smart_search_notes": "Reisenotater",
@@ -729,5 +730,11 @@
     "email_premium_title": "Premiumfunksjon",
     "email_premium_greeting": "Hei {username},",
     "email_premium_description": "E-postbillettparsing er en premiumfunksjon tilgjengelig for Trainlogger-medlemmer og over.",
-    "email_premium_cta": "Bli medlem"
+    "email_premium_cta": "Bli medlem",
+    "visibility": "Synlighet",
+    "visibility_select": "Velg synlighet",
+    "visibility_public": "Offentlig",
+    "visibility_friends": "Venner",
+    "visibility_private": "Privat",
+    "bulk_change_visibility": "Angi synlighet"
 }

@@ -608,6 +608,7 @@
     "smart_search_operator": "Operater prijevoza",
     "smart_search_line": "Naziv linije",
     "smart_search_country": "Posjećene zemlje (ISO3166-1 alpha2, npr.: FR, DE, NO)",
+    "smart_search_visibility": "Vidljivost (public, friends, private)",
     "smart_search_material": "Vrsta/model vozila",
     "smart_search_reg": "Registracija",
     "smart_search_notes": "Bilješke o putovanju",
@@ -729,5 +730,11 @@
     "email_premium_title": "Premium značajka",
     "email_premium_greeting": "Bok {username},",
     "email_premium_description": "Raščlamba email karata je premium značajka dostupna članovima Trainloggera i višima.",
-    "email_premium_cta": "Postani član"
+    "email_premium_cta": "Postani član",
+    "visibility": "Vidljivost",
+    "visibility_select": "Odaberite vidljivost",
+    "visibility_public": "Javno",
+    "visibility_friends": "Prijatelji",
+    "visibility_private": "Privatno",
+    "bulk_change_visibility": "Postavi vidljivost"
 }

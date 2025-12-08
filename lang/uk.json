@@ -608,6 +608,7 @@
     "smart_search_operator": "Оператор транспорту",
     "smart_search_line": "Назва лінії",
     "smart_search_country": "Відвідані країни (ISO3166-1 alpha2, напр.: FR, DE, NO)",
+    "smart_search_visibility": "видимість (public, friends, private)",
     "smart_search_material": "Тип/модель транспортного засобу",
     "smart_search_reg": "Реєстрація",
     "smart_search_notes": "Примітки до подорожі",
@@ -729,5 +730,11 @@
     "email_premium_title": "Преміум функція",
     "email_premium_greeting": "Привіт {username},",
     "email_premium_description": "Розбір квитків з електронної пошти - це преміум функція, доступна учасникам Trainlogger та вище.",
-    "email_premium_cta": "Станьте учасником"
+    "email_premium_cta": "Станьте учасником",
+    "visibility": "Видимість",
+    "visibility_select": "Виберіть видимість",
+    "visibility_public": "Для всіх",
+    "visibility_friends": "Друзі",
+    "visibility_private": "Приватний",
+    "bulk_change_visibility": "Встановити видимість"
 }

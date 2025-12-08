@@ -608,6 +608,7 @@
     "smart_search_operator": "輸送事業者",
     "smart_search_line": "路線名",
     "smart_search_country": "訪問国 (ISO3166-1 alpha2, 例: FR, DE, NO)",
+    "smart_search_visibility": "可視性 (public, friends, private)",
     "smart_search_material": "車両種別/モデル",
     "smart_search_reg": "登録",
     "smart_search_notes": "旅行メモ",
@@ -729,5 +730,11 @@
     "email_premium_title": "プレミアム機能",
     "email_premium_greeting": "こんにちは {username},",
     "email_premium_description": "メールチケット解析は、Trainloggerメンバー以上が利用できるプレミアム機能です。",
-    "email_premium_cta": "メンバーになる"
+    "email_premium_cta": "メンバーになる",
+    "visibility": "可視性",
+    "visibility_select": "可視性を選択",
+    "visibility_public": "パブリック",
+    "visibility_friends": "友達",
+    "visibility_private": "プライベート",
+    "bulk_change_visibility": "公開設定を設定"
 }

@@ -608,6 +608,7 @@
     "smart_search_operator": "Liikennöitsijä",
     "smart_search_line": "Linjan nimi",
     "smart_search_country": "Käydyt maat (ISO3166-1 alpha2, esim.: FR, DE, NO)",
+    "smart_search_visibility": "Näkyvyys (public, friends, private)",
     "smart_search_material": "Ajoneuvon tyyppi/malli",
     "smart_search_reg": "Rekisteröinti",
     "smart_search_notes": "Matkamuistiinpanot",
@@ -729,5 +730,11 @@
     "email_premium_title": "Premium-ominaisuus",
     "email_premium_greeting": "Hei {username},",
     "email_premium_description": "Sähköpostilipun jäsennys on premium-ominaisuus, joka on saatavilla Trainlogger-jäsenille ja sitä ylemmille.",
-    "email_premium_cta": "Liity jäseneksi"
+    "email_premium_cta": "Liity jäseneksi",
+    "visibility": "Näkyvyys",
+    "visibility_select": "Valitse näkyvyys",
+    "visibility_public": "Julkinen",
+    "visibility_friends": "Ystävät",
+    "visibility_private": "Yksityinen",
+    "bulk_change_visibility": "Aseta näkyvyys"
 }

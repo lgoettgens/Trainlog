@@ -608,6 +608,7 @@
     "smart_search_operator": "Транспортный оператор",
     "smart_search_line": "Название линии",
     "smart_search_country": "Посещенные страны (ISO3166-1 alpha2, напр.: FR, DE, NO)",
+    "smart_search_visibility": "наглядность (public, friends, private)",
     "smart_search_material": "Тип/модель транспортного средства",
     "smart_search_reg": "Регистрация",
     "smart_search_notes": "Заметки о поездке",
@@ -729,5 +730,11 @@
     "email_premium_title": "Премиум функция",
     "email_premium_greeting": "Привет {username},",
     "email_premium_description": "Разбор билетов из электронной почты - это премиум функция, доступная участникам Trainlogger и выше.",
-    "email_premium_cta": "Станьте участником"
+    "email_premium_cta": "Станьте участником",
+    "visibility": "Видимость",
+    "visibility_select": "Выберите видимость",
+    "visibility_public": "Общедоступный",
+    "visibility_friends": "Друзья",
+    "visibility_private": "Частный",
+    "bulk_change_visibility": "Установить видимость"
 }

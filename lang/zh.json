@@ -608,6 +608,7 @@
     "smart_search_operator": "运输运营商",
     "smart_search_line": "线路名称",
     "smart_search_country": "访问的国家（ISO3166-1 alpha2，例如：FR、DE、NO）",
+    "smart_search_visibility": "可见度 (public, friends, private)",
     "smart_search_material": "车辆类型/型号",
     "smart_search_reg": "注册",
     "smart_search_notes": "旅行备注",
@@ -729,5 +730,11 @@
     "email_premium_title": "高级功能",
     "email_premium_greeting": "你好 {username},",
     "email_premium_description": "电子邮件票据解析是提供给 Trainlogger 会员及以上的高级功能。",
-    "email_premium_cta": "成为会员"
+    "email_premium_cta": "成为会员",
+    "visibility": "可见性",
+    "visibility_select": "选择可见性",
+    "visibility_public": "公开",
+    "visibility_friends": "朋友",
+    "visibility_private": "私人",
+    "bulk_change_visibility": "设置可见性"
 }

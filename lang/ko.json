@@ -608,6 +608,7 @@
     "smart_search_operator": "운송 운영자",
     "smart_search_line": "노선 이름",
     "smart_search_country": "방문한 국가 (ISO3166-1 alpha2, 예: FR, DE, NO)",
+    "smart_search_visibility": "시계 (public, friends, private)",
     "smart_search_material": "차량 유형/모델",
     "smart_search_reg": "등록",
     "smart_search_notes": "여행 메모",
@@ -729,5 +730,11 @@
     "email_premium_title": "프리미엄 기능",
     "email_premium_greeting": "안녕하세요 {username},",
     "email_premium_description": "이메일 티켓 파싱은 Trainlogger 회원 이상에게 제공되는 프리미엄 기능입니다.",
-    "email_premium_cta": "회원이 되기"
+    "email_premium_cta": "회원이 되기",
+    "visibility": "가시성",
+    "visibility_select": "공개 여부 선택",
+    "visibility_public": "공개",
+    "visibility_friends": "친구",
+    "visibility_private": "비공개",
+    "bulk_change_visibility": "가시성 설정"
 }

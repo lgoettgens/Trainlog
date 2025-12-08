@@ -608,6 +608,7 @@
     "smart_search_operator": "Transportbetrieber",
     "smart_search_line": "Liniename",
     "smart_search_country": "Bsuuchti Länder (ISO3166-1 alpha2, z. B.: FR, DE, NO)",
+    "smart_search_visibility": "Sichtbarkeit (public, friends, private)",
     "smart_search_material": "Fahrzüügtyp/Modell",
     "smart_search_reg": "Registrierig",
     "smart_search_notes": "Rysnotize",
@@ -729,5 +730,11 @@
     "email_premium_title": "Premium-Funktion",
     "email_premium_greeting": "Hoi {username},",
     "email_premium_description": "E-Mail-Ticket-Verarbeitung isch e Premium-Funktion, verfügbor für Trainlogger-Mitglieder und dervo obe.",
-    "email_premium_cta": "Werde Mitglied"
+    "email_premium_cta": "Werde Mitglied",
+    "visibility": "Sichtbarkeit",
+    "visibility_select": "Sichtbarkeit auswählen",
+    "visibility_public": "Öffentlich",
+    "visibility_friends": "Freunde",
+    "visibility_private": "Privat",
+    "bulk_change_visibility": "Sichtbarkeit festlegen"
 }

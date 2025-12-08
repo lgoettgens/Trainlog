@@ -608,6 +608,7 @@
     "smart_search_operator": "Vervoersoperator",
     "smart_search_line": "Lijnnaam",
     "smart_search_country": "Bezochte landen (ISO3166-1 alpha2, bv.: FR, DE, NO)",
+    "smart_search_visibility": "Zichtbaarheid (public, friends, private)",
     "smart_search_material": "Voertuigtype/model",
     "smart_search_reg": "Registratie",
     "smart_search_notes": "Reisnotities",
@@ -729,5 +730,11 @@
     "email_premium_title": "Premiumfunctie",
     "email_premium_greeting": "Hallo {username},",
     "email_premium_description": "E-mailticketverwerking is een premiumfunctie beschikbaar voor Trainlogger-leden en hoger.",
-    "email_premium_cta": "Lid worden"
+    "email_premium_cta": "Lid worden",
+    "visibility": "Zichtbaarheid",
+    "visibility_select": "Selecteer zichtbaarheid",
+    "visibility_public": "Openbaar",
+    "visibility_friends": "Vrienden",
+    "visibility_private": "Privé",
+    "bulk_change_visibility": "Verander zichtbaarheid"
 }

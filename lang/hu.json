@@ -608,6 +608,7 @@
     "smart_search_operator": "Szállítási üzemeltető",
     "smart_search_line": "Vonal neve",
     "smart_search_country": "Látogatott országok (ISO3166-1 alpha2, például: FR, DE, NO)",
+    "smart_search_visibility": "Láthatósága (public, friends, private)",
     "smart_search_material": "Jármű típusa/modellje",
     "smart_search_reg": "Regisztráció",
     "smart_search_notes": "Utazási megjegyzések",
@@ -729,5 +730,11 @@
     "email_premium_title": "Prémium funkció",
     "email_premium_greeting": "Szia {username},",
     "email_premium_description": "Az emailes jegyek feldolgozása egy prémium funkció, amely a Trainlogger tagok és afelett érhetők el.",
-    "email_premium_cta": "Legyen tag"
+    "email_premium_cta": "Legyen tag",
+    "visibility": "Láthatóság",
+    "visibility_select": "Láthatóság kiválasztása",
+    "visibility_public": "Nyilvános",
+    "visibility_friends": "Barátok",
+    "visibility_private": "Privát",
+    "bulk_change_visibility": "Láthatóság beállítása"
 }

@@ -608,6 +608,7 @@
     "smart_search_operator": "Operador de transporte",
     "smart_search_line": "Nombre de la línea",
     "smart_search_country": "Países visitados (ISO3166-1 alpha2, ej.: FR, DE, NO)",
+    "smart_search_visibility": "Visibilidad (public, friends, private)",
     "smart_search_material": "Tipo/modelo de vehículo",
     "smart_search_reg": "Registro",
     "smart_search_notes": "Notas del viaje",
@@ -729,5 +730,11 @@
     "email_premium_title": "Función premium",
     "email_premium_greeting": "Hola {username},",
     "email_premium_description": "El análisis de boletos por correo electrónico es una función premium disponible para los miembros de Trainlogger y superiores.",
-    "email_premium_cta": "Hacerse miembro"
+    "email_premium_cta": "Hacerse miembro",
+    "visibility": "Visibilidad",
+    "visibility_select": "Seleccionar visibilidad",
+    "visibility_public": "Público",
+    "visibility_friends": "Amigos",
+    "visibility_private": "Privado",
+    "bulk_change_visibility": "Establecer visibilidad"
 }

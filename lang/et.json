@@ -608,6 +608,7 @@
     "smart_search_operator": "Transpordiettevõtja",
     "smart_search_line": "Liini nimi",
     "smart_search_country": "Külastatud riigid (ISO3166-1 alpha2, nt: FR, DE, NO)",
+    "smart_search_visibility": "Nähtavus (public, friends, private)",
     "smart_search_material": "Sõiduki tüüp/mudel",
     "smart_search_reg": "Registreerimine",
     "smart_search_notes": "Reisikirjeldus",
@@ -729,5 +730,11 @@
     "email_premium_title": "Premiumfunktsioon",
     "email_premium_greeting": "Tere {username},",
     "email_premium_description": "E-kirja piletite töötlemine on premiumfunktsioon, mis on saadaval Trainloggeri liikmetele ja kõrgematele.",
-    "email_premium_cta": "Hakka liikmeks"
+    "email_premium_cta": "Hakka liikmeks",
+    "visibility": "Nähtavus",
+    "visibility_select": "Vali nähtavus",
+    "visibility_public": "Avalik",
+    "visibility_friends": "Sõbrad",
+    "visibility_private": "Privaatne",
+    "bulk_change_visibility": "Nähtavuse määramine"
 }
