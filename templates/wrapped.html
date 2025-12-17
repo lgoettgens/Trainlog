@@ -481,7 +481,7 @@
         <div class="slide slide-stats">
             <div class="section-title">{{ wrapped_this_year or "This year you took" }}</div>
             <div class="big-number">{{ "{:,}".format(data.total_trips) }}</div>
-            <div class="stat-label">{{ trips or "Trips" }}</div>
+            <div class="stat-label">{{ wrapped_trips or "Trips" }}</div>
             {% if data.trips_change is not none %}
             <div class="comparison {% if data.trips_change >= 0 %}comparison-up{% else %}comparison-down{% endif %}">
                 <i class="fas fa-arrow-{% if data.trips_change >= 0 %}up{% else %}down{% endif %}"></i>

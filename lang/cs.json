@@ -637,7 +637,7 @@
     "fr_email_reason_label": "Důvod:",
     "fr_email_english_note": "Poznámka: Technické detaily a důvody jsou uvedeny v angličtině, aby byla zajištěna srozumitelnost pro naši mezinárodní uživatelskou základnu.",
     "fr_email_signature": "S pozdravem<br>Tým Trainlog",
-    "wrapped_title": "ZABALENO",
+    "wrapped_title": "REKAPITULACE",
     "wrapped_your_year": "Tvůj Rok",
     "wrapped_in_travel": "v Cestování",
     "wrapped_intro": "Podívejme se zpět na všechny cesty, které jsi podnikl v roce",
@@ -704,5 +704,6 @@
     "wrapped_generating": "Generování...",
     "wrapped_download_error": "Chyba při generování obrázku. Prosím zkuste to znovu.",
     "wrapped_stations": "Stanice",
-    "wrapped_share_image": "Sdílet"
+    "wrapped_share_image": "Sdílet",
+    "wrapped_trips": "výlety"
 }

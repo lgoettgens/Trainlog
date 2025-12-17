@@ -637,7 +637,7 @@
     "fr_email_reason_label": "理由：",
     "fr_email_english_note": "注意: 技術的な詳細と理由は、国際的なユーザーベースの読みやすさを確保するために英語で提供されています。",
     "fr_email_signature": "よろしくお願い申し上げます<br>Trainlogチーム",
-    "wrapped_title": "包まれた",
+    "wrapped_title": "要約",
     "wrapped_your_year": "あなたの年",
     "wrapped_in_travel": "旅行で",
     "wrapped_intro": "振り返ってみましょう あなたが行ったすべての旅を",
@@ -704,5 +704,6 @@
     "wrapped_generating": "生成中...",
     "wrapped_download_error": "画像の生成エラー。もう一度お試しください。",
     "wrapped_stations": "駅",
-    "wrapped_share_image": "共有する"
+    "wrapped_share_image": "共有する",
+    "wrapped_trips": "旅行"
 }

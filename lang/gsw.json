@@ -637,7 +637,7 @@
     "fr_email_reason_label": "Grund:",
     "fr_email_english_note": "Note: Technisch Detail und Gründ wärde uf Englisch aagee, zum d'Lesbarkeit für üsi internationali Benutzerbasis sicherzstelle.",
     "fr_email_signature": "Fründlichi Grüess<br>S Trainlog Team",
-    "wrapped_title": "ABGSCHLOSSA",
+    "wrapped_title": "ZÄSAMMFASSIG",
     "wrapped_your_year": "Dini Jahr",
     "wrapped_in_travel": "im Riese",
     "wrapped_intro": "Luege mer zrugg uf all d’Reise, wo du im Jahr gmacht häsch",
@@ -704,5 +704,6 @@
     "wrapped_generating": "Am Generiere...",
     "wrapped_download_error": "Fähler bim Generiere vom Bild. Bitte nomol versueche.",
     "wrapped_stations": "Statione",
-    "wrapped_share_image": "Teile"
+    "wrapped_share_image": "Teile",
+    "wrapped_trips": "Resie"
 }

@@ -637,7 +637,7 @@
     "fr_email_reason_label": "이유:",
     "fr_email_english_note": "참고: 기술 세부 사항 및 이유는 국제 사용자 기반의 가독성을 보장하기 위해 영어로 제공됩니다.",
     "fr_email_signature": "최고의 안부를 전하며<br>Trainlog 팀",
-    "wrapped_title": "포장됨",
+    "wrapped_title": "요약",
     "wrapped_your_year": "당신의 한 해",
     "wrapped_in_travel": "여행 중에",
     "wrapped_intro": "당신이 여행한 모든 여정을 되돌아봅시다",
@@ -704,5 +704,6 @@
     "wrapped_generating": "생성 중...",
     "wrapped_download_error": "이미지 생성 오류. 다시 시도해 주세요.",
     "wrapped_stations": "역들",
-    "wrapped_share_image": "공유하기"
+    "wrapped_share_image": "공유하기",
+    "wrapped_trips": "여행"
 }

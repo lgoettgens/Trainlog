@@ -637,7 +637,7 @@
     "fr_email_reason_label": "Ok:",
     "fr_email_english_note": "Megjegyzés: A technikai részletek és okok angolul vannak megadva, hogy biztosítsuk nemzetközi felhasználói bázisunk számára az olvashatóságot.",
     "fr_email_signature": "Üdvözlettel<br>A Trainlog csapat",
-    "wrapped_title": "BEFEJEZVE",
+    "wrapped_title": "ÖSSZEFOGLALÁS",
     "wrapped_your_year": "Az éved",
     "wrapped_in_travel": "utazásban",
     "wrapped_intro": "Nézzünk vissza az összes utazásra, amit tettél ebben az évben",
@@ -704,5 +704,6 @@
     "wrapped_generating": "Generálás...",
     "wrapped_download_error": "Hiba a kép generálásakor. Kérlek, próbáld újra.",
     "wrapped_stations": "állomások",
-    "wrapped_share_image": "Megosztás"
+    "wrapped_share_image": "Megosztás",
+    "wrapped_trips": "utazások"
 }

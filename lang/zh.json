@@ -637,7 +637,7 @@
     "fr_email_reason_label": "原因：",
     "fr_email_english_note": "注意：技术细节和原因以英语提供，以确保我们的国际用户群体能够阅读。",
     "fr_email_signature": "最诚挚的问候<br>Trainlog团队",
-    "wrapped_title": "包装",
+    "wrapped_title": "总结",
     "wrapped_your_year": "你的年度",
     "wrapped_in_travel": "在旅行中",
     "wrapped_intro": "让我们回顾一下你在年内进行的所有旅程",
@@ -704,5 +704,6 @@
     "wrapped_generating": "生成中...",
     "wrapped_download_error": "生成图片时出错。请再试一次。",
     "wrapped_stations": "车站",
-    "wrapped_share_image": "分享"
+    "wrapped_share_image": "分享",
+    "wrapped_trips": "旅行"
 }

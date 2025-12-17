@@ -637,7 +637,7 @@
     "fr_email_reason_label": "Årsag:",
     "fr_email_english_note": "Bemærk: Tekniske detaljer og årsager leveres på engelsk for at sikre læsbarhed for vores internationale brugerbase.",
     "fr_email_signature": "Venlig hilsen<br>Trainlog-teamet",
-    "wrapped_title": "Indpakket",
+    "wrapped_title": "RESUMÉ",
     "wrapped_your_year": "Dit år",
     "wrapped_in_travel": "i rejse",
     "wrapped_intro": "Lad os se tilbage på alle de rejser, du har taget i",
@@ -704,5 +704,6 @@
     "wrapped_generating": "Genererer...",
     "wrapped_download_error": "Fejl ved generering af billede. Prøv venligst igen.",
     "wrapped_stations": "Stationer",
-    "wrapped_share_image": "Del"
+    "wrapped_share_image": "Del",
+    "wrapped_trips": "ture"
 }

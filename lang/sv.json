@@ -637,7 +637,7 @@
     "fr_email_reason_label": "Anledning:",
     "fr_email_english_note": "Obs: Tekniska detaljer och anledningar ges på engelska för att säkerställa läsbarhet för vår internationella användarbas.",
     "fr_email_signature": "Vänliga hälsningar<br>Trainlog-teamet",
-    "wrapped_title": "INSLAGET",
+    "wrapped_title": "SAMMANFATTNING",
     "wrapped_your_year": "Ditt År",
     "wrapped_in_travel": "i Resa",
     "wrapped_intro": "Låt oss se tillbaka på alla resor du gjort under",
@@ -704,5 +704,6 @@
     "wrapped_generating": "Genererar...",
     "wrapped_download_error": "Fel vid bildgenerering. Vänligen försök igen.",
     "wrapped_stations": "Stationer",
-    "wrapped_share_image": "Dela"
+    "wrapped_share_image": "Dela",
+    "wrapped_trips": "resor"
 }

@@ -637,7 +637,7 @@
     "fr_email_reason_label": "Sebep:",
     "fr_email_english_note": "Not: Teknik detaylar ve sebepler, uluslararası kullanıcı tabanımız için okunabilirliği sağlamak amacıyla İngilizce olarak sunulmaktadır.",
     "fr_email_signature": "En içten dileklerimizle<br>Trainlog Ekibi",
-    "wrapped_title": "SARILI",
+    "wrapped_title": "ÖZET",
     "wrapped_your_year": "Senin Yılın",
     "wrapped_in_travel": "Seyahatte",
     "wrapped_intro": "Geriye dönüp baktığımızda, içinde yaptığın tüm yolculukları ele alalım",
@@ -704,5 +704,6 @@
     "wrapped_generating": "Oluşturuluyor...",
     "wrapped_download_error": "Görüntü oluşturulurken hata. Lütfen tekrar deneyin.",
     "wrapped_stations": "istasyonlar",
-    "wrapped_share_image": "Paylaş"
+    "wrapped_share_image": "Paylaş",
+    "wrapped_trips": "geziler"
 }

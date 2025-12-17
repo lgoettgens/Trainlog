@@ -637,7 +637,7 @@
     "fr_email_reason_label": "Motivo:",
     "fr_email_english_note": "Nota: I dettagli tecnici e i motivi sono forniti in inglese per garantire la leggibilità alla nostra base utenti internazionale.",
     "fr_email_signature": "Cordiali saluti<br>Il team di Trainlog",
-    "wrapped_title": "AVVOLTO",
+    "wrapped_title": "RIEPILOGO",
     "wrapped_your_year": "Il Tuo Anno",
     "wrapped_in_travel": "in Viaggio",
     "wrapped_intro": "Ripercorriamo tutti i viaggi che hai fatto in",
@@ -704,5 +704,6 @@
     "wrapped_generating": "Generazione...",
     "wrapped_download_error": "Errore durante la generazione dell'immagine. Per favore riprova.",
     "wrapped_stations": "Stazioni",
-    "wrapped_share_image": "Condividi"
+    "wrapped_share_image": "Condividi",
+    "wrapped_trips": "viaggi"
 }

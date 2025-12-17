@@ -637,7 +637,7 @@
     "fr_email_reason_label": "Причина:",
     "fr_email_english_note": "Примечание: Технические детали и причины предоставлены на английском языке для обеспечения читаемости нашей международной пользовательской базы.",
     "fr_email_signature": "С наилучшими пожеланиями<br>Команда Trainlog",
-    "wrapped_title": "Упаковано",
+    "wrapped_title": "РЕЗЮМЕ",
     "wrapped_your_year": "Ваш год",
     "wrapped_in_travel": "в путешествии",
     "wrapped_intro": "Давайте вспомним все путешествия, которые вы совершили в",
@@ -704,5 +704,6 @@
     "wrapped_generating": "Генерация...",
     "wrapped_download_error": "Ошибка при генерации изображения. Пожалуйста, попробуйте еще раз.",
     "wrapped_stations": "Станции",
-    "wrapped_share_image": "Поделиться"
+    "wrapped_share_image": "Поделиться",
+    "wrapped_trips": "поездки"
 }

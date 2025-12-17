@@ -637,7 +637,7 @@
     "fr_email_reason_label": "Razlog:",
     "fr_email_english_note": "Napomena: Tehnički detalji i razlozi su navedeni na engleskom jeziku kako bi osigurali čitljivost za našu međunarodnu bazu korisnika.",
     "fr_email_signature": "Srdačan pozdrav<br>Tim Trainlog",
-    "wrapped_title": "UMOTANO",
+    "wrapped_title": "SAŽETAK",
     "wrapped_your_year": "Tvoja Godina",
     "wrapped_in_travel": "u Putovanju",
     "wrapped_intro": "Prisjetimo se svih putovanja koja si imao u",
@@ -704,5 +704,6 @@
     "wrapped_generating": "Generiranje...",
     "wrapped_download_error": "Pogreška pri generiranju slike. Molimo pokušajte ponovo.",
     "wrapped_stations": "stanice",
-    "wrapped_share_image": "Podijeli"
+    "wrapped_share_image": "Podijeli",
+    "wrapped_trips": "putovanja"
 }

@@ -637,7 +637,7 @@
     "fr_email_reason_label": "Põhjus:",
     "fr_email_english_note": "Märkus: Tehnilised üksikasjad ja põhjused on esitatud inglise keeles, et tagada loetavus meie rahvusvahelisele kasutajaskonnale.",
     "fr_email_signature": "Parimate soovidega<br>Trainlogi meeskond",
-    "wrapped_title": "PAKENDATUD",
+    "wrapped_title": "KOKKUVÕTE",
     "wrapped_your_year": "Sinu Aasta",
     "wrapped_in_travel": "Reisimisel",
     "wrapped_intro": "Vaatame tagasi kõigile teekondadele, mille sa oled ette võtnud aastal",
@@ -704,5 +704,6 @@
     "wrapped_generating": "Genereerimine...",
     "wrapped_download_error": "Viga pildi genereerimisel. Palun proovi uuesti.",
     "wrapped_stations": "Jaamad",
-    "wrapped_share_image": "Jaga"
+    "wrapped_share_image": "Jaga",
+    "wrapped_trips": "reisid"
 }

@@ -637,7 +637,7 @@
     "fr_email_reason_label": "Syy:",
     "fr_email_english_note": "Huomaa: Teknisiä yksityiskohtia ja syitä annetaan Englanti varmistaaksemme kansainvälisen käyttäjäkuntamme luettavuuden.",
     "fr_email_signature": "Ystävällisin terveisin<br>Trainlog-tiimi",
-    "wrapped_title": "KÄÄRITTY",
+    "wrapped_title": "YHTEENVETO",
     "wrapped_your_year": "Sinun Vuotesi",
     "wrapped_in_travel": "Matkailussa",
     "wrapped_intro": "Katsotaan taaksepäin kaikki matkat, jotka olet tehnyt vuonna",
@@ -704,5 +704,6 @@
     "wrapped_generating": "Luodaan...",
     "wrapped_download_error": "Virhe kuvan luomisessa. Yritä uudelleen.",
     "wrapped_stations": "Asemat",
-    "wrapped_share_image": "Jaa"
+    "wrapped_share_image": "Jaa",
+    "wrapped_trips": "matkat"
 }

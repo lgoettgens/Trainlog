@@ -637,7 +637,7 @@
     "fr_email_reason_label": "Reden:",
     "fr_email_english_note": "Opmerking: Technische details en redenen worden in het Engels verstrekt om de leesbaarheid voor onze internationale gebruikersbasis te garanderen.",
     "fr_email_signature": "Met vriendelijke groeten<br>Het Trainlog-team",
-    "wrapped_title": "AFGEROND",
+    "wrapped_title": "SAMENVATTING",
     "wrapped_your_year": "Jouw jaar",
     "wrapped_in_travel": "in reizen",
     "wrapped_intro": "Laten we terugkijken op alle reizen die je hebt gemaakt in",
@@ -704,5 +704,6 @@
     "wrapped_generating": "Genereren...",
     "wrapped_download_error": "Fout bij het genereren van afbeelding. Probeer het alstublieft opnieuw.",
     "wrapped_stations": "Stations",
-    "wrapped_share_image": "Delen"
+    "wrapped_share_image": "Delen",
+    "wrapped_trips": "reizen"
 }
