@@ -286,8 +286,8 @@
     
     .recap-stat-big .recap-number {
         display: block;
-        font-size: 2.2rem;
-        font-weight: 800;
+        font-size: clamp(1.2rem, 5.5vw, 2.2rem);
+        font-weight: 600;
         color: white;
         line-height: 1.2;
     }
@@ -914,9 +914,10 @@
                 <div class="recap-countries">
                     {% for country in data.top_countries[:3] %}
                     <img 
-                        src="/static/images/flags/{{ country.code|lower }}.svg" 
+                        src="/flags/{{ country.code|lower }}.svg?w=36&h=24"
                         alt="{{ country.code }}"
                         class="recap-flag"
+                        crossorigin="anonymous"
                     >
                     {% endfor %}
                 </div>
@@ -1067,20 +1068,16 @@
                     { type: 'image/png' }
                 );
 
-                // ✅ Native share on mobile
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share({
-                        files: [file],
-                        title: 'Trainlog Wrapped {{ data.year }}',
-                        text: 'My Trainlog Wrapped {{ data.year }}'
-                    });
+                const data = { files: [file], title: 'Trainlog Wrapped {{ data.year }}', text: 'My Trainlog Wrapped {{ data.year }}' };
+
+                if (navigator.share && navigator.canShare?.(data)) {
+                    await navigator.share(data);
                 } else {
-                    // 🖥️ Fallback: download
-                    const link = document.createElement('a');
-                    link.download = file.name;
-                    link.href = URL.createObjectURL(blob);
-                    link.click();
-                    URL.revokeObjectURL(link.href);
+                    const a = document.createElement("a");
+                    a.download = file.name;
+                    a.href = URL.createObjectURL(blob);
+                    a.click();
+                    URL.revokeObjectURL(a.href);
                 }
 
             } catch (error) {
@@ -1089,7 +1086,16 @@
             }
 
             button.disabled = false;
-            button.innerHTML = '<i class="fa-solid fa-download"></i> {{ wrapped_download_image or "Download image" }}';
+
+            if (navigator.share && navigator.canShare) {
+                    button.innerHTML = `
+                        <i class="fa-solid fa-share-nodes"></i>
+                        {{ wrapped_share_image or "Share image" }}
+                    `;
+                }
+            else{
+                button.innerHTML = '<i class="fa-solid fa-download"></i> {{ wrapped_download_image or "Download image" }}';
+            }
         });
     </script>
     

@@ -9136,6 +9136,19 @@ def list_routes():
     
     return '<br>'.join(sorted(routes))
 
+@app.get("/flags/<code>.svg")
+def flag(code):
+    w = request.args.get("w")
+    h = request.args.get("h")
+    svg = open(f"static/images/flags/{code}.svg").read()
+    svg = re.sub(r'<svg([^>]*)>',
+                 rf'<svg\1 width="{w}" height="{h}">', svg)
+
+    resp = make_response(svg)
+    resp.mimetype = "image/svg+xml"
+    return resp
+
+
 with app.app_context():
     if not database_exists(authDb.get_engine().url):
         create_authDb()
