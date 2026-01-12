@@ -17,9 +17,47 @@ from py.utils import load_config, getCountryFromCoordinates, get_flag_emoji, get
 from src.trips import Trip, create_trip
 from src.users import User
 from src.utils import sendEmail, lang
+from src.routing import forward_routing_core
 
 logger = logging.getLogger(__name__)
 _app = None
+
+class FakeRequest:
+    """Minimal request object for forward_routing_core."""
+    def __init__(self):
+        self.query_string = b"overview=full&geometries=geojson"
+        self.args = {"use_new_router": "false"}
+
+def route_path(origin, destination, trip_type):
+    """Get routed path for ground transportation. Returns list of {lat, lng} or None on failure."""
+    routable_types = {"train", "tram", "metro", "bus", "car", "walk", "cycle"}
+    if trip_type not in routable_types:
+        return None
+    
+    routing_type_map = {"tram": "train", "metro": "train"}
+    routing_type = routing_type_map.get(trip_type, trip_type)
+    
+    coords = f"{origin['lng']},{origin['lat']};{destination['lng']},{destination['lat']}"
+    path = f"route/v1/{'driving' if routing_type in ('bus', 'car') else routing_type}/{coords}"
+    
+    try:
+        result = forward_routing_core(routing_type, path, FakeRequest())
+        if hasattr(result, 'get_json'):
+            data = result.get_json()
+        elif isinstance(result, str):
+            data = json.loads(result)
+        else:
+            data = result
+        
+        if data and "routes" in data and data["routes"]:
+            geometry = data["routes"][0].get("geometry", {})
+            coords_list = geometry.get("coordinates", [])
+            if coords_list:
+                return [{"lat": c[1], "lng": c[0]} for c in coords_list]
+    except Exception as e:
+        logger.warning(f"Routing failed for {trip_type}: {e}")
+    
+    return None
 
 def get_email_body(msg):
     if msg.is_multipart():
@@ -379,10 +417,17 @@ def create_trip_from_parsed(user, parsed_trip):
         origin_station = f"{origin_flag} {origin_geo['name']}"
         dest_station = f"{dest_flag} {dest_geo['name']}"
         
-        path = [
-            {"lat": origin_geo["lat"], "lng": origin_geo["lng"]},
-            {"lat": dest_geo["lat"], "lng": dest_geo["lng"]}
-        ]
+        origin_point = {"lat": origin_geo["lat"], "lng": origin_geo["lng"]}
+        dest_point = {"lat": dest_geo["lat"], "lng": dest_geo["lng"]}
+        
+        # Try routing for ground transportation
+        routed_path = route_path(origin_point, dest_point, trip_type)
+        if routed_path:
+            path = routed_path
+            logger.info(f"Used routing for {trip_type}: {len(path)} points")
+        else:
+            path = [origin_point, dest_point]
+            logger.info(f"Fallback to straight line for {trip_type}")
         
         trip_length = getDistance(path[0], path[-1])
         countries = "{}"
