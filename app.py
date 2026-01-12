@@ -4806,18 +4806,21 @@ def stationAutocomplete():
     args = request.query_string.decode("utf-8")
     timeout = 2
     en = "lang=en"
-
-    primary = f"{chiel}?{args}&{en}"
-    bkp = f"{komoot}?{args}&{en}"
-
-    try:
-        responseJson = requests.get(primary, timeout=timeout).json()
-    except Exception:
+    
+    responseJson = None
+    for url in [chiel, komoot]:
         try:
-            responseJson = requests.get(bkp).json()
+            resp = requests.get(f"{url}?{args}&{en}", timeout=timeout)
+            resp.raise_for_status()
+            responseJson = resp.json()
+            if responseJson.get("features") is not None:
+                break
         except Exception:
-            return "Photon Error", 500
-
+            continue
+    
+    if responseJson is None:
+        return "Photon Error", 500
+    
     homonymy_filter = {}
 
     for index, result in enumerate(responseJson["features"]):

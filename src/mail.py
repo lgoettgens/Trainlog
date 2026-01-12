@@ -147,15 +147,16 @@ def geocode_station(query, trip_type="train", fallback_coords=None):
         params.append(("osm_tag", tag))
     
     data = None
-    try:
-        resp = requests.get(chiel, params=params, timeout=timeout)
-        data = resp.json()
-    except Exception:
+    for url in [chiel, komoot]:
         try:
-            resp = requests.get(komoot, params=params, timeout=timeout)
+            resp = requests.get(url, params=params, timeout=timeout)
+            resp.raise_for_status()
             data = resp.json()
+            if data.get("features"):
+                break
         except Exception as e:
-            logger.error(f"Geocoding error: {e}")
+            logger.debug(f"Geocoding {url} failed: {e}")
+            continue
     
     # Use AI fallback coordinates if geocoding failed
     if (not data or not data.get("features")) and fallback_coords:
