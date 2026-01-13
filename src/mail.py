@@ -106,17 +106,15 @@ def parse_ics_content(ics_data):
         cal = Calendar.from_ical(ics_data)
         for component in cal.walk():
             if component.name == "VEVENT":
+                dtstart = component.get("dtstart")
+                dtend = component.get("dtend")
                 event = {
                     "summary": str(component.get("summary", "")),
                     "description": str(component.get("description", "")),
                     "location": str(component.get("location", "")),
-                    "dtstart": component.get("dtstart"),
-                    "dtend": component.get("dtend"),
+                    "dtstart": dtstart.dt if dtstart else None,
+                    "dtend": dtend.dt if dtend else None,
                 }
-                if event["dtstart"]:
-                    event["dtstart"] = event["dtstart"].dt
-                if event["dtend"]:
-                    event["dtend"] = event["dtend"].dt
                 events.append(event)
     except Exception as e:
         logger.error(f"ICS parsing error: {e}")
@@ -254,6 +252,18 @@ def geocode_station(query, trip_type="train", fallback_coords=None):
         "country_code": country_code
     }
 
+def get_original_email_date(msg):
+    """Extract original send date from potentially forwarded email."""
+    from email.utils import parsedate_to_datetime
+    date_str = msg.get("Date")
+    if date_str:
+        try:
+            return parsedate_to_datetime(date_str).date()
+        except:
+            pass
+    return datetime.now().date()
+
+
 def parse_ticket_with_ai(subject, body, user_lang="en", ics_events=None, pdf_texts=None):
     config = load_config()
     api_key = config.get("infomaniak_ai", {}).get("api_key")
@@ -298,15 +308,16 @@ Return ONLY valid JSON array, no markdown:
   "destination_iata": "XYZ or null if not a flight",
   "destination_lat": latitude as number or null,
   "destination_lng": longitude as number or null,
-  "date": "YYYY-MM-DD",
+  "date": "YYYY-MM-DD departure date",
+  "arrival_date": "YYYY-MM-DD or null if same day as departure",
   "time_departure": "HH:MM or null",
   "time_arrival": "HH:MM or null",
   "operator": "Company name",
   "line_name": "Flight number or train number or null",
   "price": number or null,
-  "currency": "EUR|USD|etc or null",
+  "currency": "ISO 4217 EUR|USD|etc or null",
   "aircraft_icao": "ICAO code like B738, A320, E295 or null if not a flight or unknown",
-  "seat": "Seat number like 12A or null",
+  "seat": "Seat number like 12A 08D or null",
   "booking_reference": "PNR/booking code or null",
   "ticket_number": "Ticket number or null",
   "cabin_class": "Economy/Business/First or null",
@@ -315,6 +326,7 @@ Return ONLY valid JSON array, no markdown:
 
 For coordinates: provide approximate lat/lng if you know the location (e.g. major stations/cities).
 For aircraft types, use ICAO codes: Boeing 737-800=B738, Airbus A320=A320, Embraer 195=E195, etc.
+For multi-day trips (ferries, overnight trains), always provide arrival_date.
 
 If not a valid ticket, return []
 
@@ -358,9 +370,10 @@ def build_notes(parsed_trip, user_lang="en"):
     
     return " | ".join(parts)
 
-def create_trip_from_parsed(user, parsed_trip):
+def create_trip_from_parsed(user, parsed_trip, purchase_date=None, ics_source=False):
     from timezonefinder import TimezoneFinder
     import pytz
+    from src.utils import getLocalDatetime
     
     trip_type = parsed_trip.get("type", "train")
     now = datetime.now()
@@ -420,7 +433,6 @@ def create_trip_from_parsed(user, parsed_trip):
         origin_point = {"lat": origin_geo["lat"], "lng": origin_geo["lng"]}
         dest_point = {"lat": dest_geo["lat"], "lng": dest_geo["lng"]}
         
-        # Try routing for ground transportation
         routed_path = route_path(origin_point, dest_point, trip_type)
         if routed_path:
             path = routed_path
@@ -433,10 +445,6 @@ def create_trip_from_parsed(user, parsed_trip):
         countries = "{}"
         material_type = None
     
-    trip_date = parsed_trip.get("date")
-    dep_time = parsed_trip.get("time_departure")
-    arr_time = parsed_trip.get("time_arrival")
-    
     start_datetime = None
     end_datetime = None
     utc_start_datetime = None
@@ -444,34 +452,63 @@ def create_trip_from_parsed(user, parsed_trip):
     estimated_duration = None
     
     tf = TimezoneFinder()
+    # Check if we have UTC datetimes from ICS
+    utc_start = parsed_trip.get("utc_start_datetime")
+    utc_end = parsed_trip.get("utc_end_datetime")
     
-    if trip_date:
-        if dep_time:
-            start_datetime = datetime.strptime(f"{trip_date} {dep_time}", "%Y-%m-%d %H:%M")
-            origin_tz_name = tf.timezone_at(lat=path[0]["lat"], lng=path[0]["lng"])
-            if origin_tz_name:
-                origin_tz = pytz.timezone(origin_tz_name)
-                local_start = origin_tz.localize(start_datetime)
-                utc_start_datetime = local_start.astimezone(pytz.UTC).replace(tzinfo=None)
-        else:
-            start_datetime = datetime.strptime(f"{trip_date} 00:00:01", "%Y-%m-%d %H:%M:%S")
+    if utc_start:
+        # ICS source: times are already UTC
+        utc_start_datetime = utc_start.replace(tzinfo=None) if hasattr(utc_start, 'replace') else utc_start
+        start_datetime = getLocalDatetime(path[0]["lat"], path[0]["lng"], utc_start.replace(tzinfo=pytz.UTC) if utc_start.tzinfo is None else utc_start)
         
-        if arr_time:
-            end_datetime = datetime.strptime(f"{trip_date} {arr_time}", "%Y-%m-%d %H:%M")
-            dest_tz_name = tf.timezone_at(lat=path[-1]["lat"], lng=path[-1]["lng"])
-            if dest_tz_name:
-                dest_tz = pytz.timezone(dest_tz_name)
-                local_end = dest_tz.localize(end_datetime)
-                utc_end_datetime = local_end.astimezone(pytz.UTC).replace(tzinfo=None)
+        if utc_end:
+            utc_end_datetime = utc_end.replace(tzinfo=None) if hasattr(utc_end, 'replace') else utc_end
+            end_datetime = getLocalDatetime(path[-1]["lat"], path[-1]["lng"], utc_end.replace(tzinfo=pytz.UTC) if utc_end.tzinfo is None else utc_end)
         else:
-            end_datetime = start_datetime
             utc_end_datetime = utc_start_datetime
+            end_datetime = start_datetime
+    else:
+        # AI/email source: times are local
+        trip_date = parsed_trip.get("date")
+        arrival_date = parsed_trip.get("arrival_date") or trip_date
+        dep_time = parsed_trip.get("time_departure")
+        arr_time = parsed_trip.get("time_arrival")
         
-        if dep_time and arr_time and utc_start_datetime and utc_end_datetime:
-            estimated_duration = int((utc_end_datetime - utc_start_datetime).total_seconds())
+        if trip_date:
+            if dep_time:
+                start_datetime = datetime.strptime(f"{trip_date} {dep_time}", "%Y-%m-%d %H:%M")
+                origin_tz_name = tf.timezone_at(lat=path[0]["lat"], lng=path[0]["lng"])
+                if origin_tz_name:
+                    origin_tz = pytz.timezone(origin_tz_name)
+                    local_start = origin_tz.localize(start_datetime)
+                    utc_start_datetime = local_start.astimezone(pytz.UTC).replace(tzinfo=None)
+            else:
+                start_datetime = datetime.strptime(f"{trip_date} 00:00:01", "%Y-%m-%d %H:%M:%S")
+            
+            if arr_time:
+                end_datetime = datetime.strptime(f"{arrival_date} {arr_time}", "%Y-%m-%d %H:%M")
+                dest_tz_name = tf.timezone_at(lat=path[-1]["lat"], lng=path[-1]["lng"])
+                if dest_tz_name:
+                    dest_tz = pytz.timezone(dest_tz_name)
+                    local_end = dest_tz.localize(end_datetime)
+                    utc_end_datetime = local_end.astimezone(pytz.UTC).replace(tzinfo=None)
+            elif arrival_date and arrival_date != trip_date:
+                end_datetime = datetime.strptime(f"{arrival_date} 23:59", "%Y-%m-%d %H:%M")
+                dest_tz_name = tf.timezone_at(lat=path[-1]["lat"], lng=path[-1]["lng"])
+                if dest_tz_name:
+                    dest_tz = pytz.timezone(dest_tz_name)
+                    local_end = dest_tz.localize(end_datetime)
+                    utc_end_datetime = local_end.astimezone(pytz.UTC).replace(tzinfo=None)
+            else:
+                end_datetime = start_datetime
+                utc_end_datetime = utc_start_datetime
+    
+    if utc_start_datetime and utc_end_datetime:
+        estimated_duration = int((utc_end_datetime - utc_start_datetime).total_seconds())
+        if estimated_duration < 0:
+            estimated_duration = None
     
     is_project = False
-    
     notes = build_notes(parsed_trip, user.lang)
     
     trip = Trip(
@@ -493,7 +530,7 @@ def create_trip_from_parsed(user, parsed_trip):
         type=trip_type,
         price=parsed_trip.get("price"),
         currency=parsed_trip.get("currency"),
-        purchasing_date=now,
+        purchasing_date=purchase_date,
         ticket_id=None,
         is_project=is_project,
         path=path,
@@ -588,6 +625,7 @@ def process_incoming_email(raw):
             logger.error(f"Failed to decode subject: {e}")
         
         body = get_email_body(msg)
+        purchase_date = get_original_email_date(msg)
         
         attachments = extract_attachments(msg)
         ics_events = []
@@ -622,7 +660,7 @@ def process_incoming_email(raw):
         
         for i, parsed in enumerate(trips):
             try:
-                trip = create_trip_from_parsed(user, parsed)
+                trip = create_trip_from_parsed(user, parsed, purchase_date)
                 if trip:
                     created_trips.append(trip)
                 else:
