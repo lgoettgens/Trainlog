@@ -50,4 +50,4 @@ stripe==12.4.0
 IMAPClient==3.0.1
 pypdf==6.6.0
 icalendar==6.3.2
-cryptography==46.0.3
+cryptography==45.0.7

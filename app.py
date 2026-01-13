@@ -2929,7 +2929,6 @@ def editCountriesList():
 
 
 @app.route("/getGeojson/<cc>", methods=["GET"])
-@admin_required
 def get_full_geojson(cc):
     directory_path = "country_percent/countries/processed/"
 
