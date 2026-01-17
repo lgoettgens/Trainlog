@@ -4125,6 +4125,8 @@ def saveFlight(username, type):
         jsonNewTrip = request.form["newTrip"]
         newTrip = json.loads(jsonNewTrip)
         airlineLogoProcess(newTrip)
+        # TODO : Fix visibility for flights
+        newTrip["visibility"] = "public"
         saveTripToDb(
             username=username, newTrip=newTrip, newPath=newPath, trip_type=type
         )
