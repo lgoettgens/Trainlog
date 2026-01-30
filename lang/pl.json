@@ -652,6 +652,8 @@
     "share_trips_some_trips_not_public": "Niektóre z wybranych podróży nie są publiczne. Czy chcesz je teraz upublicznić?",
     "share_trips_leave_as_is": "Pozostaw jak jest",
     "share_trips_make_public": "Upublicznij",
+    "trip_view_hidden_trips_singular": "ukryta podróż",
+    "trip_view_hidden_trips_plural": "ukryte podróże",
     "wrapped_title": "PODSUMOWANIE",
     "wrapped_your_year": "Twój rok",
     "wrapped_in_travel": "w podróży",

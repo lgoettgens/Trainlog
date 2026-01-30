@@ -652,6 +652,8 @@
     "share_trips_some_trips_not_public": "Neka od odabranih putovanja nisu javna. Želite li ih sada učiniti javnima?",
     "share_trips_leave_as_is": "Ostaviti kako jest",
     "share_trips_make_public": "Učiniti javnim",
+    "trip_view_hidden_trips_singular": "skriveno putovanje",
+    "trip_view_hidden_trips_plural": "skrivena putovanja",
     "wrapped_title": "SAŽETAK",
     "wrapped_your_year": "Tvoja Godina",
     "wrapped_in_travel": "u Putovanju",

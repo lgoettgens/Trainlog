@@ -652,6 +652,8 @@
     "share_trips_some_trips_not_public": "Nogle af de valgte rejser er ikke offentlige. Ønsker du at gøre dem offentlige nu?",
     "share_trips_leave_as_is": "Behold som det er",
     "share_trips_make_public": "Gøre offentlig",
+    "trip_view_hidden_trips_singular": "skjult rejse",
+    "trip_view_hidden_trips_plural": "skjulte rejser",
     "wrapped_title": "RESUMÉ",
     "wrapped_your_year": "Dit år",
     "wrapped_in_travel": "i rejse",

@@ -652,6 +652,8 @@
     "share_trips_some_trips_not_public": "Sommige van de geselecteerde reizen zijn niet openbaar. Wilt u ze nu openbaar maken?",
     "share_trips_leave_as_is": "Laat zoals het is",
     "share_trips_make_public": "Openbaar maken",
+    "trip_view_hidden_trips_singular": "verborgen reis",
+    "trip_view_hidden_trips_plural": "verborgen reizen",
     "wrapped_title": "SAMENVATTING",
     "wrapped_your_year": "Jouw jaar",
     "wrapped_in_travel": "in reizen",

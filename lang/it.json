@@ -652,6 +652,8 @@
     "share_trips_some_trips_not_public": "Alcuni dei viaggi selezionati non sono pubblici. Vuoi renderli pubblici adesso?",
     "share_trips_leave_as_is": "Lascia così com'è",
     "share_trips_make_public": "Rendere pubblico",
+    "trip_view_hidden_trips_singular": "viaggio nascosto",
+    "trip_view_hidden_trips_plural": "viaggi nascosti",
     "wrapped_title": "RIEPILOGO",
     "wrapped_your_year": "Il Tuo Anno",
     "wrapped_in_travel": "in Viaggio",

@@ -652,6 +652,8 @@
     "share_trips_some_trips_not_public": "Seçilen gezilerin bazıları herkese açık değil. Şimdi herkese açık yapmak ister misiniz?",
     "share_trips_leave_as_is": "Olduğu gibi bırak",
     "share_trips_make_public": "Herkese açık yap",
+    "trip_view_hidden_trips_singular": "gizli gezi",
+    "trip_view_hidden_trips_plural": "gizli geziler",
     "wrapped_title": "ÖZET",
     "wrapped_your_year": "Senin Yılın",
     "wrapped_in_travel": "Seyahatte",

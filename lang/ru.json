@@ -652,6 +652,8 @@
     "share_trips_some_trips_not_public": "Некоторые из выбранных поездок не являются публичными. Вы хотите сделать их публичными сейчас?",
     "share_trips_leave_as_is": "Оставить как есть",
     "share_trips_make_public": "Сделать публичным",
+    "trip_view_hidden_trips_singular": "скрытое путешествие",
+    "trip_view_hidden_trips_plural": "скрытые путешествия",
     "wrapped_title": "РЕЗЮМЕ",
     "wrapped_your_year": "Ваш год",
     "wrapped_in_travel": "в путешествии",

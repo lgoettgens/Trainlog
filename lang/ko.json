@@ -652,6 +652,8 @@
     "share_trips_some_trips_not_public": "선택한 여행 중 일부가 공개되지 않았습니다. 지금 공개하시겠습니까?",
     "share_trips_leave_as_is": "있는 그대로 두기",
     "share_trips_make_public": "공개하기",
+    "trip_view_hidden_trips_singular": "숨겨진 여행",
+    "trip_view_hidden_trips_plural": "숨겨진 여행들",
     "wrapped_title": "요약",
     "wrapped_your_year": "당신의 한 해",
     "wrapped_in_travel": "여행 중에",

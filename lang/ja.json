@@ -652,6 +652,8 @@
     "share_trips_some_trips_not_public": "選択された旅行のいくつかは公開されていません。今すぐ公開しますか？",
     "share_trips_leave_as_is": "そのままにする",
     "share_trips_make_public": "公開する",
+    "trip_view_hidden_trips_singular": "非表示の旅行",
+    "trip_view_hidden_trips_plural": "非表示の旅行",
     "wrapped_title": "要約",
     "wrapped_your_year": "あなたの年",
     "wrapped_in_travel": "旅行で",

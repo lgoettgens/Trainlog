@@ -652,6 +652,8 @@
     "share_trips_some_trips_not_public": "某些选定的行程尚未公开。你想现在公开它们吗？",
     "share_trips_leave_as_is": "保持原样",
     "share_trips_make_public": "公开",
+    "trip_view_hidden_trips_singular": "隐藏行程",
+    "trip_view_hidden_trips_plural": "隐藏行程",
     "wrapped_title": "总结",
     "wrapped_your_year": "你的年度",
     "wrapped_in_travel": "在旅行中",

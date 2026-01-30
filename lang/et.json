@@ -652,6 +652,8 @@
     "share_trips_some_trips_not_public": "Mõned valitud reisid ei ole avalikud. Kas soovite need nüüd avalikustada?",
     "share_trips_leave_as_is": "Jätta nagu on",
     "share_trips_make_public": "Muuda avalikuks",
+    "trip_view_hidden_trips_singular": "peidetud reis",
+    "trip_view_hidden_trips_plural": "peidetud reisid",
     "wrapped_title": "KOKKUVÕTE",
     "wrapped_your_year": "Sinu Aasta",
     "wrapped_in_travel": "Reisimisel",

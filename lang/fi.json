@@ -652,6 +652,8 @@
     "share_trips_some_trips_not_public": "Jotkut valituista matkoista eivät ole julkisia. Haluatko tehdä niistä julkisia nyt?",
     "share_trips_leave_as_is": "Jätä ennalleen",
     "share_trips_make_public": "Tee julkiseksi",
+    "trip_view_hidden_trips_singular": "piilotettu matka",
+    "trip_view_hidden_trips_plural": "piilotetut matkat",
     "wrapped_title": "YHTEENVETO",
     "wrapped_your_year": "Vuotesi",
     "wrapped_in_travel": "Maailmalla",

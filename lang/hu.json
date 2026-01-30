@@ -652,6 +652,8 @@
     "share_trips_some_trips_not_public": "A kiválasztott utak közül néhány nem nyilvános. Nyilvánossá szeretné tenni őket most?",
     "share_trips_leave_as_is": "Hagyni, ahogy van",
     "share_trips_make_public": "Nyilvánossá tenni",
+    "trip_view_hidden_trips_singular": "rejtett utazás",
+    "trip_view_hidden_trips_plural": "rejtett utazások",
     "wrapped_title": "ÖSSZEFOGLALÁS",
     "wrapped_your_year": "Az éved",
     "wrapped_in_travel": "utazásban",
