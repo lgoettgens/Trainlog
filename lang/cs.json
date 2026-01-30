@@ -145,7 +145,7 @@
     "dtSearch": "Hledat:",
     "reg": "Registrace",
     "seat": "Sedadlo",
-    "material_type": "Typ materiálu",
+    "material_type": "Typ vozidla",
     "travelTotals": "Cesta od ${first_trip_start} do ${last_trip_end}",
     "all": "Vše",
     "ferry": "Trajekt",
