@@ -4,7 +4,20 @@
 <div class="container mt-4">
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <h2 class="mb-3 text-center">{{ l.get("ai_trip_title", "Create trip from text") }}</h2>
+      <h2 class="mb-3 text-center">
+        {{ l.get("ai_trip_title", "Create trip from text") }}
+        {% if ai_calls == 'premium' %}
+          <small><i class="fa-solid fa-gem" style="color: #F39C12;"></i></small>
+        {% else %}
+          <small class="text-muted">({{ ai_calls }}/10)</small>
+        {% endif %}
+      </h2>
+
+      {% if ai_calls is number and ai_calls >= 10 %}
+      <div class="alert alert-warning">
+        {{ l.get("ai_limit_reached", "Monthly limit reached. Upgrade to premium for unlimited AI imports.") }}
+      </div>
+      {% endif %}
       
       <div id="inputSection">
         <form id="parseForm">
@@ -26,15 +39,9 @@
             <input type="file" id="fileInput" name="files" multiple accept=".pdf,.ics,.csv,.png,.jpg,.jpeg,.gif,.webp" class="d-none">
           </div>
           
-          <div id="pastePreview" class="mb-3 d-none">
-            <label>{{ l.get("pasted_image", "Pasted image") }}</label>
-            <div class="position-relative d-inline-block">
-              <img id="pasteImg" class="img-thumbnail" style="max-height:150px;">
-              <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0" id="removePaste">&times;</button>
-            </div>
-          </div>
+          <div id="pastePreview" class="mb-3 d-none"></div>
           
-          <button type="submit" class="btn btn-primary w-100" id="parseBtn">
+          <button type="submit" class="btn btn-primary w-100" id="parseBtn" {% if ai_calls is number and ai_calls >= 10 %}disabled{% endif %}>
             <span id="parseBtnText">{{ l.get("analyze", "Analyze") }}</span>
             <span id="parseBtnSpinner" class="spinner-border spinner-border-sm d-none"></span>
           </button>
@@ -85,7 +92,7 @@ const URLS = {
 let parseId = null;
 let tripsData = [];
 let selectedFiles = [];
-let pastedFile = null;
+let pastedFiles = [];
 
 // Drop zone
 const dropZone = document.getElementById('dropZone');
@@ -126,28 +133,45 @@ $('#fileList').on('click', '.remove', function() {
   renderFileList();
 });
 
-// Paste image
+// Paste images
 document.addEventListener('paste', (e) => {
   const items = e.clipboardData?.items;
   if (!items) return;
+  
   for (const item of items) {
     if (item.type.startsWith('image/')) {
-      pastedFile = item.getAsFile();
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        $('#pasteImg').attr('src', ev.target.result);
-        $('#pastePreview').removeClass('d-none');
-      };
-      reader.readAsDataURL(pastedFile);
+      const file = item.getAsFile();
+      pastedFiles.push(file);
       e.preventDefault();
-      break;
     }
   }
+  renderPastedImages();
 });
 
-$('#removePaste').on('click', () => {
-  pastedFile = null;
-  $('#pastePreview').addClass('d-none');
+function renderPastedImages() {
+  if (!pastedFiles.length) {
+    $('#pastePreview').addClass('d-none').html('');
+    return;
+  }
+  
+  let html = '<label>{{ l.get("pasted_images", "Pasted images") }}</label><div>';
+  pastedFiles.forEach((file, i) => {
+    const url = URL.createObjectURL(file);
+    html += `
+      <div class="position-relative d-inline-block me-2 mb-2">
+        <img src="${url}" class="img-thumbnail" style="max-height:100px;">
+        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 remove-paste" data-idx="${i}">&times;</button>
+      </div>
+    `;
+  });
+  html += '</div>';
+  
+  $('#pastePreview').html(html).removeClass('d-none');
+}
+
+$(document).on('click', '.remove-paste', function() {
+  pastedFiles.splice($(this).data('idx'), 1);
+  renderPastedImages();
 });
 
 $('#parseForm').on('submit', function(e) {
@@ -156,7 +180,7 @@ $('#parseForm').on('submit', function(e) {
   formData.append('text', $('#text').val());
   
   selectedFiles.forEach(f => formData.append('files', f));
-  if (pastedFile) formData.append('files', pastedFile, 'pasted-image.png');
+  pastedFiles.forEach((f, i) => formData.append('files', f, `pasted-image-${i}.png`));
   
   $('#parseBtn').prop('disabled', true);
   $('#parseBtnText').addClass('d-none');
@@ -241,9 +265,9 @@ $(document).on('change', '.trip-checkbox', function() {
 function resetForm() {
   parseId = null;
   selectedFiles = [];
-  pastedFile = null;
+  pastedFiles = [];
   renderFileList();
-  $('#pastePreview').addClass('d-none');
+  renderPastedImages();
   $('#parseForm')[0].reset();
   $('#previewSection').addClass('d-none');
   $('#inputSection').removeClass('d-none');
@@ -303,24 +327,5 @@ function showResult(type, message) {
   $('#resultSection').removeClass('d-none');
   $('#resultAlert').removeClass('alert-success alert-danger alert-warning').addClass('alert-' + type).html(message);
 }
-
-document.addEventListener('paste', (e) => {
-  const items = e.clipboardData?.items;
-  if (!items) return;
-  
-  for (const item of items) {
-    if (item.type.startsWith('image/')) {
-      const file = item.getAsFile();
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        // ev.target.result contains the base64 data URL
-        console.log(ev.target.result);
-      };
-      reader.readAsDataURL(file);
-      e.preventDefault();
-      break;
-    }
-  }
-});
 </script>
 {% endblock %}

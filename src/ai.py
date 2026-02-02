@@ -224,7 +224,7 @@ def parse_ics_content(ics_data):
         logger.error(f"ICS parsing error: {e}")
     return events
 
-def parse_trip_with_ai(text, user_lang="en", image_base64=None, image_mime=None, ics_events=None, pdf_texts=None):
+def parse_trip_with_ai(text, user_lang="en", images=None, ics_events=None, pdf_texts=None):
     config = load_config()
     api_key = config.get("infomaniak_ai", {}).get("api_key")
     if not api_key:
@@ -250,6 +250,8 @@ def parse_trip_with_ai(text, user_lang="en", image_base64=None, image_mime=None,
     prompt = f"""Extract all trips from this text/image.
 A trip is ONE segment (e.g., a flight with one connection = 2 trips).
 Ignore walking trips that are between two public transit trips unless specified
+When no date is given, default to today ({datetime.today().strftime('%Y-%m-%d')}), when date and time are given but no year, default to this year ({datetime.today().strftime('%Y')})
+When only one price is given for a multi leg trip, default to dividing the price among each leg
 
 Return ONLY valid JSON array, no markdown:
 [{{
@@ -285,18 +287,18 @@ IMPORTANT: Always provide origin_lat, origin_lng, destination_lat, destination_l
 For multi-day trips (ferries, overnight trains), always provide arrival_date.
 If no valid trip info, return []
 
-Text: {text if text else "(see image)"}{attachment_info}"""
+Text: {text if text else "(see images)"}{attachment_info}"""
 
     # Build message content
-    if image_base64:
-        content = [
-            {"type": "image_url", "image_url": {"url": f"data:{image_mime or 'image/png'};base64,{image_base64}"}},
-            {"type": "text", "text": prompt}
-        ]
+    if images:
+        content = []
+        for img in images:
+            content.append({"type": "image_url", "image_url": {"url": f"data:{img['mime']};base64,{img['data']}"}})
+        content.append({"type": "text", "text": prompt})
     else:
         content = prompt
 
-    model = "qwen3" if image_base64 else "mistral3"
+    model = "qwen3" if images else "mistral3"
 
     try:
         response = requests.post(
@@ -316,7 +318,6 @@ Text: {text if text else "(see image)"}{attachment_info}"""
         
         # Normalize response to list
         if isinstance(parsed, dict):
-            # Single trip returned as dict, or wrapped in a key
             if parsed.get("origin") and parsed.get("destination"):
                 parsed = [parsed]
             elif "trips" in parsed:
@@ -331,7 +332,6 @@ Text: {text if text else "(see image)"}{attachment_info}"""
             logger.error(f"AI returned non-list: {type(parsed)} - {parsed}")
             return None
         
-        # Filter to only valid trip dicts
         valid_trips = [t for t in parsed if isinstance(t, dict) and t.get("origin") and t.get("destination")]
         
         if not valid_trips:

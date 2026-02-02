@@ -7,7 +7,7 @@ from src.ai import (
     enrich_parsed_trip, parse_ics_content
 )
 from src.users import User
-from src.utils import lang, login_required
+from src.utils import lang, login_required,ai_usage, check_and_increment_ai_usage
 
 logger = logging.getLogger(__name__)
 ai_blueprint = Blueprint('ai', __name__)
@@ -22,15 +22,15 @@ def new_trip_ai(username):
         "new_trip_ai.html", 
         username=username, 
         l=l,
+        ai_calls=ai_usage(username),
         **lang[session["userinfo"]["lang"]],
-        **session["userinfo"],)
+        **session["userinfo"],
+    )
 
 @ai_blueprint.route("/u/<username>/new/ai/parse", methods=["POST"])
 @login_required
 def parse_trip_ai(username):
     user = User.query.filter_by(username=username).first()
-    if not user.premium:
-        return jsonify({"error": "Premium required"}), 403
     
     text = request.form.get("text", "").strip()
     files = request.files.getlist("files")
@@ -41,8 +41,7 @@ def parse_trip_ai(username):
     pdf_texts = []
     ics_events = []
     csv_texts = []
-    image_data = None
-    image_mime = None
+    images = []  # Changed to list
     
     for f in files:
         if not f or not f.filename:
@@ -71,6 +70,7 @@ def parse_trip_ai(username):
             ext = filename.rsplit(".", 1)[-1]
             mime_map = {"jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png", "gif": "image/gif", "webp": "image/webp"}
             image_mime = mime_map.get(ext, "image/png")
+            images.append({"data": image_data, "mime": image_mime})
     
     if csv_texts:
         text += "\n\nCSV DATA:\n" + "\n---\n".join(csv_texts)
@@ -79,8 +79,7 @@ def parse_trip_ai(username):
         trips = parse_trip_with_ai(
             text, 
             user.lang, 
-            image_base64=image_data,
-            image_mime=image_mime,
+            images=images if images else None,  # Pass list of images
             ics_events=ics_events if ics_events else None,
             pdf_texts=pdf_texts if pdf_texts else None
         )
@@ -109,8 +108,6 @@ def parse_trip_ai(username):
 @login_required
 def save_trip_ai(username):
     user = User.query.filter_by(username=username).first()
-    if not user.premium:
-        return jsonify({"error": "Premium required"}), 403
     
     data = request.get_json()
     parse_id = data.get("parse_id")
@@ -122,6 +119,11 @@ def save_trip_ai(username):
     pending = _pending_trips[parse_id]
     if pending["user"] != username:
         return jsonify({"error": "Unauthorized"}), 403
+    
+    # Check usage limit before saving
+    valid_count = sum(1 for idx in selected if 0 <= idx < len(pending["trips"]) and not pending["trips"][idx].get("_enrich_failed"))
+    if not check_and_increment_ai_usage(username, count=valid_count):
+        return jsonify({"error": "Monthly limit reached (10 trips). Upgrade to premium for unlimited."}), 403
     
     trips = pending["trips"]
     created = []
