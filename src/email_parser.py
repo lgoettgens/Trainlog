@@ -175,25 +175,27 @@ def email_listener():
     if not cfg:
         logger.warning("No email_receiver config found")
         return
-    
-    while True:
-        try:
-            client = IMAPClient(cfg["imap"], ssl=True)
-            client.login(cfg["user"], cfg["password"])
-            client.select_folder("INBOX")
-            logger.info("Email listener connected")
-            
-            while True:
-                client.idle()
-                responses = client.idle_check(timeout=300)
-                client.idle_done()
-                if responses:
-                    for msg_id in client.search("UNSEEN"):
-                        raw = client.fetch([msg_id], ["RFC822"])[msg_id][b"RFC822"]
-                        process_incoming_email(raw)
-        except Exception as e:
-            logger.error(f"Email listener error: {e}")
-            time.sleep(10)
+    if cfg["enabled"]:
+        while True:
+            try:
+                client = IMAPClient(cfg["imap"], ssl=True)
+                client.login(cfg["user"], cfg["password"])
+                client.select_folder("INBOX")
+                logger.info("Email listener connected")
+                
+                while True:
+                    client.idle()
+                    responses = client.idle_check(timeout=300)
+                    client.idle_done()
+                    if responses:
+                        for msg_id in client.search("UNSEEN"):
+                            raw = client.fetch([msg_id], ["RFC822"])[msg_id][b"RFC822"]
+                            process_incoming_email(raw)
+            except Exception as e:
+                logger.error(f"Email listener error: {e}")
+                time.sleep(10)
+    else: 
+        logger.info("Email listener disabled")
 
 def start_email_listener(app):
     global _app
