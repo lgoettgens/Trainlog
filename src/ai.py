@@ -12,6 +12,7 @@ from py.utils import load_config, getCountryFromCoordinates, get_flag_emoji, get
 from src.trips import Trip, create_trip
 from src.routing import forward_routing_core
 from src.utils import get_default_trip_visibility
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -61,6 +62,22 @@ def get_airport_by_iata(iata):
             return dict(result)
     return None
 
+STATION_EXPANSIONS = {
+    r'\bHbf\b': 'Hauptbahnhof',
+    r'\bBhf\b': 'Bahnhof',
+    r'\bStn\b': 'Station',
+    r'\bSt\.\s': 'Saint ',
+    r'\bZOB\b': 'Zentraler Omnibusbahnhof',
+    r'\bPl\.\b': 'Platz',
+    r'\bStr\.\b': 'Strasse',
+}
+
+def normalize_station_name(name):
+    result = name
+    for pattern, replacement in STATION_EXPANSIONS.items():
+        result = re.sub(pattern, replacement, result, flags=re.IGNORECASE)
+    return result.strip()
+
 def geocode_station(query, trip_type="train", fallback_coords=None):
     osm_tags = {
         "bus": ["amenity:bus_station", "highway:bus_stop"],
@@ -74,44 +91,64 @@ def geocode_station(query, trip_type="train", fallback_coords=None):
         "aerialway": ["aerialway:station"],
     }
     
-    params = [("q", query), ("limit", 1), ("lang", "en")]
-    for tag in osm_tags.get(trip_type, []):
-        params.append(("osm_tag", tag))
+    # Try normalized first (more likely to match correctly), then original
+    normalized = normalize_station_name(query)
+    queries_to_try = [normalized, query] if normalized != query else [query]
     
-    data = None
-    for url in ["https://photon.chiel.uk/api", "https://photon.komoot.io/api"]:
-        try:
-            resp = requests.get(url, params=params, timeout=10)
-            resp.raise_for_status()
-            data = resp.json()
-            if data.get("features"):
-                break
-        except Exception as e:
-            logger.debug(f"Geocoding {url} failed: {e}")
+    for q in queries_to_try:
+        params = [("q", q), ("limit", 5), ("lang", "en")]  # Get more results to pick best
+        for tag in osm_tags.get(trip_type, []):
+            params.append(("osm_tag", tag))
+        
+        for url in ["https://photon.chiel.uk/api", "https://photon.komoot.io/api"]:
+            try:
+                resp = requests.get(url, params=params, timeout=10)
+                resp.raise_for_status()
+                data = resp.json()
+                
+                if not data.get("features"):
+                    continue
+                
+                # Pick best match: prefer results where name contains query terms
+                query_words = set(query.lower().split())
+                best = None
+                best_score = -1
+                
+                for feat in data["features"]:
+                    props = feat["properties"]
+                    name = props.get("name", "").lower()
+                    city = props.get("city", "").lower()
+                    
+                    # Score by how many query words appear in name/city
+                    score = sum(1 for w in query_words if w in name or w in city)
+                    if score > best_score:
+                        best_score = score
+                        best = feat
+                
+                if best and best_score > 0:
+                    props = best["properties"]
+                    lng, lat = best["geometry"]["coordinates"]
+                    
+                    country_code = props.get("countrycode", "")
+                    if not country_code or country_code in ["CN", "FI"]:
+                        country = getCountryFromCoordinates(lat, lng)
+                        country_code = country.get("countryCode", "")
+                    
+                    name = props.get("name", query)
+                    city = props.get("city")
+                    if city and city.lower() not in name.lower():
+                        name = f"{city} - {name}"
+                    
+                    return {"name": name, "lat": lat, "lng": lng, "country_code": country_code}
+            except Exception as e:
+                logger.debug(f"Geocoding {url} failed: {e}")
     
-    if (not data or not data.get("features")) and fallback_coords:
+    if fallback_coords:
         lat, lng = fallback_coords
         country = getCountryFromCoordinates(lat, lng)
         return {"name": query, "lat": lat, "lng": lng, "country_code": country.get("countryCode", "")}
     
-    if not data or not data.get("features"):
-        return None
-    
-    feat = data["features"][0]
-    props = feat["properties"]
-    lng, lat = feat["geometry"]["coordinates"]
-    
-    country_code = props.get("countrycode", "")
-    if not country_code or country_code in ["CN", "FI"]:
-        country = getCountryFromCoordinates(lat, lng)
-        country_code = country.get("countryCode", "")
-    
-    name = props.get("name", query)
-    city = props.get("city")
-    if city and city.lower() not in name.lower():
-        name = f"{city} - {name}"
-    
-    return {"name": name, "lat": lat, "lng": lng, "country_code": country_code}
+    return None
 
 def extract_pdf_text(pdf_data):
     text = ""
