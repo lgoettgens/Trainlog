@@ -888,23 +888,22 @@ function getRegionFromCode(region_code){
 }
 
 function formatCurrency(locale, value, currency) {
-  // Determine the minimum and maximum number of decimal places based on the value
-  let minDecimals = value % 1 === 0 ? 0 : 2; // No decimals for whole numbers, two decimals otherwise
-  let maxDecimals = 2; // Default maximum decimal places
-
-  // Increase decimal precision for values less than one cent
-  if (Math.abs(value) < 0.1 && Math.abs(value) > 0.0) {
-    minDecimals = maxDecimals = 4; // Increase both min and max decimals for very small values
+  try {
+    let minDecimals = value % 1 === 0 ? 0 : 2;
+    let maxDecimals = 2;
+    if (Math.abs(value) < 0.1 && Math.abs(value) > 0.0) {
+      minDecimals = maxDecimals = 4;
+    }
+    return new Intl.NumberFormat(locale, {
+      style: 'currency',
+      currency: currency,
+      minimumFractionDigits: minDecimals,
+      maximumFractionDigits: maxDecimals
+    }).format(value);
+  } catch {
+    return String(value);
   }
-
-  return new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency: currency,
-    minimumFractionDigits: minDecimals,
-    maximumFractionDigits: maxDecimals
-  }).format(value);
 }
-
 function formatNumber(locale, value) {
   // Determine the minimum and maximum number of decimal places based on the value
   let minDecimals = value % 1 === 0 ? 0 : 2; // No decimals for whole numbers, two decimals otherwise
