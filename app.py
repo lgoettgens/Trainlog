@@ -3600,7 +3600,7 @@ def getCountryGeoJSON(username, cc):
             unique_nodes.add(mid)
         unique_nodes.update((node[0], node[1]) for node in nodes)
 
-    exclude_ids = list(
+    covered_ids = list(
         dict.fromkeys(
             [
                 coord["id"]
@@ -3614,15 +3614,17 @@ def getCountryGeoJSON(username, cc):
     # Initialize the total area
     traveled_area = 0
 
+    feature_states = {}
+
     for feature in geojson_data["features"]:
         feature_id = feature["properties"].get("id")
         feature_area = feature["properties"].get("area_m2", 0)
 
-        if feature_id in exclude_ids:
-            feature["properties"]["traveled"] = True
+        if feature_id in covered_ids:
+            feature_states[feature_id] = {"traveled": True}
             traveled_area += feature_area
         else:
-            feature["properties"]["traveled"] = False
+            feature_states[feature_id] = {"traveled": False}
 
     # Compare total_area with the global total_area_m2
     total_area = geojson_data["total_area_m2"]
@@ -3634,7 +3636,7 @@ def getCountryGeoJSON(username, cc):
     end_time = datetime.now()  # End the timer
     render_time = end_time - start_time  # Calculate the difference
     print(render_time)
-    return jsonify([percent, geojson_data])
+    return jsonify({"percent": percent, "feature_states": feature_states})
 
 
 @app.route("/admin/editCountries/<cc>")

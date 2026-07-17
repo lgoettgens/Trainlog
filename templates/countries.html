@@ -58,28 +58,35 @@
   });
   map.addControl(new PercentageControl());
 
-  // Fetch GeoJSON data for a given country code from the Flask endpoint
+  // Fetch the country's coverage data and GeoJSON separately.
   function fetchCountryGeoJSON(cc) {
-    fetch(`/u/{{username}}/countryGeoJSON/${cc}`)
-      .then(response => {
+    Promise.all([
+      fetch(`/getGeojson/${cc}`).then(response => {
         if (!response.ok) {
-          throw new Error(`Network response was ${response.status}`);
+          throw new Error(`GeoJSON response was ${response.status}`);
         }
         return response.json();
-      })
-      .then(data => {
+      }),
+      fetch(`/u/{{username}}/countryGeoJSON/${cc}`).then(response => {
+        if (!response.ok) {
+          throw new Error(`Coverage response was ${response.status}`);
+        }
+        return response.json();
+      }),
+    ])
+      .then(([geojsonData, coverageData]) => {
         // Display the percentage in the panel
-        document.getElementById('percentageValue').textContent = data[0] + '%';
+        document.getElementById('percentageValue').textContent = coverageData.percent + '%';
 
         // Add GeoJSON to the map with custom styling
-        var geoLayer = L.geoJSON(data[1], {
+        var geoLayer = L.geoJSON(geojsonData, {
           style: function (feature) {
             let fillColor, strokeColor;
             if (colorblindMode) {
-                fillColor = feature.properties.traveled ? 'purple' : 'orange';
+                fillColor = coverageData.feature_states[feature.properties.id]?.traveled ? 'purple' : 'orange';
                 strokeColor = fillColor;
             } else {
-                fillColor = feature.properties.traveled ? 'green' : 'red';
+                fillColor = coverageData.feature_states[feature.properties.id]?.traveled ? 'green' : 'red';
                 strokeColor = fillColor;
             }
 
